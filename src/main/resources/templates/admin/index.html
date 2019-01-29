@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="_include::include"></head>
+<body>
+<header th:replace="admin/_header::header">
+    AAC Technologies Holdings Inc.
+</header>
+<div th:replace="admin/_topmenu::topmenu"></div>
+<div class="container">
+    <h1 class="center text-primary welcome">欢迎来到</h1>
+    <div class="center">
+        <img th:src="@{~/images/logo.png}" width="500px">
+    </div>
+</div>
+<footer th:replace="admin/_footer::footer">
+    AAC Technologies Holdings Inc.
+</footer>
+</body>
+</html>

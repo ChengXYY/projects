@@ -1,0 +1,40 @@
+<ul th:fragment="leftmenu" class="list-group">
+    <li class="list-group-item item-title">
+        <a class="list-group-item-heading">
+            <i class="fa fa-arrow-circle-right"></i>
+            管理设置
+        </a>
+    </li>
+    <li th:class="${LeftMenuFlag=='admin'?'list-group-item active':'list-group-item'}">
+        <a class="list-group-item-heading" href="/admin/adminlist">
+            管理员
+        </a>
+    </li>
+    <li th:class="${LeftMenuFlag=='admingroup'?'list-group-item active':'list-group-item'}">
+        <a class="list-group-item-heading">
+            管理员组
+        </a>
+    </li>
+    <li th:class="${LeftMenuFlag=='adminlog'?'list-group-item active':'list-group-item'}">
+        <a class="list-group-item-heading">
+            管理员日志
+        </a>
+    </li>
+
+    <li class="list-group-item item-title">
+        <a class="list-group-item-heading">
+            <i class="fa fa-arrow-circle-right"></i>
+            参数配置
+        </a>
+    </li>
+    <li th:class="${LeftMenuFlag=='email'?'list-group-item active':'list-group-item'}">
+        <a class="list-group-item-heading">
+            邮箱服务器
+        </a>
+    </li>
+    <li th:class="${LeftMenuFlag=='theme'?'list-group-item active':'list-group-item'}">
+        <a class="list-group-item-heading">
+            主题设置
+        </a>
+    </li>
+</ul>

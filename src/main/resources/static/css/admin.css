@@ -1,0 +1,190 @@
+/*   Header   */
+header{
+    height: 8rem;
+}
+header .logo{
+    height: 100%;
+    padding: 1rem 3rem;
+}
+header .logo img{
+    height: 100%;
+}
+header .usercenter{
+    padding-right: 3rem;
+    text-align: right;
+    line-height: 9rem;
+}
+header .usercenter .user{
+    color:#555;
+    font-size: 1.5rem;
+    background-color: #dfdfdf;
+    border-radius: 2rem;
+    padding: 0.5rem;
+}
+
+header a{
+    font-weight: bold;
+    font-size: large;
+    margin-left: 1rem;
+}
+
+header a:hover{
+    cursor: pointer;
+    opacity: 0.5;
+}
+
+/*   Footer  */
+footer{
+    height: 4rem;
+    width: 100%;
+    display: block;
+    position: fixed;
+    background-color: #bce3ff;
+    color: #8c8c8c;
+    bottom: 0px;
+}
+footer > div{
+    line-height: 4rem;
+}
+
+/*   Top Menu */
+.topmenu{
+    display: block;
+    padding-left: 4rem;
+    font-weight: bold;
+    background-color: #337ab7;
+}
+
+.topmenu > li > a{
+    color:#fff;
+}
+.topmenu > .active a{
+    color: #337ab7;!important;
+}
+.nav-tabs > li > a:hover{
+    background-color: #fff;
+    color: #337ab7;
+}
+
+/*   Position */
+.right{
+    text-align: right;!important;
+}
+.left{
+    text-align: left;!important;
+}
+.center{
+    text-align: center;!important;
+}
+
+.welcome{
+    margin-top: 50px;
+    font-size: 40px;
+    font-weight: bolder;
+}
+.toolbar{
+    margin: 2rem 0rem 1rem 0rem;
+    padding: 1rem 2rem 1rem 2rem;
+    width: 100%;
+    background-color: #f6f6f6;
+    border-radius: 0.5rem;
+    min-height: 5rem;
+}
+
+/*   Button  */
+.btn-outline {
+    color: inherit;
+    background-color: transparent;
+    transition: all .5s;
+}
+.btn-primary.btn-outline {
+    color: #428bca;
+}
+.btn-success.btn-outline {
+    color: #5cb85c;
+}
+.btn-info.btn-outline {
+    color: #5bc0de;
+}
+.btn-warning.btn-outline {
+    color: #f0ad4e;
+}
+.btn-danger.btn-outline {
+    color: #d9534f;
+}
+.btn-primary.btn-outline:hover,
+.btn-success.btn-outline:hover,
+.btn-info.btn-outline:hover,
+.btn-warning.btn-outline:hover,
+.btn-danger.btn-outline:hover {
+    color: white;
+}
+
+/*  Table  */
+table{
+    border:1px solid #e4e4e3;
+    width:100%;
+    border-collapse:collapse;
+
+}
+table thead tr{
+    border-top: 5px #9bccee solid;
+}
+table th{
+    text-align: center;
+    border: 1px solid #e4e4e3;
+}
+table td{
+    border:1px solid #e4e4e3;
+    padding:6px 8px;
+}
+table td a{
+    color:#0b72b7;
+}
+table td a:hover{
+    text-decoration:underline;
+}
+table td.center{
+    text-align:center;
+}
+table tr:hover{
+    background-color:#f6f6f6;
+}
+
+/* Left Menu */
+.list-group-item{
+    background-color: #337ab7;
+    border: none;
+}
+.list-group-item:last-child{
+    border: none;
+}
+.list-group-item a{
+    color: white;
+    font-size: 1.3rem;
+    font-weight: bold;
+    text-decoration: none;
+    margin: 0;
+    display: block;
+}
+.list-group .active{
+    color: #337ab7;
+    background-color: white;
+}
+.list-group>li:not(.item-title):hover{
+    opacity: 0.5;
+    cursor: pointer;
+}
+.item-title{
+    border-top: 1px white solid;
+}
+
+.item-title a{
+    font-size: 1.8rem;
+}
+
+/* Container */
+.container,.fluid{
+    margin: 2rem auto;
+    width: 100%;
+}
