@@ -20,17 +20,21 @@ header .usercenter .user{
     background-color: #dfdfdf;
     border-radius: 2rem;
     padding: 0.5rem;
+    margin-right: 0.4rem;
 }
 
 header a{
     font-weight: bold;
     font-size: large;
-    margin-left: 1rem;
+    margin-left: 0.5rem;
+    padding: 0.3rem 0.5rem;
+    border-radius: 2rem;
+    border: 1px solid;
 }
 
 header a:hover{
     cursor: pointer;
-    opacity: 0.5;
+    opacity: 0.2;
 }
 
 /*   Footer  */
@@ -150,7 +154,15 @@ table td.center{
 table tr:hover{
     background-color:#f6f6f6;
 }
-
+table td a{
+    font-size: 1.5rem;
+    margin-right: 0.5rem;
+}
+table td a:hover{
+    opacity: 0.5;
+    text-decoration: none;
+    cursor: pointer;
+}
 /* Left Menu */
 .list-group-item{
     background-color: #337ab7;
@@ -187,4 +199,10 @@ table tr:hover{
 .container,.fluid{
     margin: 2rem auto;
     width: 100%;
+}
+
+/* Page */
+.page .form-control{
+    width: 4rem;!important;
+    text-align: center;
 }

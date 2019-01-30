@@ -1,4 +1,4 @@
-package com.my.formtool.serviceimpl;
+package com.my.formtool.service.serviceimpl;
 
 import com.my.formtool.mapper.AdminMapper;
 import com.my.formtool.service.AdminService;

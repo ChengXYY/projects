@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="_include"></head>
+<body>
+<header th:replace="admin/_header">
+    AAC Technologies Holdings Inc.
+</header>
+<div th:replace="admin/_topmenu"></div>
+<div class="container fluid">
+    <div class="col-md-3">
+        <div th:replace="admin/_system_leftmenu"></div>
+    </div>
+    <div class="col-md-9">
+        <div class="toolbar">
+            <div class="col-md-6">
+                <a class="btn btn-primary btn-outline" id="add-admin">
+                    <i class="fa fa-plus"></i> 添加管理员
+                </a>
+            </div>
+        </div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>管理员账号</th>
+                <th>所属组</th>
+                <th>添加时间</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="admin:${list}">
+                <td th:text="${admin['account']}">account</td>
+                <td th:text="${admin['admingroup']['name']}">groupid</td>
+                <td th:text="${#dates.format(admin['addtime'],'yyyy-MM-dd HH:mm:ss')}">addtime</td>
+                <td class="center">
+                    <input type="hidden" class="id" th:value="${admin['id']}"/>
+                    <a class="text-success reset" href="javascript:" title="重置密码">
+                        <i class="fa fa-refresh"></i>
+                    </a>
+                    <a class="text-primary edit" href="javascript:" title="编辑管理员信息">
+                        <i class="fa fa-edit"></i>
+                    </a>
+                    <a class="text-danger remove" href="javascript:" title="删除管理员">
+                        <i class="fa fa-close"></i>
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<footer th:replace="admin/_footer">
+    AAC Technologies Holdings Inc.
+</footer>
+<script>
+    $(function () {
+        $("#add-admin").click(function () {
+            layer.open({
+                type: 2,
+                title: '添加管理员',
+                shadeClose: false,
+                shade: 0.3,
+                area: '500px',
+                content: '/admin/adminadd',
+                success:function (layero, index) {
+                    layer.iframeAuto(index);
+                }
+            });
+        });
+
+        $(".edit").click(function () {
+            var id = $(this).siblings(".id").val();
+            layer.alert("确定要重置该管理员的密码？",{icon:0})
+        });
+
+    })
+</script>
+</body>
+</html>

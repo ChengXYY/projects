@@ -5,11 +5,14 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="auth" property="auth" jdbcType="VARCHAR" />
-    <result column="type" property="type" jdbcType="BIT" />
-    <result column="order" property="order" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, auth, type, order
+    id, name, auth,
+    case when type=1 then "超级管理员"
+        when type =2 then "普通管理员"
+        end , sort
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -17,13 +20,18 @@
     from admingroup
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectAll" resultType="map">
+    select <include refid="Base_Column_List" />
+    from admingroup
+    where 1=1 order by sort asc
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from admingroup
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.my.formtool.model.Admingroup" >
     insert into admingroup (id, name, auth, 
-      type, order)
+      type, sort)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{auth,jdbcType=VARCHAR}, 
       #{type,jdbcType=BIT}, #{order,jdbcType=INTEGER})
   </insert>
@@ -42,8 +50,8 @@
       <if test="type != null" >
         type,
       </if>
-      <if test="order != null" >
-        order,
+      <if test="sort != null" >
+        sort,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -59,8 +67,8 @@
       <if test="type != null" >
         #{type,jdbcType=BIT},
       </if>
-      <if test="order != null" >
-        #{order,jdbcType=INTEGER},
+      <if test="sort != null" >
+        #{sort,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -76,8 +84,8 @@
       <if test="type != null" >
         type = #{type,jdbcType=BIT},
       </if>
-      <if test="order != null" >
-        order = #{order,jdbcType=INTEGER},
+      <if test="sort != null" >
+        order = #{sort,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -87,7 +95,7 @@
     set name = #{name,jdbcType=VARCHAR},
       auth = #{auth,jdbcType=VARCHAR},
       type = #{type,jdbcType=BIT},
-      order = #{order,jdbcType=INTEGER}
+      sort = #{sort,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

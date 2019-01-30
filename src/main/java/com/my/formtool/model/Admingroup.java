@@ -7,9 +7,9 @@ public class Admingroup {
 
     private String auth;
 
-    private Boolean type;
+    private GroupType type;
 
-    private Integer order;
+    private Integer sort;
 
     public Integer getId() {
         return id;
@@ -35,19 +35,23 @@ public class Admingroup {
         this.auth = auth == null ? null : auth.trim();
     }
 
-    public Boolean getType() {
+    public GroupType getType() {
         return type;
     }
 
-    public void setType(Boolean type) {
+    public void setType(GroupType type) {
         this.type = type;
     }
 
-    public Integer getOrder() {
-        return order;
+    public Integer getSort() {
+        return sort;
     }
 
-    public void setOrder(Integer order) {
-        this.order = order;
+    public void setSort(Integer sort) {
+        this.sort = sort;
     }
+}
+
+enum GroupType{
+    超级管理员, 普通管理员
 }

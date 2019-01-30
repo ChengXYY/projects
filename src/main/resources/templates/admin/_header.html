@@ -6,7 +6,24 @@
         <span class="user">
             <i class="fa fa-user-circle"></i> <span>Administrator</span>
         </span>
-        <a class="text-primary" title="修改密码"><i class="fa fa-refresh"></i></a>
-        <a class="text-danger" title="退出"><i class="fa fa-power-off"></i></a>
+        <a class="text-primary" title="修改密码" id="reset-password"><i class="fa fa-refresh"></i></a>
+        <a class="text-danger" title="退出" id="logout"><i class="fa fa-power-off"></i></a>
     </div>
 </header>
+<script>
+    $(function () {
+        $("#reset-password").click(function () {
+            layer.open({
+                type: 2,
+                title: '修改管理员密码',
+                shadeClose: false,
+                shade: 0.3,
+                area: '500px',
+                content: '/admin/resetpwd',
+                success:function (layero, index) {
+                    layer.iframeAuto(index);
+                }
+            });
+        });
+    });
+</script>
