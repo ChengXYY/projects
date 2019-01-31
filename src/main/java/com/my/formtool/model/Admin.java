@@ -22,9 +22,9 @@ public class Admin {
 
     private Integer logincount;
 
-    private Timestamp addtime;
+    private Timestamp addtime = new Timestamp(System.currentTimeMillis());
 
-    private Map<String,Object> admingroup;
+    private Admingroup admingroup;
 
     public Integer getId() {
         return id;
@@ -106,11 +106,11 @@ public class Admin {
         this.addtime = addtime;
     }
 
-    public Map<String, Object> getAdmingroup(){
+    public Admingroup getAdmingroup(){
         return admingroup;
     }
 
-    public void setAdmingroup(Map<String, Object> admingroup){
+    public void setAdmingroup(Admingroup admingroup){
         this.admingroup = admingroup;
     }
 }

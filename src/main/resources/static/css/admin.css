@@ -157,6 +157,7 @@ table tr:hover{
 table td a{
     font-size: 1.5rem;
     margin-right: 0.5rem;
+    text-decoration: none;
 }
 table td a:hover{
     opacity: 0.5;

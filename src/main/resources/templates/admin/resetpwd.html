@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="_include::include"></head>
+<body style="padding: 0 3rem;">
+<div class="container">
+    <form class="form-horizontal" id="myForm">
+        <div class="form-group form-inline">
+            <label>旧密码：<span class="text-danger">*</span></label>
+            <input type="password" class="form-control" name="oldpwd" value="" />
+        </div>
+        <div class="form-group">
+            <label>新密码：<span class="text-danger">*</span></label>
+            <input type="password" class="form-control" name="newpwd" />
+        </div>
+        <div class="form-group">
+            <label>确认新密码：<span class="text-danger">*</span></label>
+            <input type="password" class="form-control" name="repwd" value="" />
+        </div>
+        <hr/>
+        <div class="form-group right">
+            <input type="button" id="submit-save" class="btn btn-warning btn-outline" value="确认修改" />
+        </div>
+    </form>
+</div>
+<script>
+    $(function () {
+        $("#submit-save").click(function () {
+            $.ajax({
+                type : "post",
+                data : $("#myForm").serialize(),
+                dataType : "json",
+                url : "/admin/resetsubmit",
+                success : function (data) {
+                    if(data.code > 0){
+                        layer.alert(data.msg, {icon: 6, shade: false}, function () {
+                            parent.location.reload();
+                        })
+                    }else {
+                        layer.msg(data.msg);
+                    }
+                }
+            })
+        });
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="_include::include"></head>
+<body style="padding: 0 3rem;">
+<div class="container">
+    <form class="form-horizontal" id="myForm">
+        <div class="form-group form-inline">
+            <label>名称：<span class="text-danger">*</span></label>
+            <input type="text" class="form-control" name="name" value="" />
+        </div>
+        <div class="form-group">
+            <label>排序：<span class="text-danger">*</span></label>
+            <input type="number" class="form-control" name="sort" value="0" />
+        </div>
+        <hr/>
+        <div class="form-group right">
+            <input type="button" id="submit-save" class="btn btn-warning btn-outline" value="确认" />
+        </div>
+    </form>
+</div>
+<script>
+    $(function () {
+        $("#submit-save").click(function () {
+            $.ajax({
+                type : "post",
+                data : $("#myForm").serialize(),
+                dataType : "json",
+                url : "/admingroup/add/submit",
+                success : function (data) {
+                    if(data.code > 0){
+                        layer.alert(data.msg, {icon: 6, shade: false}, function () {
+                            parent.location.reload();
+                        })
+                    }else {
+                        layer.msg(data.msg);
+                    }
+                }
+            })
+        });
+    })
+</script>
+</body>
+</html>

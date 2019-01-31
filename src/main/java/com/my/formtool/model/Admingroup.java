@@ -7,8 +7,6 @@ public class Admingroup {
 
     private String auth;
 
-    private GroupType type;
-
     private Integer sort;
 
     public Integer getId() {
@@ -35,14 +33,6 @@ public class Admingroup {
         this.auth = auth == null ? null : auth.trim();
     }
 
-    public GroupType getType() {
-        return type;
-    }
-
-    public void setType(GroupType type) {
-        this.type = type;
-    }
-
     public Integer getSort() {
         return sort;
     }
@@ -50,8 +40,4 @@ public class Admingroup {
     public void setSort(Integer sort) {
         this.sort = sort;
     }
-}
-
-enum GroupType{
-    超级管理员, 普通管理员
 }

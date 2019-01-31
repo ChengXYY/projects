@@ -29,11 +29,11 @@
             </thead>
             <tbody>
             <tr th:each="admin:${list}">
-                <td th:text="${admin['account']}">account</td>
-                <td th:text="${admin['admingroup']['name']}">groupid</td>
-                <td th:text="${#dates.format(admin['addtime'],'yyyy-MM-dd HH:mm:ss')}">addtime</td>
-                <td class="center">
-                    <input type="hidden" class="id" th:value="${admin['id']}"/>
+                <td th:text="${admin.account}">account</td>
+                <td th:text="${admin.admingroup.name}">groupid</td>
+                <td th:text="${#dates.format(admin.addtime,'yyyy-MM-dd HH:mm:ss')}">addtime</td>
+                <td class="center" th:if="${admin.groupid>1}">
+                    <input type="hidden" class="id" th:value="${admin.id}"/>
                     <a class="text-success reset" href="javascript:" title="重置密码">
                         <i class="fa fa-refresh"></i>
                     </a>
@@ -44,6 +44,7 @@
                         <i class="fa fa-close"></i>
                     </a>
                 </td>
+                <td th:if="${admin.groupid==1}"></td>
             </tr>
             </tbody>
         </table>
@@ -61,18 +62,49 @@
                 shadeClose: false,
                 shade: 0.3,
                 area: '500px',
-                content: '/admin/adminadd',
+                content: '/admin/add',
                 success:function (layero, index) {
                     layer.iframeAuto(index);
                 }
             });
         });
 
-        $(".edit").click(function () {
+        $(".reset").click(function () {
             var id = $(this).siblings(".id").val();
-            layer.alert("确定要重置该管理员的密码？",{icon:0})
+            layer.alert("确定要重置该管理员的密码？",{icon:0},function () {
+                $.ajax({
+                    type:"post",
+                    data:{
+                        id:id
+                    },
+                    dataType:"json",
+                    url:"/admin/resetpwd/submit",
+                    success:function (data) {
+                        if(data.code == 1){
+                            layer.closeAll();
+                            layer.alert("管理员密码已重置！重置后密码为：<br/><b>123456</b>",{icon:6});
+                        }else{
+                            layer.msg(data.msg);
+                        }
+                    }
+                })
+            })
         });
 
+        $(".edit").click(function () {
+            var id = $(this).siblings(".id").val();
+            layer.open({
+                type: 2,
+                title: '编辑管理员',
+                shadeClose: false,
+                shade: 0.3,
+                area: '500px',
+                content: '/admin/edit/'+id,
+                success:function (layero, index) {
+                    layer.iframeAuto(index);
+                }
+            });
+        });
     })
 </script>
 </body>

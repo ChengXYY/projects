@@ -18,5 +18,5 @@ public interface AdmingroupMapper {
 
     int updateByPrimaryKey(Admingroup record);
 
-    List<Map<String, Object>> selectAll();
+    List<Admingroup> selectAll();
 }

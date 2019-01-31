@@ -1,0 +1,17 @@
+<div class="page" th:fragment="page">
+    <div class="col-md-6">
+        记录数 <span class="text-primary" th:text="${totalCount}">totalCount</span> ，共 <span class="text-primary" th:text="${pageCount}">pageCount</span> 页
+    </div>
+    <div class="col-md-6 form-inline right">
+        <a class="btn btn-primary btn-outline" href="#">
+            <i class="fa fa-chevron-left"></i>
+        </a>
+        <input class="form-control" th:value="${currentPage==null?1:currentPage}"/>
+        <a class="btn btn-primary btn-outline">
+            <i class="fa fa-chevron-right"></i>
+        </a>
+        <a class="btn btn-primary btn-outline">
+            跳转
+        </a>
+    </div>
+</div>

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.my.formtool.mapper.FormMapper">
+  <resultMap id="BaseResultMap" type="com.my.formtool.model.Form">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="taskid" jdbcType="INTEGER" property="taskid" />
+    <result column="user" jdbcType="VARCHAR" property="user" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="addtime" jdbcType="TIMESTAMP" property="addtime" />
+    <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.my.formtool.model.Form">
+    <result column="form" jdbcType="LONGVARCHAR" property="form" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, taskid, form, user, username, status, addtime, updatetime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultType="map">
+    select 
+    <include refid="Base_Column_List" />
+
+    from form
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByFilter" parameterType="map" resultType="map">
+    select <include refid="Base_Column_List" />
+    from form
+    <trim prefix="where 1=1 " >
+      <if test="taskid!=null">
+        taskid = #{taskid}
+      </if>
+    </trim>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from form
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.my.formtool.model.Form">
+    insert into form (id, taskid, user, 
+      username, status, addtime, 
+      updatetime, form)
+    values (#{id,jdbcType=INTEGER}, #{taskid,jdbcType=INTEGER}, #{user,jdbcType=VARCHAR}, 
+      #{username,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{addtime,jdbcType=TIMESTAMP}, 
+      #{updatetime,jdbcType=TIMESTAMP}, #{form,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.my.formtool.model.Form">
+    insert into form
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="taskid != null">
+        taskid,
+      </if>
+      <if test="user != null">
+        user,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="addtime != null">
+        addtime,
+      </if>
+      <if test="updatetime != null">
+        updatetime,
+      </if>
+      <if test="form != null">
+        form,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="taskid != null">
+        #{taskid,jdbcType=INTEGER},
+      </if>
+      <if test="user != null">
+        #{user,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="addtime != null">
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="form != null">
+        #{form,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.my.formtool.model.Form">
+    update form
+    <set>
+      <if test="taskid != null">
+        taskid = #{taskid,jdbcType=INTEGER},
+      </if>
+      <if test="user != null">
+        user = #{user,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="addtime != null">
+        addtime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="form != null">
+        form = #{form,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.my.formtool.model.Form">
+    update form
+    set taskid = #{taskid,jdbcType=INTEGER},
+      user = #{user,jdbcType=VARCHAR},
+      username = #{username,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      addtime = #{addtime,jdbcType=TIMESTAMP},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      form = #{form,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.my.formtool.model.Form">
+    update form
+    set taskid = #{taskid,jdbcType=INTEGER},
+      user = #{user,jdbcType=VARCHAR},
+      username = #{username,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      addtime = #{addtime,jdbcType=TIMESTAMP},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

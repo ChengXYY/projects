@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.my.formtool.mapper.AdminMapper" >
-  <sql id="groupTable">name ,auth,type</sql>
-  <resultMap id="groupMap" type="map">
+  <sql id="groupTable">name ,auth, sort</sql>
+  <resultMap id="groupMap" type="com.my.formtool.model.Admingroup">
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="auth" property="auth" jdbcType="VARCHAR" />
-    <result column="type" property="type" jdbcType="BIT" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
   </resultMap>
 
   <resultMap id="BaseResultMap" type="com.my.formtool.model.Admin" >
@@ -65,11 +65,11 @@
       lastloginip, lastlogintime, logincount,
       addtime)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR},
-      #{password,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, #{groupid,jdbcType=BIT},
-      #{lastloginip,jdbcType=VARCHAR}, #{lastlogintime,jdbcType=INTEGER}, #{logincount,jdbcType=INTEGER},
-      #{addtime,jdbcType=INTEGER})
+      #{password,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, #{groupid,jdbcType=INTEGER},
+      #{lastloginip,jdbcType=VARCHAR}, #{lastlogintime,jdbcType=TIMESTAMP}, #{logincount,jdbcType=INTEGER},
+      #{addtime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="map" >
+  <insert id="insertSelective" parameterType="com.my.formtool.model.Admin" >
     insert into admin
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -120,23 +120,23 @@
         #{salt,jdbcType=VARCHAR},
       </if>
       <if test="groupid != null" >
-        #{groupid,jdbcType=BIT},
+        #{groupid,jdbcType=INTEGER},
       </if>
       <if test="lastloginip != null" >
         #{lastloginip,jdbcType=VARCHAR},
       </if>
       <if test="lastlogintime != null" >
-        #{lastlogintime,jdbcType=INTEGER},
+        #{lastlogintime,jdbcType=TIMESTAMP},
       </if>
       <if test="logincount != null" >
         #{logincount,jdbcType=INTEGER},
       </if>
       <if test="addtime != null" >
-        #{addtime,jdbcType=INTEGER},
+        #{addtime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="map" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.my.formtool.model.Admin" >
     update admin
     <set >
       <if test="name != null" >
@@ -152,19 +152,19 @@
         salt = #{salt,jdbcType=VARCHAR},
       </if>
       <if test="groupid != null" >
-        groupid = #{groupid,jdbcType=BIT},
+        groupid = #{groupid,jdbcType=INTEGER},
       </if>
       <if test="lastloginip != null" >
         lastloginip = #{lastloginip,jdbcType=VARCHAR},
       </if>
       <if test="lastlogintime != null" >
-        lastlogintime = #{lastlogintime,jdbcType=INTEGER},
+        lastlogintime = #{lastlogintime,jdbcType=TIMESTAMP},
       </if>
       <if test="logincount != null" >
         logincount = #{logincount,jdbcType=INTEGER},
       </if>
       <if test="addtime != null" >
-        addtime = #{addtime,jdbcType=INTEGER},
+        addtime = #{addtime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -175,11 +175,11 @@
       account = #{account,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
       salt = #{salt,jdbcType=VARCHAR},
-      groupid = #{groupid,jdbcType=BIT},
+      groupid = #{groupid,jdbcType=INTEGER},
       lastloginip = #{lastloginip,jdbcType=VARCHAR},
-      lastlogintime = #{lastlogintime,jdbcType=INTEGER},
+      lastlogintime = #{lastlogintime,jdbcType=TIMESTAMP},
       logincount = #{logincount,jdbcType=INTEGER},
-      addtime = #{addtime,jdbcType=INTEGER}
+      addtime = #{addtime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

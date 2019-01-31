@@ -1,17 +1,22 @@
 package com.my.formtool.service;
 
+import com.my.formtool.model.Admin;
+
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 import java.util.Map;
 
 public interface AdminService {
     //add user
-    int add(Map<String, Object> admin);
+    int add(Admin admin);
     //update user
-    int edit(Map<String, Object> admin);
+    int edit(Admin admin);
     //delete user
     int remove(Integer id);
 
-    Map<String, Object> get(Integer id);
+    Admin get(Integer id);
 
-    List<Map<String, Object>> getList(Map<String, Object> filter);
+    List<Admin> getList(Map<String, Object> filter);
+
+    int resetPassword(Integer id);
 }

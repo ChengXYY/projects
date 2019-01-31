@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="_include"></head>
+<body>
+<header th:replace="admin/_header">
+    AAC Technologies Holdings Inc.
+</header>
+<div th:replace="admin/_topmenu"></div>
+<div class="container fluid">
+    <div class="col-md-3">
+        <div th:replace="admin/_system_leftmenu"></div>
+    </div>
+    <div class="col-md-9">
+        <div class="toolbar">
+            <div class="col-md-6">
+                <a class="btn btn-primary btn-outline" id="auth-save">
+                    <i class="fa fa-save"></i> 保存权限
+                </a>
+            </div>
+        </div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>全选<input class="select-all" value="1" type="checkbox"></th>
+                <th>编码</th>
+                <th>名称</th>
+            </tr>
+            </thead>
+            <tbody>
+            <form id="myForm">
+                <input type="hidden" name="id" th:value="${groupid}">
+            <tr th:each="auth:${list}">
+                <td>
+                    <input type="checkbox"
+                           name="authcodes"
+                           th:value="${auth.code}"
+                           th:checked="${#strings.contains(authlist, auth.code)}"
+                           class="select-item"/>
+                </td>
+                <td th:text="${auth.code}">code</td>
+                <td th:text="${auth.intro}">intro</td>
+            </tr>
+            </form>
+            </tbody>
+        </table>
+    </div>
+</div>
+<footer th:replace="admin/_footer">
+    AAC Technologies Holdings Inc.
+</footer>
+<script th:src="@{~/js/common-files.js}" />
+<script>
+    $(function () {
+        $("#auth-save").click(function () {
+            $.ajax({
+                type:"post",
+                data:$("#myForm").serialize(),
+                dataType:"json",
+                url:"/admingroup"
+            })
+        });
+
+    })
+</script>
+</body>
+</html>
