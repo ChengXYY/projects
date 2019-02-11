@@ -80,4 +80,13 @@ public class LoginController {
         responseOutputStream.flush();
         responseOutputStream.close();
     }
+
+
+    @RequestMapping("/logout")
+    public String logout(HttpSession session){
+        session.removeAttribute("ADMIN_SESSION");
+        session.removeAttribute("ADMIN_ACCOUNT");
+        session.removeAttribute("ADMIN_AUTH");
+        return "/admin/login";
+    }
 }

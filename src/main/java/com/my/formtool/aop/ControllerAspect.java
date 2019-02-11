@@ -5,6 +5,7 @@ import com.my.formtool.model.Admin;
 import com.my.formtool.service.AdminService;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
@@ -39,29 +40,36 @@ public class ControllerAspect {
      */
     @ResponseBody
     @Around("privilege()")
-    public Object isAccessMethod(ProceedingJoinPoint joinPoint) throws Throwable {
+    public Object isAccess(ProceedingJoinPoint joinPoint) throws Throwable {
         Admin currentUser = new Admin();
         try {
             currentUser = adminService.getCurrentUser();
-        }catch (JsonException e){
+        } catch (JsonException e) {
             return "/admin/login";
         }
-        //获取访问目标方法
-        MethodSignature methodSignature = (MethodSignature)joinPoint.getSignature();
-        Method targetMethod = methodSignature.getMethod();
-        //得到方法的访问权限
-        //final String methodAccess = AnnotationParse.privilegeParse(targetMethod);
-        final String methodAccess = targetMethod.getAnnotation(Permission.class).value();
 
-        //如果该方法上没有权限注解，直接调用目标方法
-        if(StringUtils.isBlank(methodAccess)){
-            return joinPoint.proceed();
-        }else {
-            if(currentUser.getAdmingroup().getAuth().contains(methodAccess)){
-                return joinPoint.proceed();
-            }else {
+        //获取访问目标方法
+        MethodSignature signature = (MethodSignature)joinPoint.getSignature();
+
+        try {
+            final String methodAccess = signature.getMethod().getAnnotation(Permission.class).value();
+            if (!StringUtils.isBlank(methodAccess) && !currentUser.getAdmingroup().getAuth().contains(methodAccess)){
                 return "/error/403";
             }
+        }catch (NullPointerException e){
+            logger.info("method access is null");
         }
+
+        //得到方法的访问权限
+        try {
+            final String classAccess = joinPoint.getTarget().getClass().getAnnotation(Permission.class).value();
+            if (!StringUtils.isBlank(classAccess) && !currentUser.getAdmingroup().getAuth().contains(classAccess)){
+                return "/error/403";
+            }
+        }catch (NullPointerException e){
+            logger.info("class access is null");
+        }
+
+        return joinPoint.proceed();
     }
 }

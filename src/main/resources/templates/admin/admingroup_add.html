@@ -25,7 +25,7 @@
                 type : "post",
                 data : $("#myForm").serialize(),
                 dataType : "json",
-                url : "/admingroup/add/submit",
+                url : "/system/admingroup/add/submit",
                 success : function (data) {
                     if(data.code > 0){
                         layer.alert(data.msg, {icon: 6, shade: false}, function () {
