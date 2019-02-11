@@ -1,7 +1,7 @@
 package com.my.formtool.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.my.formtool.config.RequiredPermission;
+import com.my.formtool.aop.Permission;
 import com.my.formtool.exception.JsonException;
 import com.my.formtool.model.Admin;
 import com.my.formtool.model.Admingroup;
@@ -29,9 +29,8 @@ public class AdminController {
     @Autowired
     private AdmingroupService admingroupService;
 
-
+    @Permission("1001")
     @RequestMapping("/list")
-    @RequiredPermission("1001")
     public String adminList(@RequestParam(value = "page", required = false, defaultValue = "0")String page,
                             ModelMap model){
         Map<String, Object>filter = new HashMap<String, Object>();
@@ -71,7 +70,6 @@ public class AdminController {
     }
 
     @RequestMapping("/add")
-    @RequiredPermission("1001")
     public String adminAdd(ModelMap model){
         List<Admingroup> list = admingroupService.getListAll();
         model.addAttribute("list", list);
@@ -79,7 +77,6 @@ public class AdminController {
     }
 
     @ResponseBody
-    @RequiredPermission("1001")
     @RequestMapping(value = "/add/submit", produces = {"application/json;charset=UTF-8"})
     public JSONObject adminAdd(Admin admin){
 

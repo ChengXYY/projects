@@ -1,7 +1,6 @@
 package com.my.formtool.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.my.formtool.config.RequiredPermission;
 import com.my.formtool.model.Admingroup;
 import com.my.formtool.model.result.AuthCode;
 import com.my.formtool.service.AdmingroupService;
@@ -20,7 +19,6 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/admingroup")
-@RequiredPermission("1001")
 public class AdmingroupController {
 
     @Autowired

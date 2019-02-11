@@ -25,4 +25,6 @@ public interface AdminService {
     void login(String account, String password, String vercode, HttpSession session);
 
     void editPassword(String oldpwd, String newpwd, String repwd, HttpSession session);
+
+    Admin getCurrentUser();
 }

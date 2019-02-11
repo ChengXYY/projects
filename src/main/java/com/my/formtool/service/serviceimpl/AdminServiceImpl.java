@@ -8,13 +8,17 @@ import com.my.formtool.model.Admin;
 import com.my.formtool.service.AdminService;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.slf4j.Logger;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -118,5 +122,14 @@ public class AdminServiceImpl implements AdminService {
         int rs = edit(adminNew);
         if(rs<=0)
             throw JsonException.newInstance(ErrorCodes.DATA_OP_FAILED);
+    }
+
+    @Override
+    public Admin getCurrentUser() {
+        ServletRequestAttributes attributes =   (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request = attributes.getRequest();
+        HttpSession session= request.getSession();
+        if(session.getAttribute("ADMIN_ACCOUNT") == null) throw JsonException.newInstance(ErrorCodes.UN_LOGIN_ERROR);
+        return get(session.getAttribute("ADMIN_ACCOUNT").toString());
     }
 }
