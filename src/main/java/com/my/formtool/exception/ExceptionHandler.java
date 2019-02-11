@@ -1,5 +1,6 @@
 package com.my.formtool.exception;
 
+import com.my.formtool.model.result.ErrorCodes;
 import com.my.formtool.model.result.RestResp;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

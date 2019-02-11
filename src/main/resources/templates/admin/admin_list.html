@@ -62,7 +62,7 @@
                 shadeClose: false,
                 shade: 0.3,
                 area: '500px',
-                content: '/admin/add',
+                content: '/system/admin/add',
                 success:function (layero, index) {
                     layer.iframeAuto(index);
                 }
@@ -78,7 +78,7 @@
                         id:id
                     },
                     dataType:"json",
-                    url:"/admin/resetpwd/submit",
+                    url:"/system/admin/resetpwd/submit",
                     success:function (data) {
                         if(data.code == 1){
                             layer.closeAll();
@@ -99,7 +99,7 @@
                 shadeClose: false,
                 shade: 0.3,
                 area: '500px',
-                content: '/admin/edit/'+id,
+                content: '/system/admin/edit/'+id,
                 success:function (layero, index) {
                     layer.iframeAuto(index);
                 }

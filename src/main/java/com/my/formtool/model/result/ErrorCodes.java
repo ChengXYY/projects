@@ -1,4 +1,4 @@
-package com.my.formtool.exception;
+package com.my.formtool.model.result;
 
 import java.util.Objects;
 

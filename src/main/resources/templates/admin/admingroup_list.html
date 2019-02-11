@@ -32,7 +32,7 @@
                 <td th:text="${group.sort}">sort</td>
                 <td class="center">
                     <input type="hidden" class="id" th:value="${group.id}"/>
-                    <a class="text-success reset" th:href="${'/admingroup/auth/'+group.id}" title="配置权限">
+                    <a class="text-success reset" th:href="${'/system/admingroup/auth/'+group.id}" title="配置权限">
                         <i class="fa fa-power-off"></i>
                     </a>
                     <a class="text-primary edit" href="javascript:" title="编辑组信息">
@@ -59,7 +59,7 @@
                 shadeClose: false,
                 shade: 0.3,
                 area: '500px',
-                content: '/admingroup/add',
+                content: '/system/admingroup/add',
                 success:function (layero, index) {
                     layer.iframeAuto(index);
                 }
@@ -74,7 +74,7 @@
                 shadeClose: false,
                 shade: 0.3,
                 area: '500px',
-                content: '/admingroup/edit/'+id,
+                content: '/system/admingroup/edit/'+id,
                 success:function (layero, index) {
                     layer.iframeAuto(index);
                 }
