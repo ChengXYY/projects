@@ -36,6 +36,13 @@
     from admin
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectByAccount" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from admin
+    where account = #{account,jdbcType=VARCHAR}
+  </select>
+
   <select id="selectByFilter" resultMap="BaseResultMap" parameterType="map">
     select
     <include refid="Base_Column_List" />
@@ -136,7 +143,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.my.formtool.model.Admin" >
+  <update id="updateByPrimaryKeySelective" parameterType="map" >
     update admin
     <set >
       <if test="name != null" >

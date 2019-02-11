@@ -14,7 +14,7 @@ public interface AdmingroupMapper {
 
     Admingroup selectByPrimaryKey(Integer id);
 
-    int updateByPrimaryKeySelective(Admingroup record);
+    int updateByPrimaryKeySelective(Map<String, Object> record);
 
     int updateByPrimaryKey(Admingroup record);
 

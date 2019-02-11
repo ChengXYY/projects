@@ -62,7 +62,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.my.formtool.model.Admingroup" >
+  <update id="updateByPrimaryKeySelective" parameterType="map" >
     update admingroup
     <set >
       <if test="name != null" >
@@ -72,7 +72,7 @@
         auth = #{auth,jdbcType=VARCHAR},
       </if>
       <if test="sort != null" >
-        order = #{sort,jdbcType=INTEGER},
+        sort = #{sort,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}

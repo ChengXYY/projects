@@ -1,0 +1,94 @@
+#LoginForm {
+    background-color: #ddd;
+    padding: 10px;
+}
+
+.form-heading {
+    color: #fff;
+    font-size: 23px;
+}
+
+.panel h2 {
+    color: #444444;
+    font-size: 18px;
+    margin: 0 0 8px 0;
+}
+
+.panel p {
+    color: #777777;
+    font-size: 14px;
+    margin-bottom: 30px;
+    line-height: 24px;
+}
+
+.login-form .form-control {
+    background: #f7f7f7 none repeat scroll 0 0;
+    border: 1px solid #d4d4d4;
+    border-radius: 4px;
+    font-size: 14px;
+    height: 50px;
+    line-height: 50px;
+    padding-left: 3.2em;
+}
+
+.main-div {
+    background: #ffffff none repeat scroll 0 0;
+    border-radius: 2px;
+    margin: 10px auto 30px;
+    max-width: 38%;
+    padding: 50px 70px 70px 71px;
+}
+
+.login-form .form-group {
+    margin-bottom: 10px;
+}
+
+.login-form .form-group i {
+    font-size: 25px;
+    float: left;
+    color: #aaa;
+    margin-top: -1.5em;
+    margin-left: 0.5em;
+}
+
+.login-form {
+    text-align: center;
+    margin-top: 10rem;
+}
+
+.forgot a {
+    color: #777777;
+    font-size: 14px;
+    text-decoration: underline;
+}
+
+.forgot {
+    text-align: left;
+    margin-bottom: 30px;
+}
+
+.botto-text {
+    color: #ffffff;
+    font-size: 14px;
+    margin: auto;
+}
+
+.login-form .btn.btn-primary.reset {
+    background: #ff9900 none repeat scroll 0 0;
+}
+
+.back {
+    text-align: left;
+    margin-top: 10px;
+}
+
+.back a {
+    color: #444444;
+    font-size: 13px;
+    text-decoration: none;
+}
+
+.login-form .vercode-img {
+    width: 10rem;
+    height: 4.2rem;
+}

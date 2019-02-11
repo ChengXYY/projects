@@ -18,7 +18,7 @@ public class ExceptionHandler implements ExceptionMapper<Exception> {
 
     private static final Log logger = LogFactory.getLog(ExceptionHandler.class);
 
-    private String basePackage = "com.hiekn.rs";
+    private String basePackage = "com.my.formtool";
 
     @Override
     public Response toResponse(Exception exception) {

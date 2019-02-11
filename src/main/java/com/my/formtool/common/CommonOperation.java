@@ -18,6 +18,11 @@ public class CommonOperation {
         return rs;
     }
 
+    public static String encodeStr(String str, String salt){
+        String str1 = DigestUtils.md5DigestAsHex((str+salt).getBytes());
+        return str1;
+    }
+
     public static boolean checkId(Integer id){
         if(id.toString().isEmpty()) return false;
         if(id.intValue() < 1)return false;

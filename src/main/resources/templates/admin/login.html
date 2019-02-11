@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="_login"></head>
+<body id="LoginForm">
+<div class="container">
+    <div class="login-form">
+        <div class="main-div">
+            <div class="panel">
+                <h2>后台管理系统登陆</h2>
+                <p>AAC Technologies Holdings Inc</p>
+            </div>
+            <form id="Login">
+                <div class="form-group">
+                    <input type="text" class="form-control" id="inputAccount" name="account" placeholder="账号">
+                    <i class="fa fa-user"></i>
+                </div>
+
+                <div class="form-group">
+                    <input type="password" class="form-control" id="inputPassword" name="password" placeholder="密码">
+                    <i class="fa fa-lock"></i>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-7" style="padding: 0px">
+                        <input type="text" class="form-control" id="inputValid" name="vercode" placeholder="验证码">
+                        <i class="fa fa-check-square"></i>
+                    </div>
+                    <div class="col-md-5"style="padding: 0px">
+                        <img src="/login/vercode" onclick="this.src='/login/vercode?d='+new Date()*1" class="vercode-img" alt="刷新换一张" id="vercodeimg"/>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="form-group">
+                    <a  class="btn btn-primary btn-block btn-lg" id="submit-login">登 陆</a>
+                </div>
+
+            </form>
+        </div>
+        <p class="botto-text">系统暂不提供注册功能，如需后台账号，请联系：ChengYa@aactechnologies.com</p>
+    </div>
+</div>
+<script>
+    $(function () {
+        $("#submit-login").click(function () {
+            submit();
+        });
+
+        $(window).keypress(function (event) {
+            if(event.keyCode == 13){
+                submit();
+            }
+        })
+        function submit() {
+            $.ajax({
+                type:"post",
+                data:$("#Login").serialize(),
+                dataType:"json",
+                url:"/login/adminlogin",
+                success:function (data) {
+                    if(data.code == 1){
+                        location.href = "/index/admin";
+                    }else {
+                        layer.msg(data.msg);
+                    }
+                }
+            })
+        }
+    });
+</script>
+</body>
+</html>

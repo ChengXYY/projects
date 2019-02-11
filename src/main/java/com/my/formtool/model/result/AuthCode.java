@@ -6,7 +6,8 @@ public enum AuthCode {
 
     Menu_System(1001, "菜单查看权限-系统设置"),
     Menu_Index(1002,"菜单查看权限-首页"),
-    Menu_Formtool(1003,"菜单查看权限-表单提交平台");
+    Menu_Formtool(1003,"菜单查看权限-表单提交平台"),
+    Menu_Users(1004,"菜单查看权限-用户管理");
 
     private Integer code;
     private String intro;

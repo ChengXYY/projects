@@ -32,7 +32,7 @@
             <tr th:each="auth:${list}">
                 <td>
                     <input type="checkbox"
-                           name="authcodes"
+                           name="authcodes[]"
                            th:value="${auth.code}"
                            th:checked="${#strings.contains(authlist, auth.code)}"
                            class="select-item"/>
@@ -45,10 +45,8 @@
         </table>
     </div>
 </div>
-<footer th:replace="admin/_footer">
-    AAC Technologies Holdings Inc.
-</footer>
-<script th:src="@{~/js/common-files.js}" />
+
+<script th:src="@{~/js/common-files.js}"></script>
 <script>
     $(function () {
         $("#auth-save").click(function () {
@@ -56,11 +54,23 @@
                 type:"post",
                 data:$("#myForm").serialize(),
                 dataType:"json",
-                url:"/admingroup"
+                url:"/admingroup/auth/save",
+                success:function (data) {
+                    if(data.code == 1){
+                        layer.alert(data.msg, {icon: 6, shade: false}, function () {
+                            parent.location.reload();
+                        });
+                    }else{
+                        layer.msg(data.msg);
+                    }
+                }
             })
         });
 
     })
 </script>
+<footer th:replace="admin/_footer">
+    AAC Technologies Holdings Inc.
+</footer>
 </body>
 </html>

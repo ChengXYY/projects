@@ -14,7 +14,9 @@ public interface AdminMapper {
 
     Admin selectByPrimaryKey(Integer id);
 
+    Admin selectByAccount(String account);
+
     List<Admin> selectByFilter(Map<String, Object> filter);
 
-    int updateByPrimaryKeySelective(Admin admin);
+    int updateByPrimaryKeySelective(Map<String, Object> admin);
 }

@@ -4,10 +4,10 @@
     </div>
     <div class="col-md-9 right usercenter">
         <span class="user">
-            <i class="fa fa-user-circle"></i> <span>Administrator</span>
+            <i class="fa fa-user-circle"></i> <span th:text="${session.ADMIN_ACCOUNT}">Adminstrator</span>
         </span>
         <a class="text-primary" title="修改密码" id="reset-password"><i class="fa fa-refresh"></i></a>
-        <a class="text-danger" title="退出" id="logout"><i class="fa fa-power-off"></i></a>
+        <a class="text-danger" title="退出" id="logout" href="/admin/logout"><i class="fa fa-power-off"></i></a>
     </div>
 </header>
 <script>
@@ -19,7 +19,7 @@
                 shadeClose: false,
                 shade: 0.3,
                 area: '500px',
-                content: '/admin/resetpwd',
+                content: '/admin/editpwd',
                 success:function (layero, index) {
                     layer.iframeAuto(index);
                 }

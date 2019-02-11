@@ -43,6 +43,9 @@ public enum ErrorCodes {
     IS_REPEATED(10002, "字段重复"),
     ID_NOT_ILLEGAL(10003, "ID不合法"),
     ITEM_NOT_EXIST(10004, "记录不存在"),
+    PASSWORD_ERROR(10005, "密码错误"),
+    VERCODE_ERROR(10006, "验证码错误"),
+    PASSWORD_NOT_IDENTICAL(10007, "密码不一直"),
     DATA_OP_FAILED(20001, "数据操作失败");
 
     private Integer code;

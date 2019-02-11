@@ -1,6 +1,7 @@
 package com.my.formtool.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.my.formtool.config.RequiredPermission;
 import com.my.formtool.exception.JsonException;
 import com.my.formtool.model.Admin;
 import com.my.formtool.model.Admingroup;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,14 +29,9 @@ public class AdminController {
     @Autowired
     private AdmingroupService admingroupService;
 
-    @RequestMapping("/index")
-    public String index(ModelMap model){
-        model.addAttribute("pageTitle","首页 - 后台管理系统");
-        model.addAttribute("TopMenuFlag", "index");
-        return "admin/index";
-    }
 
     @RequestMapping("/list")
+    @RequiredPermission("1001")
     public String adminList(@RequestParam(value = "page", required = false, defaultValue = "0")String page,
                             ModelMap model){
         Map<String, Object>filter = new HashMap<String, Object>();
@@ -56,11 +53,6 @@ public class AdminController {
         return "admin/admin_list";
     }
 
-    @RequestMapping("/resetpwd")
-    public String passwordReset(){
-        return "admin/resetpwd";
-    }
-
     @ResponseBody
     @RequestMapping(value = "/resetpwd/submit", produces = {"application/json;charset=UTF-8"})
     public JSONObject passwordReset(Integer id){
@@ -79,6 +71,7 @@ public class AdminController {
     }
 
     @RequestMapping("/add")
+    @RequiredPermission("1001")
     public String adminAdd(ModelMap model){
         List<Admingroup> list = admingroupService.getListAll();
         model.addAttribute("list", list);
@@ -86,6 +79,7 @@ public class AdminController {
     }
 
     @ResponseBody
+    @RequiredPermission("1001")
     @RequestMapping(value = "/add/submit", produces = {"application/json;charset=UTF-8"})
     public JSONObject adminAdd(Admin admin){
 
@@ -115,5 +109,35 @@ public class AdminController {
         model.addAttribute("admin", admin);
         model.addAttribute("pageTitle","编辑管理员信息");
         return "admin/admin_edit";
+    }
+
+    @RequestMapping("/editpwd")
+    public String editPassword(){
+        return "admin/editpwd";
+    }
+
+    @ResponseBody
+    @RequestMapping("/editpwd/submit")
+    public JSONObject editPassword(String oldpwd, String newpwd, String repwd, HttpSession session){
+
+        JSONObject result = new JSONObject();
+        try {
+            adminService.editPassword(oldpwd, newpwd, repwd, session);
+            result.put("code", 1);
+            result.put("msg", "修改成功");
+            return result;
+        }catch (JsonException e) {
+            result.put("code", e.getCode());
+            result.put("msg", e.getMsg());
+            return result;
+        }
+    }
+
+    @RequestMapping("/logout")
+    public String logout(HttpSession session){
+        session.removeAttribute("ADMIN_SESSION");
+        session.removeAttribute("ADMIN_ACCOUNT");
+        session.removeAttribute("ADMIN_AUTH");
+        return "/admin/login";
     }
 }

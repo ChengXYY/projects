@@ -68,7 +68,17 @@
 
         $(".edit").click(function () {
             var id = $(this).siblings(".id").val();
-            layer.alert("确定要重置该管理员的密码？",{icon:0})
+            layer.open({
+                type: 2,
+                title: '编辑管理员组',
+                shadeClose: false,
+                shade: 0.3,
+                area: '500px',
+                content: '/admingroup/edit/'+id,
+                success:function (layero, index) {
+                    layer.iframeAuto(index);
+                }
+            });
         });
 
     })

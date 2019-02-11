@@ -29,9 +29,9 @@
                 type : "post",
                 data : $("#myForm").serialize(),
                 dataType : "json",
-                url : "/admin/resetsubmit",
+                url : "/admin/editpwd/submit",
                 success : function (data) {
-                    if(data.code > 0){
+                    if(data.code == 1){
                         layer.alert(data.msg, {icon: 6, shade: false}, function () {
                             parent.location.reload();
                         })

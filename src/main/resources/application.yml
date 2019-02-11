@@ -30,5 +30,5 @@ pagehelper:
     supportMethodsArguments: true
     params: count=countSql
 
-debug: true
+debug: false
 

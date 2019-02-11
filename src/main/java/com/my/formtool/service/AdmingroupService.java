@@ -3,6 +3,7 @@ package com.my.formtool.service;
 import com.my.formtool.model.Admingroup;
 
 import java.util.List;
+import java.util.Map;
 
 public interface AdmingroupService {
     //list all
@@ -12,12 +13,15 @@ public interface AdmingroupService {
     int add(Admingroup admingroup);
 
     //edit
-    int edit(Admingroup admingroup);
+    int edit(Map<String, Object> admingroup);
 
     //delete
     int remove(Integer id);
 
     //get
     Admingroup get(Integer id);
+
+    //auth
+    void changeAuth(Integer id, String[] auths);
 
 }
