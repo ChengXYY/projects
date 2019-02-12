@@ -5,7 +5,6 @@ import com.my.formtool.model.Admin;
 import com.my.formtool.service.AdminService;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
@@ -15,8 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.lang.reflect.Method;
 
 @Aspect
 @Component
@@ -60,7 +57,7 @@ public class ControllerAspect {
             logger.info("method access is null");
         }
 
-        //得到方法的访问权限
+        //获取访问类
         try {
             final String classAccess = joinPoint.getTarget().getClass().getAnnotation(Permission.class).value();
             if (!StringUtils.isBlank(classAccess) && !currentUser.getAdmingroup().getAuth().contains(classAccess)){
