@@ -48,12 +48,16 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public int remove(Integer id) {
+        if(!CommonOperation.checkId(id)) throw JsonException.newInstance(ErrorCodes.ID_NOT_ILLEGAL);
         return adminMapper.deleteByPrimaryKey(id);
     }
 
     @Override
     public Admin get(Integer id) {
-        return adminMapper.selectByPrimaryKey(id);
+        if(!CommonOperation.checkId(id)) throw JsonException.newInstance(ErrorCodes.ID_NOT_ILLEGAL);
+        Admin admin = adminMapper.selectByPrimaryKey(id);
+        if(admin == null)throw JsonException.newInstance(ErrorCodes.ITEM_NOT_EXIST);
+        return admin;
     }
 
     @Override

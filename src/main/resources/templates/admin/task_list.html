@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="_include"></head>
+<body>
+<header th:replace="admin/_header">
+    Your Company Name.
+</header>
+<div th:replace="admin/_topmenu"></div>
+<div class="container">
+    <div class="toolbar">
+        <div class="col-md-6">
+            <a class="btn btn-primary btn-outline" th:href="@{~/task/add}">
+                <i class="fa fa-plus"></i> 新建任务
+            </a>
+        </div>
+        <form class="col-md-6 right form-inline">
+            <select name="status" class="form-control">
+                <option value="-1" >所有任务</option>
+                <option value="1" th:selected="${isopen == 1}">仅开启的任务</option>
+                <option value="0" th:selected="${isopen == 0}">仅关闭的任务</option>
+            </select>
+            <input class="form-control" placeholder="请输入关键词" type="text" name="keyword" th:value="${name}"/>
+            <button type="submit" class="btn btn-warning btn-outline"><i class="fa fa-search"></i></button>
+        </form>
+    </div>
+    <h5 class="text-warning right">共 <span th:text="${taskCount}"></span> 个任务</h5>
+    <div class="form-horizontal"style="margin-bottom: 50px">
+
+        <div class="form-group" th:if="${list != null}" th:each="task:${list}">
+            <div class="panel panel-primary">
+                <div class="panel-body">
+                    <a class="task-close"><i class="fa fa-times-circle"></i></a>
+                    <h3 class="text text-primary project" th:attr="data-id=${task.id}">
+                        <span th:text="${task.name}"></span>
+                        <span class="badge badge-danger" th:text="${task.isopen?'公开':'私密'}">ISOPEN</span>
+                        <span class="badge" th:if="${task.status == 0}">已关闭</span>
+                    </h3>
+                    <div class="text text-muted text-inline" style="font-size: smaller">
+                        <i class="fa fa-tag"></i>
+                        <span th:text="${task.fieldCount}+' 个字段&nbsp;&nbsp;&nbsp;'"></span>
+                        <i class="fa fa-clock-o"></i>
+                        <span th:text="${#dates.format(task.addtime,'yyyy-MM-dd HH:mm:ss')}"></span>
+                    </div>
+                    <br/>
+                    <div class="col-md-2">
+                        <div class="panel panel-warning">
+                            <div class="panel-body">
+                                <h4 class="center text-warning submited" th:attr="data-id=${task.id}" th:text="${task.formCount}">FormCount</h4>
+                                <h5 class="center text-warning">表单提交数</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="panel panel-success" th:if="${task.isopen}">
+                            <div class="panel-body">
+                                <h4 class="center text-success invited"  th:attr="data-id=${task.id}" th:text="${task.userCount}">UserCount</h4>
+                                <h5 class="center text-success">已邀请人数</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2"></div>
+                    <div class="col-md-2"></div>
+                    <div class="col-md-4 right">
+                        <a href="javascript:" class="btn btn-danger btn-outline generate-link" th:attr="data-href=${FORM_WEB+task.id}"> 生成任务链接</a>
+                       <a class="btn btn-default close-task" th:attr="data-id=${task.id}" th:if="${task.status == 1}">关闭任务</a>
+                       <a class="btn btn-default reboot-task"  th:attr="data-id=${task.id}" th:if="${task.status == 0}">重启任务</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="admin/_footer">
+    Your Company Name.
+</footer>
+<script>
+    $(function(){
+        $(".close-task").click(function () {
+            var id = $(this).data("id");
+            layer.alert("确认关闭该任务？<br/><b>关闭之后前台用户无法打开任务</b>。",
+                {icon:0},
+                function(){
+                    var index = layer.load(0, { shade: false });
+                    $.ajax({
+                        type:"post",
+                        data:{
+                            id:id
+                        },
+                        dataType:"json",
+                        url:"/task/close/"+id,
+                        success:function (data) {
+                            if(data.code>0){
+                                location.reload();
+                            }else{
+                                layer.closeAll();
+                                layer.msg(data.msg);
+                            }
+                        }
+                    });
+                });
+        });
+
+        $(".reboot-task").click(function () {
+            var id = $(this).data("id");
+            layer.alert("确认重启该任务？<br/><b>重启之后前台用户可进行表单操作。</b>",
+                {icon:0},
+                function(){
+                    var index = layer.load(0, { shade: false });
+                    $.ajax({
+                        type:"post",
+                        data:{
+                            id:id
+                        },
+                        dataType:"json",
+                        url:"/task/reboot/"+id,
+                        success:function (data) {
+                            if(data.code>0){
+                                location.reload();
+                            }else{
+                                layer.closeAll();
+                                layer.msg(data.msg);
+                            }
+                        }
+                    });
+                });
+        });
+
+        $(".generate-link").click(function () {
+            var href = $(this).data("href");
+            var html = '<a href="'+href+'" target="_blank">'+href+'</a>';
+            layer.alert("任务页面为：<br/>"+html,{icon:0});
+        });
+        $(".task-close").click(function(){
+            var obj = $(this);
+            var id = obj.next("h3").data("id");
+            layer.alert("确认删除该项目的所有信息吗？",
+                {icon:2},
+                function(){
+                    var index = layer.load(0, { shade: false });
+                    $.ajax({
+                        type:"post",
+                        data:{
+                            id:id
+                        },
+                        dataType:"json",
+                        url:"/task/remove",
+                        success:function (data) {
+                            if(data.code>0){
+                                location.reload();
+                            }else{
+                                layer.closeAll();
+                                layer.msg(data.msg);
+                            }
+                        }
+                    });
+                });
+        });
+
+        $(".project").click(function(){
+            var id = $(this).data("id");
+            location.href = "/task/edit/"+id;
+        });
+        $(".invited").click(function(){
+            var id = $(this).data("id");
+            location.href = "/task/user/"+id;
+        });
+        $(".submited").click(function(){
+            var id = $(this).data("id");
+            location.href = "/task/formsubmit/"+id;
+        });
+        $("#add-project").click(function () {
+            location.href="/task/add"
+        });
+    })
+</script>
+</body>
+</html>

@@ -28,7 +28,6 @@ public class SystemController {
 
 
     @RequestMapping("/admin/list")
-    @Permission("1001")
     public String adminList(@RequestParam(value = "page", required = false, defaultValue = "0")String page,
                             ModelMap model){
         Map<String, Object> filter = new HashMap<String, Object>();
@@ -94,18 +93,34 @@ public class SystemController {
 
     @RequestMapping("/admin/edit/{id}")
     public String adminEdit(@PathVariable("id") Integer id, ModelMap model){
-        Admin admin = adminService.get(id);
-        if(admin == null){
+        try {
+            Admin admin = adminService.get(id);
+            List<Admingroup> list = admingroupService.getListAll();
+            model.addAttribute("list", list);
+            model.addAttribute("admin", admin);
+            model.addAttribute("pageTitle","编辑管理员信息");
+            return "admin/admin_edit";
+        }catch (JsonException e){
             model.addAttribute("pageTitle","404 Error");
             return "error/404";
         }
-        List<Admingroup> list = admingroupService.getListAll();
-        model.addAttribute("list", list);
-        model.addAttribute("admin", admin);
-        model.addAttribute("pageTitle","编辑管理员信息");
-        return "admin/admin_edit";
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/admin/remove/{id}", method = RequestMethod.POST)
+    public JSONObject adminRemove(@RequestParam(value = "id", required = true)String id){
+        JSONObject result = new JSONObject();
+        try {
+            adminService.remove(Integer.parseInt(id));
+            result.put("code", 1);
+            result.put("msg", "删除成功");
+            return result;
+        }catch (JsonException e){
+            result.put("code", e.getCode());
+            result.put("msg", e.getMsg());
+            return result;
+        }
+    }
     // AdminGroup 处理
     @RequestMapping("/admingroup/list")
     public String admingroupList(ModelMap model){
@@ -195,6 +210,22 @@ public class SystemController {
             admingroupService.changeAuth(id, authcodes);
             result.put("code", 1);
             result.put("msg", "保存成功");
+            return result;
+        }catch (JsonException e){
+            result.put("code", e.getCode());
+            result.put("msg", e.getMsg());
+            return result;
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/admingroup/remove/{id}", method = RequestMethod.POST)
+    public JSONObject admingroupRemove(@RequestParam(value = "id", required = true)String id){
+        JSONObject result = new JSONObject();
+        try {
+            admingroupService.remove(Integer.parseInt(id));
+            result.put("code", 1);
+            result.put("msg", "删除成功");
             return result;
         }catch (JsonException e){
             result.put("code", e.getCode());

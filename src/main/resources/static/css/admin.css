@@ -200,10 +200,75 @@ table td a:hover{
 .container,.fluid{
     margin: 2rem auto;
     width: 100%;
+    padding: 2rem 7rem;
 }
 
 /* Page */
 .page .form-control{
     width: 4rem;!important;
     text-align: center;
+}
+
+/* Task */
+.task-close:hover{
+    cursor:pointer;
+}
+.invited:hover,.submited:hover{
+    cursor: pointer;
+    text-decoration: underline;
+}
+.invited,.submited{
+    font-weight: bold;
+}
+.project:hover{
+    cursor: pointer;
+    font-weight: bold;
+}
+.panel-body{
+    padding: 0px 15px;
+}
+.task-close{
+    color:darkred;
+    font-size: 2em;float: right;
+    margin-top: -0.7em;
+    margin-right: -1em;
+}
+
+.box{
+    border:1px #bbb dashed;
+    border-radius: 5px;
+    padding: 15px;
+    min-height: 200px;
+}
+.form-inline{
+    padding-bottom: 8px;
+}
+.field-id{
+    margin-left: 3px;
+    border-radius:5px;
+    background-color: #cfe2f3;
+    padding: 2px 4px;
+    font-size: small;
+    color:#444;
+}
+.field-name .name{
+    margin-left: 13px;
+    display: block;
+}
+#item-list .form-group{
+    border-bottom: 1px #eee solid;
+    padding-bottom: 10px;
+    margin-left: 1px;
+    margin-right: 1px;
+}
+
+/* Layer */
+.layer-content{
+    padding: 20px;
+}
+.field-isnessary{
+    padding: 3px;
+    background-color: red;
+    border-radius: 5px;
+    color: #fff;
 }

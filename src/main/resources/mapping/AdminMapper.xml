@@ -47,7 +47,7 @@
     select
     <include refid="Base_Column_List" />
     from admin
-    <trim prefix="where 1=1 " >
+    <where >
       <if test="name!=null">
         name like CONCAT('%',#{name},'%')
       </if>
@@ -60,7 +60,7 @@
       <if test="page !=null and pagesize !=null">
         limit #{page}, #{pagesize}
       </if>
-    </trim>
+    </where>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from admin
