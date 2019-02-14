@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="_include_formtool"></head>
+<body class="mai-splash-screen">
+<div class="mai-wrapper mai-login">
+    <div class="main-content container">
+        <div class="splash-container row">
+            <div class="col-md-3 user-message">
+                <h3>我的信息：</h3>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <h5 class="my-form">姓名：<span th:if="${session.USERACCOUNT==null?'游客':session.USERACCOUNT}">游客</span></h5>
+                    </div>
+                </div>
+                <h3>我的表单：</h3>
+
+            </div>
+            <div class="col-md-9 form-message">
+                <img class="logo-img mb-4" th:src="@{~/images/logo.png}" alt="logo" width="169">
+                <span class="splash-description text-center mt-3 mb-5" th:text="${task.name}">TaskName</span>
+                <form class="form-horizontal" id="myForm">
+                    <div class="formid"></div>
+                    <input name="formid" value="0" type="hidden"/>
+                    <input name="taskid" th:value="${task.id}" type="hidden"/>
+                    <div class="form-group" th:each="field:${task.fieldList}">
+                        <label class="control-label">
+                            <i class="fa fa-angle-double-right"></i>&nbsp;<span th:text="${field.name}"></span>
+                            <span class="text-danger" th:if="${field.isnessary}">（必填）</span>
+                        </label>
+                    <div class="item-list">
+                        <input type="hidden" th:name="${field.id}" th:if="${field.type=='checkbox'}" />
+                        <label class="custom-control custom-radio mt-2" th:if="${field.type=='radio'}" th:each="item:${field.item}">
+                            <input class="custom-control-input" type="radio" th:name="${field.id}"  th:value="${item}"><span
+                                class="custom-control-label" th:text="${item}"></span>
+                        </label>
+                        <label class="custom-control custom-checkbox mt-2" th:if="${field.type=='checkbox'}" th:each="item:${field.item}">
+                            <input class="custom-control-input" type="checkbox" th:name="${field.id+'_0'}"  th:value="${item}"><span
+                                class="custom-control-label" th:text="${item}"></span>
+                        </label>
+                        <input class="form-control" th:if="${field.type=='text'}"  th:name="${field.id}" />
+                    </div>
+
+            </div>
+            <div class="form-group center">
+                <button class="btn btn-submit" type="button" id="submit">提 交</button>
+                <button class="btn btn-save" type="button" id="save">保 存</button>
+            </div>
+
+            </form>
+            <div class="out-links"><a href="#">© Your Company Name.</a></div>
+        </div>
+    </div>
+</div>
+</div>
+<script>
+    $(function () {
+        $(".form-close").click(function () {
+            var obj = $(this);
+            layer.alert("确认删除该表单吗？",{icon:2}, function () {
+                var id = obj.next("h5").text();
+                var index = layer.load(0, { shade: false });
+                $.ajax({
+                    type:"post",
+                    data:{
+                        id:id
+                    },
+                    dataType:"json",
+                    url:"/form/remove",
+                    success:function (data) {
+                        if(data.code>0){
+                            obj.parent().parent().remove();
+                            location.reload();
+                        } else{
+                            layer.msg(data.msg);
+                        }
+                    }
+                });
+            })
+        });
+        $(".user-forms").click(function () {
+            $("#myForm")[0].reset();
+            var id = $(this).find(".my-form").html();
+            $("input[name='formid']").val(id);
+            $("#myForm .formid").html(id);
+            $("#myForm .formid").css("display","block");
+            var formdata = $(this).find("input").val();
+            formdata = eval("(" + formdata + ")");
+            for(var key in formdata){
+                var obj = $("input[name='"+key+"']");
+
+                if(typeof formdata[key] == "object"){
+                    obj = $("input[name='"+key+"[]']");
+                }
+                switch (obj.prop("type")){
+                    case "radio":
+                        $("input[name='"+key+"'][value='"+formdata[key]+"']").prop("checked",true);
+                        break;
+                    case "checkbox":
+                        for(i=0;i<formdata[key].length;i++){
+                            $("input[name='"+key+"[]'][value='"+formdata[key][i]+"']").prop("checked",true);
+                        }
+                        break;
+                    default:
+                        obj.val(formdata[key]);
+                        break;
+                }
+            }
+        });
+        $("#submit").click(function(){
+            var checkBoxs = {};
+            $("input[type='checkbox']:checked").each(function () {
+                var name = $(this).prop("name");
+                name = name.substr(0, name.length-2)
+                var val = $(this).val();
+                var arr = [];
+                if(checkBoxs[name]==undefined){
+                    checkBoxs[name]="";
+                }else{
+                    arr.push(checkBoxs[name]);
+                }
+                arr.push(val);
+                checkBoxs[name]=arr.join(',');
+            });
+            for (var key in checkBoxs){
+                $("input[name='"+key+"'").val(checkBoxs[key]);
+            }
+            $.ajax({
+                type:"post",
+                data:$("#myForm").serialize(),
+                dataType:"json",
+                url:"/form/submit",
+                success:function (data) {
+                    if(data.code == 1){
+                        layer.alert("您的表单已提交！ 非常感谢！",{icon:1},function () {
+                            location.reload();
+                        });
+                    }else{
+                        layer.msg(data.code+"<br/>"+data.msg);
+                    }
+                }
+            })
+        });
+
+        $("#save").click(function(){
+            $.ajax({
+                type:"post",
+                data:$("#myForm").serialize(),
+                dataType:"json",
+                url:"/form/save",
+                success:function (data) {
+                    if(data.code >0){
+                        layer.alert("您的表单已保存！",{icon:1},function () {
+                            location.reload();
+                        });
+                    }else{
+                        layer.msg(data.code+"<br/>"+data.msg);
+                    }
+                }
+            })
+        });
+    })
+</script>
+</body>
+
+</html>

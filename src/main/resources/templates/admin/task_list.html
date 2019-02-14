@@ -88,7 +88,7 @@
                             id:id
                         },
                         dataType:"json",
-                        url:"/task/close/"+id,
+                        url:"/task/close",
                         success:function (data) {
                             if(data.code>0){
                                 location.reload();
@@ -113,7 +113,7 @@
                             id:id
                         },
                         dataType:"json",
-                        url:"/task/reboot/"+id,
+                        url:"/task/reboot",
                         success:function (data) {
                             if(data.code>0){
                                 location.reload();

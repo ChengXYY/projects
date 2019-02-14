@@ -49,10 +49,10 @@
     from admin
     <where >
       <if test="name!=null">
-        name like CONCAT('%',#{name},'%')
+        and name like CONCAT('%',#{name},'%')
       </if>
       <if test="groupid!=null">
-        groupid = #{groupid}
+        and groupid = #{groupid}
       </if>
       <if test="order!=null">
         order by #{order} asc

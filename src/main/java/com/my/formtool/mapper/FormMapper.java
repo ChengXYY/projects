@@ -14,5 +14,7 @@ public interface FormMapper {
 
     int updateByPrimaryKeySelective(Map<String, Object> record);
 
-    List<Map<String, Object>> selectByFilter(Map<String, Object> filter);
+    List<Form> selectByFilter(Map<String, Object> filter);
+
+    Integer countByFilter(Map<String, Object> filter);
 }

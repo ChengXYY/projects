@@ -25,4 +25,10 @@ public interface TaskService {
     //get one
     Task get(Integer id);
 
+    //close task == change status
+    void close(Integer id);
+
+    //reboot
+    void reboot(Integer id);
+
 }

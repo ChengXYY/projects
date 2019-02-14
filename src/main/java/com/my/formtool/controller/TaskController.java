@@ -1,6 +1,5 @@
 package com.my.formtool.controller;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import com.my.formtool.config.Permission;
@@ -37,6 +36,7 @@ public class TaskController {
                            @RequestParam(value = "isopen", required = false)Integer isopen, ModelMap model){
         logger.info(keyword);
         Map<String, Object> filter = new HashMap<String, Object>();
+        filter.put("order", "id desc");
        if(keyword!=null && !keyword.isEmpty()){
            filter.put("name", keyword);
        }
@@ -97,20 +97,60 @@ public class TaskController {
 
     @ResponseBody
     @RequestMapping(value = "/edit/submit", method = RequestMethod.POST)
-    public JSONObject taskEdit(Task task){
-        Map<String, Object>taskMap = new HashMap<>();
-        taskMap.put("id", task.getId());
-        taskMap.put("name", task.getName());
-        taskMap.put("status", task.getStatus());
-        taskMap.put("isopen", task.getIsopen());
-        taskMap.put("isunique", task.getIsunique());
-        taskMap.put("theme", task.getTheme());
-        taskMap.put("fields", task.getFields());
+    public JSONObject taskEdit(@RequestParam Map<String, Object> task){
         JSONObject result = new JSONObject();
         try {
-            taskService.edit(taskMap);
+            taskService.edit(task);
             result.put("code", 1);
             result.put("msg", "修改成功");
+            return result;
+        }catch (JsonException e){
+            result.put("code", e.getCode());
+            result.put("msg", e.getMsg());
+            return result;
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/remove", method = RequestMethod.POST)
+    public JSONObject taskRemove(@RequestParam(value = "id", required = true)Integer id){
+        JSONObject result = new JSONObject();
+        try {
+            taskService.remove(id);
+            result.put("code", 1);
+            result.put("msg", "关闭成功");
+            return result;
+        }catch (JsonException e){
+            result.put("code", e.getCode());
+            result.put("msg", e.getMsg());
+            return result;
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/close", method = RequestMethod.POST)
+    public JSONObject taskClose(@RequestParam(value = "id", required = true)Integer id){
+        JSONObject result = new JSONObject();
+        try {
+            taskService.close(id);
+            result.put("code", 1);
+            result.put("msg", "重启成功");
+            return result;
+        }catch (JsonException e){
+            result.put("code", e.getCode());
+            result.put("msg", e.getMsg());
+            return result;
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/reboot", method = RequestMethod.POST)
+    public JSONObject taskReboot(@RequestParam(value = "id", required = true)Integer id){
+        JSONObject result = new JSONObject();
+        try {
+            taskService.reboot(id);
+            result.put("code", 1);
+            result.put("msg", "删除成功");
             return result;
         }catch (JsonException e){
             result.put("code", e.getCode());

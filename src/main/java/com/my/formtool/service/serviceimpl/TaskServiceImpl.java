@@ -7,10 +7,12 @@ import com.my.formtool.exception.JsonException;
 import com.my.formtool.mapper.TaskMapper;
 import com.my.formtool.model.Task;
 import com.my.formtool.model.result.ErrorCodes;
+import com.my.formtool.service.FormService;
 import com.my.formtool.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +20,9 @@ import java.util.Map;
 public class TaskServiceImpl implements TaskService {
     @Autowired
     private TaskMapper taskMapper;
+
+    @Autowired
+    private FormService formService;
 
     @Override
     public int add(Task task) {
@@ -28,6 +33,8 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public int edit(Map<String, Object> task) {
         if(task.get("id")== null || !CommonOperation.checkId(Integer.parseInt(task.get("id").toString())))throw JsonException.newInstance(ErrorCodes.ID_NOT_ILLEGAL);
+        Task taskObj = taskMapper.selectByPrimaryKey(Integer.parseInt(task.get("id").toString()));
+        if(taskObj == null)throw JsonException.newInstance(ErrorCodes.ITEM_NOT_EXIST);
         return taskMapper.updateByPrimaryKeySelective(task);
     }
 
@@ -47,8 +54,12 @@ public class TaskServiceImpl implements TaskService {
                 taskList.get(i).setFieldList(fieldList);
                 taskList.get(i).setFieldCount(fieldList.size());
             }
-
             //实现formCount 表单提交数
+            Map<String, Object>param = new HashMap<>();
+            param.put("status", 2);
+            param.put("taskid", taskList.get(i).getId());
+            Integer formCount = formService.getCount(param);
+            taskList.get(i).setFormCount(formCount);
             //实现userCount 邀请用户数
         }
         return taskList;
@@ -71,5 +82,21 @@ public class TaskServiceImpl implements TaskService {
         //实现formCount 表单提交数
         //实现userCount 邀请用户数
         return task;
+    }
+
+    @Override
+    public void close(Integer id) {
+        Map<String, Object>item = new HashMap<>();
+        item.put("id", id);
+        item.put("status", 0);
+        edit(item);
+    }
+
+    @Override
+    public void reboot(Integer id) {
+        Map<String, Object>item = new HashMap<>();
+        item.put("id", id);
+        item.put("status", 1);
+        edit(item);
     }
 }

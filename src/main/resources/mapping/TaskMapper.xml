@@ -27,24 +27,24 @@
     from task
     <where>
       <if test="name!=null">
-        name like CONCAT('%',#{name},'%')
+        and name like CONCAT('%',#{name},'%')
       </if>
       <if test="status!=null">
-        status=#{status, jdbcType=INTEGER}
+        and status=#{status, jdbcType=INTEGER}
       </if>
       <if test="isopen!=null">
-        isopen=#{isopen, jdbcType=BIT}
+        and isopen=#{isopen, jdbcType=BIT}
       </if>
       <if test="isunique!=null">
-        isunique=#{isunique, jdbcType=BIT}
-      </if>
-      <if test="order!=null">
-        order by #{order} asc
-      </if>
-      <if test="page !=null and pagesize !=null">
-        limit #{page}, #{pagesize}
+        and isunique=#{isunique, jdbcType=BIT}
       </if>
     </where>
+    <if test="order!=null">
+      order by ${order}
+    </if>
+    <if test="page !=null and pagesize !=null">
+      limit #{page}, #{pagesize}
+    </if>
   </select>
 
   <select id="countByFilter" parameterType="map" resultType="java.lang.Integer">
@@ -53,16 +53,16 @@
     from task
     <where>
       <if test="name!=null">
-        name like CONCAT('%',#{name},'%')
+        and name like CONCAT('%',#{name},'%')
       </if>
       <if test="status!=null">
-        status=#{status, jdbcType=INTEGER}
+        and status=#{status, jdbcType=INTEGER}
       </if>
       <if test="isopen!=null">
-        isopen=#{isopen, jdbcType=BIT}
+        and isopen=#{isopen, jdbcType=BIT}
       </if>
       <if test="isunique!=null">
-        isunique=#{isunique, jdbcType=BIT}
+        and isunique=#{isunique, jdbcType=BIT}
       </if>
     </where>
   </select>

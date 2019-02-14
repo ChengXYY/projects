@@ -1,0 +1,278 @@
+.splash-container .user-message {
+    display: flex;
+    flex-direction: column;
+    background-color: #fa6163;
+    color: #FFF;
+    padding: 155px 30px 40px
+}
+
+.splash-container .form-message {
+    display: flex;
+    flex-direction: column;
+    padding: 60px 30px 40px;
+    background-color: #fad9d999;
+    color: #000
+}
+
+.splash-container .logo-img {
+    margin: 0 auto;
+    display: block
+}
+
+.splash-container .splash-description {
+    color: #000;
+    font-size: 1.53846rem;
+    font-weight: 300;
+    display: block;
+    margin: 0 auto
+}
+
+.splash-container .form-group {
+    margin: 0
+}
+
+.splash-container .input-group {
+    border-bottom: 2px solid #3f3f3f;
+    padding: 6px 0
+}
+
+.splash-container .input-group .form-control {
+    border: 0;
+    background-color: transparent;
+    box-shadow: none;
+    color: #989898;
+    padding: 0;
+    font-size: 14px;
+    font-weight: 500;
+    height: 36px
+}
+
+.custom-control {
+    position: relative;
+    padding-left: 2.23077rem
+}
+
+.custom-control-inline {
+    display: inline-flex;
+    margin-right: 1rem
+}
+
+.custom-control-label::after, .custom-control-label::before {
+    position: absolute;
+    top: -.077155rem;
+    display: block;
+    width: 1.69231rem;
+    height: 1.69231rem;
+    content: "";
+    left: 0
+}
+
+.custom-control-input {
+    position: absolute;
+    z-index: -1;
+    opacity: 0
+}
+
+.custom-control-input:checked ~ .custom-control-label::before {
+    color: #fa6163;
+    background-color: #FFF
+}
+
+.custom-control-input:focus ~ .custom-control-label::before {
+    box-shadow: none
+}
+
+.custom-control-input:active ~ .custom-control-label::before {
+    color: #FFF;
+    background-color: #FFF
+}
+
+.custom-control-input:disabled ~ .custom-control-label {
+    color: #878787
+}
+
+.custom-control-input:disabled ~ .custom-control-label::before {
+    background-color: #eceeef
+}
+
+.custom-control-label::before {
+    pointer-events: none;
+    user-select: none;
+    background-color: #FFF
+}
+
+.custom-control-label::after {
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 50% 50%
+}
+
+.custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
+    background-color: #FFF
+}
+
+.custom-checkbox .custom-control-input:indeterminate ~ .custom-control-label::before {
+    background-color: #fa6163
+}
+
+.custom-checkbox .custom-control-input:indeterminate ~ .custom-control-label::after {
+    background-image:none;
+}
+
+.custom-checkbox .custom-control-input:disabled:checked ~ .custom-control-label::before, .custom-checkbox .custom-control-input:disabled:indeterminate ~ .custom-control-label::before {
+    background-color: rgba(250, 97, 99, .5)
+}
+
+.custom-radio .custom-control-label::before {
+    border-radius: 50%
+}
+
+.custom-radio .custom-control-input:checked ~ .custom-control-label::before {
+    background-color: #FFF
+}
+
+.custom-radio .custom-control-input:checked ~ .custom-control-label::after {
+    background-image: none
+}
+
+.custom-radio .custom-control-input:disabled:checked ~ .custom-control-label::before {
+    background-color: rgba(250, 97, 99, .5)
+}
+
+.custom-control {
+    min-height: 1.69231rem;
+    min-width: 1.69231rem;
+    margin-bottom: .923rem
+}
+
+.custom-control-input .custom-control-label {
+    line-height: 1.6
+}
+
+.custom-control-input:checked ~ .custom-control-label::after {
+    color: #fa6163
+}
+
+.custom-control-input:checked ~ .custom-control-label::before {
+    border-color: #fa6163
+}
+
+.custom-control-input:checked ~ .custom-control-color::after {
+    background-color: #fa6163;
+    color: #FFF
+}
+
+.custom-radio .custom-control-input:checked ~ .custom-control-color::after {
+    border-radius: 50%
+}
+
+.custom-checkbox .custom-control-label::before {
+    border: 2px solid #ebebeb;
+    content: ""
+}
+
+.custom-checkbox .custom-control-input:checked ~ .custom-control-label::after {
+    content: "\f00c";
+    font-family: "Stroke 7";
+    font-size: 20px;
+    font-weight: 400;
+    text-align: center;
+    line-height: 1.1
+}
+
+.custom-radio .custom-control-label::before {
+    border: 2px solid #ebebeb;
+    content: ""
+}
+
+.custom-radio .custom-control-input:checked ~ .custom-control-label::after {
+    content: "\f111";
+    font-family: "Stroke 7";
+    font-size: 14px;
+    font-weight: 400;
+    text-align: center;
+    line-height: 1.6
+}
+
+.custom-radio-icon {
+    margin: 0;
+    padding: 0;
+    width: 52px;
+    height: 52px
+}
+
+.custom-radio-icon .custom-control-label::after, .custom-radio-icon .custom-control-label::before {
+    display: none
+}
+
+.custom-radio-icon .custom-control-label {
+    cursor: pointer;
+    width: 52px;
+    height: 52px;
+    line-height: 1;
+    border: 2px solid #d5d8de;
+    border-radius: 50%;
+    font-size: 2.847rem;
+    color: #bdbdbd;
+    background-color: #FFF;
+    text-align: center
+}
+
+.custom-radio-icon .custom-control-label:hover {
+    border-color: #b8bdc8
+}
+
+.custom-radio-icon .custom-control-label i {
+    vertical-align: middle
+}
+
+.custom-radio-icon input[type=radio]:checked + .custom-control-label {
+    border-color: #fa6163;
+    color: #fa6163;
+    background-color: #FFF
+}
+
+.custom-file-input.is-valid ~ .custom-file-control, .custom-select.is-valid, .form-control.is-valid, .was-validated .custom-file-input:valid ~ .custom-file-control, .was-validated .custom-select:valid, .was-validated .form-control:valid {
+    border-color: #2cc185
+}
+
+.custom-radio-icon input[type=radio]:checked + .custom-control-label i {
+    color: #fa6163
+}
+
+.col-form-label.is-valid, .custom-control-input.is-valid ~ .custom-control-label, .custom-control.is-valid, .form-check-label.is-valid, .form-control-feedback.is-valid, .was-validated .col-form-label:valid, .was-validated .custom-control-input:valid ~ .custom-control-label, .was-validated .custom-control:valid, .was-validated .form-check-label:valid, .was-validated .form-control-feedback:valid {
+    color: #545454
+}
+
+.custom-radio-icon.custom-control-inline + .custom-radio-icon.custom-control-inline {
+    margin-left: 18px
+}
+
+.formid{
+    border: 1px #fa6163 solid;
+    background-color: #fa6163;
+}
+
+.btn-submit {
+    color: #fff;
+    background-color: #fa6163;
+    border-color: #fa6163
+}
+
+.btn-submit:hover {
+    color: #fff;
+    background-color: rgba(255, 98, 100, 0.55);
+    border-color: #fa6163
+}
+
+
+.btn-save{
+    border-color:#fa6163;
+    color: #fa6163;
+    background: none;
+}
+.btn-save:hover {
+    color: #fff;
+    background-color: rgba(255, 98, 100, 0.55);
+    border-color: rgba(255, 98, 100, 0.55);
+}

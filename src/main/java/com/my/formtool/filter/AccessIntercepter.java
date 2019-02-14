@@ -14,6 +14,8 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.HashSet;
+import java.util.Set;
 
 @Controller
 @Component
@@ -24,7 +26,17 @@ public class AccessIntercepter extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        HttpSession session = request.getSession();
+        String basePath = request.getContextPath();
+        String path = request.getRequestURI();
+        if(!doLoginInterceptor(path, basePath) ){//是否进行登陆拦截
+            return true;
+        }
+        HttpSession session = request.getSession(); //登陆拦截
+        if(session.getAttribute("ADMIN_ACCOUNT") == null){
+            //尚未登录，跳转到登录界面;
+            response.sendRedirect("/login/admin");
+            return false;
+        }
         // 验证权限
         if (this.hasPermission(handler, session)) {
             return true;
@@ -42,9 +54,6 @@ public class AccessIntercepter extends HandlerInterceptorAdapter {
      * @return
      */
     private boolean hasPermission(Object handler, HttpSession session) {
-        if(session.getAttribute("ADMIN_ACCOUNT") == null){
-            return false;
-        }
         Admin admin = adminService.get(session.getAttribute("ADMIN_ACCOUNT").toString());
 
         if (handler instanceof HandlerMethod) {
@@ -65,6 +74,19 @@ public class AccessIntercepter extends HandlerInterceptorAdapter {
                 return permissionStr.contains(requiredPermission.value());
             }
         }
+        return true;
+    }
+
+    //登陆拦截
+    private boolean doLoginInterceptor(String path,String basePath){
+        path = path.substring(basePath.length());
+        Set<String> notLoginPaths = new HashSet<>();
+
+        notLoginPaths.add("/login/**");
+        notLoginPaths.add("/error/**");
+        notLoginPaths.add("/form/**");
+
+        if(notLoginPaths.contains(path)) return false;
         return true;
     }
 }
