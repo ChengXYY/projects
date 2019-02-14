@@ -71,7 +71,7 @@
       #{username,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{addtime,jdbcType=TIMESTAMP}, 
       #{updatetime,jdbcType=TIMESTAMP}, #{form,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.my.formtool.model.Form">
+  <insert id="insertSelective"  parameterType="com.my.formtool.model.Form">
     insert into form
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

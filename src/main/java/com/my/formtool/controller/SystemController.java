@@ -105,6 +105,41 @@ public class SystemController {
         return "admin/admin_edit";
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/admin/edit/submit", method = RequestMethod.POST)
+    public JSONObject editAdmin(@RequestParam Map<String, Object> admin ){
+        JSONObject result = new JSONObject();
+
+        try {
+            adminService.edit(admin);
+            result.put("code", 1);
+            result.put("msg", "保存成功");
+            return result;
+        }catch (JsonException e){
+            result.put("code", e.getCode());
+            result.put("msg", e.getMsg());
+            return result;
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/admin/remove", method = RequestMethod.POST)
+    public JSONObject removeAdmin(@RequestParam(value = "id", required = true)Integer id){
+
+        JSONObject result = new JSONObject();
+
+        try {
+            adminService.remove(id);
+            result.put("code", 1);
+            result.put("msg", "删除成功");
+            return result;
+        }catch (JsonException e){
+            result.put("code", e.getCode());
+            result.put("msg", e.getMsg());
+            return result;
+        }
+    }
+
     // AdminGroup 处理
     @RequestMapping("/admingroup/list")
     public String admingroupList(ModelMap model){

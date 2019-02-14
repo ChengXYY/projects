@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Aspect
 @Component
-public class ControllerAspect {
+public class AccessCheck {
 
-    private final static Logger logger = LoggerFactory.getLogger(ControllerAspect.class);
+    private final static Logger logger = LoggerFactory.getLogger(AccessCheck.class);
 
     @Autowired
     private AdminService adminService;

@@ -105,6 +105,32 @@
                 }
             });
         });
+
+        $(".remove").click(function () {
+            var id = $(this).siblings(".id").val();
+            layer.confirm('确认删除该管理员账号吗？', {
+                    btn: ['确认','取消']
+                }, function(){
+                    var index = layer.load(0, {shade: false});
+                $.ajax({
+                    type:"post",
+                    data:{
+                        id:id
+                    },
+                    dataType:"json",
+                    url:"/system/admin/remove",
+                    success:function (data) {
+                        if(data.code==1){
+                            location.reload();
+                        }else{
+                            layer.msg(data.msg());
+                        }
+                    }
+                });
+                }, function(){}
+            );
+
+        });
     })
 </script>
 </body>

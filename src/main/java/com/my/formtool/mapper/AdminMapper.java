@@ -12,6 +12,8 @@ public interface AdminMapper {
 
     int insertSelective(Admin admin);
 
+    int insert(Admin admin);
+
     Admin selectByPrimaryKey(Integer id);
 
     Admin selectByAccount(String account);
