@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="_include"></head>
+<body>
+<header th:replace="admin/_header">
+    Your Company Name.
+</header>
+<div th:replace="admin/_topmenu"></div>
+<div class="container">
+    <div class="form-horizontal" style="margin-bottom: 50px">
+        <div class="form-group">
+            <h3 class="text text-primary">任务名称</h3>
+            <hr/>
+            <input class="form-control" placeholder="请输入任务名称" type="text" id="task-name"/>
+        </div>
+        <div class="form-group">
+            <h3 class="text text-primary">任务配置</h3>
+            <hr/>
+            <div class="col-md-3">
+                <input type="checkbox" name="isopen" value="1" checked> 公开任务（非公开任务需邀请用户）
+            </div>
+            <div class="col-md-3">
+                <input type="checkbox" name="isunique" value="1"> 表单只允许提交一次
+            </div>
+            <div class="col-md-3">
+                <select class="form-control" name="theme">
+                    <option value="" selected>默认主题</option>
+                    <option value="red">红色主题</option>
+                    <option value="blue">蓝色主题</option>
+                    <option value="yellow">黄色主题</option>
+                    <option value="green">绿色主题</option>
+                    <option value="orange">橘色主题</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <h3 class="text text-primary">表单</h3>
+            <hr/>
+            <div class="right">
+                <a class="btn btn-primary btn-outline" id="add-field">
+                    <i class="fa fa-plus"></i> 添加字段
+                </a>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="box">
+                <div class="form-group">
+                    <label class="col-md-5">字段名称</label>
+                    <label class="col-md-3">字段选项</label>
+                    <label class="col-md-4">字段操作</label>
+                </div>
+                <hr/>
+                <div id="item-list"></div>
+            </div>
+        </div>
+
+        <div class="form-group center">
+            <br/>
+            <a class="btn btn-warning" href="javascript:" id="submit-form">保 存</a>
+            <a href="index" class="btn btn-default">返 回</a>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="admin/_footer">
+    Your Company Name.
+</footer>
+<script>
+    $(function(){
+        $( "#item-list" ).sortable({
+            revert: true
+        });
+        //弹出框-添加字段
+        $("#add-field").click(function () {
+            layer.open({
+                type: 1,
+                title: '添加字段',
+                shadeClose: true,
+                shade: 0.1,
+                area: ['400px', "auto"],
+                content: $("#field-box").html()
+            });
+        });
+
+        //添加字段确认
+        $("body").on('click','#submit-field',function () {
+            addField(fieldObj)
+            layer.closeAll();
+        });
+
+        $("body").on('click','#submit-field-next',function () {
+            addField(fieldObj);
+            $("#fieldForm")[0].reset();
+        });
+
+
+        //弹出框--添加单选选项
+        var radioList = null;
+        $("body").on("click", ".radio-add", function () {
+            radioList = $(this).parent().prev(".radio-list");
+            layer.open({
+                type: 1,
+                title: '添加单选选项',
+                shadeClose: true,
+                shade: 0.1,
+                area: ['300px', "auto"],
+                content: $("#radio-box").html()
+            });
+        });
+
+        //添加单选选项确认
+        $("body").on("click", '#submit-radio-add', function () {
+            addRadio(radioList);
+            layer.closeAll();
+        });
+        $("body").on("click", '#submit-radio-add-next', function () {
+            addRadio(radioList);
+            $("#radioForm")[0].reset();
+        });
+
+        //弹出框--添加复选选项按钮
+        var checkboxList = null;
+        $("body").on("click", ".checkbox-add", function () {
+            checkboxList = $(this).parent().prev(".checkbox-list");
+            layer.open({
+                type: 1,
+                title: '添加单选选项',
+                shadeClose: true,
+                shade: 0.1,
+                area: ['300px', "auto"],
+                content: $("#checkbox-box").html()
+            });
+        });
+        //添加复选选项确认
+        $("body").on("click", "#submit-checkbox-add", function () {
+            addCheckbox(checkboxList);
+            layer.closeAll();
+        });
+        $("body").on("click", '#submit-checkbox-add-next', function () {
+            addCheckbox(checkboxList);
+            $("#checkboxForm")[0].reset();
+        });
+        //删除字段
+        $("body").on("click", ".field-remove", function () {
+            var obj = $(this);
+            layer.confirm("确认删除该字段的所有信息吗？",
+                {icon: 2, title:'删除'},
+                function(){
+                    var index = layer.load(0, { shade: false });
+
+                    obj.parent().parent().next("hr").remove();
+                    obj.parent().parent().remove();
+
+                    layer.closeAll();
+                });
+        });
+
+        //删除选项
+        $("body").on("click", ".item-remove", function () {
+            var obj = $(this);
+            layer.confirm("确认删除该选项吗？",
+                {icon: 2, title:'删除'},
+                function(){
+                    var index = layer.load(0, { shade: false });
+                    obj.parent().remove();
+                    layer.closeAll();
+                });
+        });
+
+        //编辑
+        var fieldObj= null;
+        $("body").on("click",".field-edit", function () {
+            fieldObj = $(this).parent().parent();
+            layer.open({
+                type: 1,
+                title: '修改字段',
+                shadeClose: true,
+                shade: 0.1,
+                area: ['400px', "auto"],
+                content: $("#field-box").html()
+            });
+            var oldname = $(this).parent().siblings(".field-name").find(".name").text();
+            var oldid = $(this).parent().siblings(".field-name").find(".field-id").text();
+            $("#field-name").val(oldname);
+            $("#field-id").val(oldid);
+            $("#field-id").attr("disabled", true);
+            $("#field-type").find("option[value='"+$(this).data("type")+"']").prop("selected",true);
+            $("#field-type").attr("disabled", true);
+            if($(this).parent().siblings(".field-name").find(".field-isnessary").html() != undefined){
+                $("#field-isnessary").prop("checked",true);
+            }
+            $("#op-type").val("edit");
+            $("#submit-field-next").remove();
+        });
+
+        //表单保存--整理表单格式
+        $("body").on("click", "#submit-form", function () {
+            var data = [];
+            var error = false;
+            var msg = "";
+            $("#item-list .form-group").each(function () { //字段列表
+                var itemObj = $(this);
+                var name = itemObj.find(".field-name .name").text();
+                var id = itemObj.find(".field-name .field-id").text();
+                var isnessary = itemObj.find(".field-name .field-isnessary").html()==undefined ? 0:1;
+                var type = itemObj.data("type");
+                var item = [];
+                switch (type){
+                    case "radio"://处理单选选项
+                        itemObj.find(".radio-list .form-inline").each(function () { //选项列表
+                            var itemVal = $(this).find("span").text();
+                            item.push(itemVal);
+                        });
+                        if($.isEmptyObject(item)){
+                            error = true;
+                            msg = "单选选项不能是空的";
+                            return;
+                        }
+                        break;
+                    case "checkbox":
+                        itemObj.find(".checkbox-list .form-inline").each(function () { //选项列表
+                            var itemVal = $(this).find("span").text();
+                            item.push(itemVal);
+                        });
+                        if($.isEmptyObject(item)){
+                            error = true;
+                            msg = "多选选选项不能是空的";
+                            return;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                var dataItem = {
+                    "id":id,
+                    "name":name,
+                    "isnessary":isnessary,
+                    "type":type,
+                    "item":item
+                };
+                data.push(dataItem);
+            });
+            if(error){
+                layer.msg(msg);
+                return;
+            }
+            var taskName = $("#task-name").val();
+            var isopen = 0;
+            if($("input[name='isopen']").prop("checked") == true){
+                isopen = 1;
+            }
+            var isunique = 0;
+            if($("input[name='isunique']").prop("checked") == true){
+                isunique = 1;
+            }
+            var theme = "";
+            if($("select[name='theme'] option:selected").val().length>2){
+                theme = $("select[name='theme'] option:selected").val();
+            }
+            $.ajax({
+                type:"post",
+                data:{
+                    name:taskName,
+                    isopen:isopen,
+                    isunique:isunique,
+                    theme:theme,
+                    fields:JSON.stringify(data)
+                },
+                dataType:"json",
+                url:"/task/add/submit",
+                success:function (data) {
+                    if(data.code > 0){
+                        layer.alert(data.msg,{icon:1},function () {
+                            location.href="/task/list";
+                        });
+                    }else{
+                        layer.msg(data.msg);
+                    }
+                }
+            });
+        });
+    });
+</script>
+<script type="text/javascript" th:src="@{~/js/task.js}"></script>
+<script type="text/javascript" th:src="@{~/js/jquery-ui.min.js}"></script>
+<template th:replace="admin/_template">
+    Your Own Templates
+</template>
+</body>
+</html>

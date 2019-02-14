@@ -81,7 +81,6 @@ public class LoginController {
         responseOutputStream.close();
     }
 
-
     @RequestMapping("/logout")
     public String logout(HttpSession session){
         session.removeAttribute("ADMIN_SESSION");

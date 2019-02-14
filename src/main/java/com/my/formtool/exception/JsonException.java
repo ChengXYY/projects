@@ -1,6 +1,6 @@
 package com.my.formtool.exception;
 
-import javax.json.JsonObject;
+import com.my.formtool.model.result.ErrorCodes;
 
 public class JsonException extends BaseException {
 

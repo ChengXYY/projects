@@ -22,6 +22,8 @@ spring:
 mybatis:
   mapper-locations: classpath:mapping/*.xml
   type-aliases-package: com.my.formtool.model
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 #pagehelper分页插件
 pagehelper:
@@ -32,4 +34,7 @@ pagehelper:
 
 debug: false
 
+#自定义变量
+formtool:
+  weburl: http://localhost:8080/form/
 

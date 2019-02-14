@@ -1,0 +1,243 @@
+.splash-container .form-group{
+    padding: 1em;
+    border-bottom: 1px #ddd dashed;
+    nargin:0;
+}
+
+.form-group>label{
+    padding-bottom: 1rem;
+}
+.panel-default{
+    border:0.2em #fff dashed;
+    border-radius: 5px;
+    background: none;
+    margin-bottom: 2em;
+}
+.user-message h3{
+    font-weight: bold;
+    margin-bottom: 1.5em;
+}
+
+.right{
+    text-align: right;
+}
+
+.center{
+    text-align: center;
+}
+
+.btn-outline {
+    color: inherit;
+    background-color: transparent;
+    transition: all .5s;
+}
+
+
+.my-form{
+    font-weight: bold;
+}
+.formid{
+    float: right;
+    border-radius: 0px 30px;
+    color: #fff;
+    padding: 6px 10px;
+    font-weight: bold;
+    margin-top: -17em;
+    display: none;
+}
+
+.user-forms:hover{
+    cursor: pointer;
+    box-shadow: 0px 0px 10px 3px #FFF;
+}
+
+/*
+    public
+*/
+html {
+    font-size: 13px;
+    height: 100%;
+    font-family: sans-serif;
+    line-height: 1.15;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    -ms-overflow-style: scrollbar;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    margin: 0;
+    font-family: Microsoft Yahei, "微软雅黑", Arial;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.538;
+    color: #545454;
+    text-align: left;
+    background-color: #fefefe;
+}
+
+@font-face {
+    font-family: 'Stroke 7';
+    src: url('fonts/fontawesome-webfont.eot?v=4.7.0');
+    src: url('fonts/fontawesome-webfont.eot?#iefix&v=4.7.0') format('embedded-opentype'), url('fonts/fontawesome-webfont.woff2?v=4.7.0') format('woff2'), url('fonts/fontawesome-webfont.woff?v=4.7.0') format('woff'), url('fonts/fontawesome-webfont.ttf?v=4.7.0') format('truetype'), url('fonts/fontawesome-webfont.svg?v=4.7.0#fontawesomeregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.mai-splash-screen .main-content {
+    max-width: 100%;
+    width: 100%;
+}
+
+.mai-splash-screen .main-content {
+    max-width: 100%;
+    width: 100%;
+}
+
+.mai-splash-screen .main-content {
+    max-width: 100%;
+    width: 100%
+}
+
+.mai-login .main-content {
+    padding: 0
+}
+
+.mai-login ::-webkit-input-placeholder {
+    color: rgba(255, 255, 255, 0.4)
+}
+
+.mai-login :-moz-placeholder {
+    color: rgba(255, 255, 255, 0.4);
+    opacity: 1
+}
+
+.mai-login :-ms-input-placeholder {
+    color: rgba(255, 255, 255, 0.4)
+}
+
+.row{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.splash-container {
+    padding-top: 55px;
+    width: 90%;
+    margin: 0 auto;
+    padding-bottom: 55px;
+}
+
+
+.splash-container .form-message .out-links a {
+    text-align: center;
+    display: block;
+    margin-top: 3rem;
+    color: #ababab
+}
+
+.splash-container .form-message .out-links a:hover {
+    color: #fff
+}
+
+
+.splash-container .logo-img {
+    margin: 0 auto;
+    display: block
+}
+
+.mb-5, .my-5 {
+    margin-bottom: 3rem !important;
+}
+
+.mb-4, .my-4 {
+    margin-bottom: 1.5rem !important;
+}
+.mt-3, .my-3 {
+    margin-top: 1rem !important;
+}
+.mt-2, .my-2 {
+    margin-top: .5rem !important;
+}
+
+.form-control {
+    display: block;
+    width: 100%;
+    height: 3.23077rem;
+    font-size: 1.077rem;
+    padding: .923077rem 1.307rem;
+    line-height: 1;
+    color: #878787;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 2px solid #ebebeb;
+    border-radius: 0;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.custom-control {
+    position: relative;
+    padding-left: 2.23077rem;
+    min-height: 1.69231rem;
+    min-width: 1.69231rem;
+    margin-bottom: .923rem;
+    margin-right: 2em;
+}
+
+.custom-control-inline {
+    display: inline-flex;
+    margin-right: 1rem
+}
+
+.custom-control-input {
+    position: absolute;
+    z-index: -1;
+    opacity: 0
+}
+
+
+.custom-control-label {
+    position: relative;
+    margin-bottom: 0
+}
+
+.custom-control-label::before {
+    position: absolute;
+    top: -.077155rem;
+    left: -2.23077rem;
+    display: block;
+    width: 1.69231rem;
+    height: 1.69231rem;
+    pointer-events: none;
+    content: "";
+    user-select: none;
+    background-color: #fff
+}
+
+.custom-control-label::after {
+    position: absolute;
+    top: -.077155rem;
+    left: -2.23077rem;
+    display: block;
+    width: 1.69231rem;
+    height: 1.69231rem;
+    content: "";
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 50% 50%
+}
+
+.custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
+    background-color: #fff
+}
+
+.custom-checkbox .custom-control-input:checked ~ .custom-control-label::after {
+    background-image: none;
+}
+
+.form-close{
+    font-size: 2em;
+    float: right;
+    margin-right: -1em;
+    margin-top: -1.4em;
+}

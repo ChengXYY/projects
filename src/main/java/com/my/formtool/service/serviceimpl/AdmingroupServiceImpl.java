@@ -1,7 +1,7 @@
 package com.my.formtool.service.serviceimpl;
 
 import com.my.formtool.common.CommonOperation;
-import com.my.formtool.exception.ErrorCodes;
+import com.my.formtool.model.result.ErrorCodes;
 import com.my.formtool.exception.JsonException;
 import com.my.formtool.mapper.AdmingroupMapper;
 import com.my.formtool.model.Admingroup;

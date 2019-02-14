@@ -1,5 +1,7 @@
 package com.my.formtool.exception;
 
+import com.my.formtool.model.result.ErrorCodes;
+
 public class ThirdPartyException extends BaseException {
 
     private ThirdPartyException(ErrorCodes code) {

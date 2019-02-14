@@ -2,18 +2,20 @@ package com.my.formtool.mapper;
 
 import com.my.formtool.model.Task;
 
+import java.util.List;
+import java.util.Map;
+
 public interface TaskMapper {
     int deleteByPrimaryKey(Integer id);
-
-    int insert(Task record);
 
     int insertSelective(Task record);
 
     Task selectByPrimaryKey(Integer id);
 
-    int updateByPrimaryKeySelective(Task record);
+    int updateByPrimaryKeySelective(Map<String, Object> record);
 
-    int updateByPrimaryKeyWithBLOBs(Task record);
+    List<Task> selectByFilter(Map<String, Object> filter);
 
-    int updateByPrimaryKey(Task record);
+    int countByFilter(Map<String, Object> filter);
+
 }

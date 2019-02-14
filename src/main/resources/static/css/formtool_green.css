@@ -1,0 +1,213 @@
+
+.splash-container .user-message {
+    display: flex;
+    flex-direction: column;
+    background-color: #2cc185;
+    color: #fff;
+    padding: 155px 30px 40px
+}
+
+.splash-container .form-message {
+    display: flex;
+    flex-direction: column;
+    padding: 60px 30px 40px;
+    background-color: #d1faea9e;
+    color: #000
+}
+
+.splash-container .splash-description {
+    color: #000;
+    font-size: 1.53846rem;
+    font-weight: 300;
+    display: block;
+    margin: 0 auto
+}
+
+.splash-container .input-group {
+    border-bottom: 2px solid #3f3f3f;
+    padding: 6px 0
+}
+
+.splash-container .input-group .input-group-prepend {
+    padding: .6rem .9rem;
+    min-width: 3.847rem;
+    font-size: 1.230rem;
+    margin-right: 0
+}
+
+.splash-container .input-group .input-group-prepend .icon {
+    font-size: 20px;
+    color: #2cc185;
+    padding-top: 1px
+}
+
+.splash-container .input-group .form-control {
+    border: 0;
+    background-color: transparent;
+    box-shadow: none;
+    color: #989898;
+    padding: 0;
+    font-size: 14px;
+    font-weight: 500;
+    height: 36px
+}
+
+
+.custom-control {
+    min-height: 1.69231rem;
+    min-width: 1.69231rem;
+    margin-bottom: .923rem
+}
+
+.custom-control .custom-control-label {
+    position: unset
+}
+
+.custom-control .custom-control-label:after, .custom-control .custom-control-label:before {
+    left: 0
+}
+
+.custom-control-input .custom-control-label {
+    line-height: 1.6
+}
+
+.custom-control-input:checked ~ .custom-control-label::after {
+    color: #2cc185
+}
+
+.custom-control-input:checked ~ .custom-control-label::before {
+    border-color: #2cc185
+}
+
+.custom-control-input:checked ~ .custom-control-color::after {
+    background-color: #2cc185;
+    color: #fff
+}
+
+.custom-radio .custom-control-label::before {
+    border-radius: 50%
+}
+
+.custom-radio .custom-control-input:checked ~ .custom-control-label::before {
+    background-color: #fff
+}
+
+.custom-radio .custom-control-input:checked ~ .custom-control-label::after {
+    background-image: none
+}
+
+.custom-radio .custom-control-input:disabled:checked ~ .custom-control-label::before {
+    background-color: rgba(44, 193, 133, 0.5)
+}
+
+.custom-radio .custom-control-input:checked ~ .custom-control-color::after {
+    border-radius: 50%
+}
+
+.custom-checkbox .custom-control-label::before {
+    border: 2px solid #ebebeb;
+    content: ""
+}
+
+.custom-checkbox .custom-control-input:checked ~ .custom-control-label::after {
+    content: "\f00c";
+    font-family: "Stroke 7";
+    font-size: 20px;
+    font-weight: normal;
+    text-align: center;
+    line-height: 1.1
+}
+
+.custom-radio .custom-control-label::before {
+    border: 2px solid #ebebeb;
+    content: ""
+}
+
+.custom-radio .custom-control-input:checked ~ .custom-control-label::after {
+    content: "\f111";
+    font-family: "Stroke 7";
+    font-size: 14px;
+    font-weight: normal;
+    text-align: center;
+    line-height: 1.6
+}
+
+.custom-radio-icon {
+    margin: 0;
+    padding: 0;
+    width: 52px;
+    height: 52px
+}
+
+.custom-radio-icon .custom-control-label::after, .custom-radio-icon .custom-control-label::before {
+    display: none
+}
+
+.custom-radio-icon .custom-control-label {
+    cursor: pointer;
+    width: 52px;
+    height: 52px;
+    line-height: 1;
+    border: 2px solid #d5d8de;
+    border-radius: 50%;
+    font-size: 2.847rem;
+    color: #bdbdbd;
+    background-color: #fff;
+    text-align: center
+}
+
+.custom-radio-icon .custom-control-label:hover {
+    border-color: #b8bdc8
+}
+
+.custom-radio-icon .custom-control-label i {
+    vertical-align: middle
+}
+
+.custom-radio-icon input[type="radio"]:checked + .custom-control-label {
+    border-color: #2cc185;
+    color: #2cc185;
+    background-color: #fff
+}
+
+.custom-radio-icon input[type="radio"]:checked + .custom-control-label i {
+    color: #2cc185
+}
+
+.custom-radio-icon input[type="radio"]:focus + .custom-control-label {
+    box-shadow: none
+}
+
+.custom-radio-icon.custom-control-inline + .custom-radio-icon.custom-control-inline {
+    margin-left: 18px
+}
+
+
+.formid{
+    border: 1px #2cc185 solid;
+    background-color: #2cc185;
+}
+
+.btn-submit {
+    color: #fff;
+    background-color: #2cc185;
+    border-color: #2cc185
+}
+
+.btn-submit:hover {
+    color: #fff;
+    background-color: rgba(54, 203, 143, 0.47);
+    border-color: #36cb8f
+}
+
+
+.btn-save{
+    border-color: #2cc185;
+    color: #2cc185;
+    background: none;
+}
+.btn-save:hover {
+    color: #fff;
+    background-color: rgba(54, 203, 143, 0.47);
+    border-color: rgba(54, 203, 143, 0.47);
+}

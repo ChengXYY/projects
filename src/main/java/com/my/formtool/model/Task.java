@@ -1,25 +1,38 @@
 package com.my.formtool.model;
 
-import java.util.Date;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+
+import java.sql.Timestamp;
+import java.util.List;
+import java.util.Map;
 
 public class Task {
     private Integer id;
 
     private String name;
 
-    private Boolean isopen;
+    private Boolean isopen = false;
 
-    private Boolean isunique;
+    private Boolean isunique = false;
 
-    private Date addtime;
+    private Timestamp addtime = new Timestamp(System.currentTimeMillis());;
 
     private Integer author;
 
-    private Boolean status;
+    private Integer status = 1;
 
     private String theme;
 
-    private String fields;
+    private String fields = null;
+
+    private  Integer fieldCount = 0;
+
+    private JSONArray fieldList = null;
+
+    private Integer formCount = 0;
+
+    private  Integer userCount = 0;
 
     public Integer getId() {
         return id;
@@ -53,11 +66,11 @@ public class Task {
         this.isunique = isunique;
     }
 
-    public Date getAddtime() {
+    public Timestamp getAddtime() {
         return addtime;
     }
 
-    public void setAddtime(Date addtime) {
+    public void setAddtime(Timestamp addtime) {
         this.addtime = addtime;
     }
 
@@ -69,11 +82,11 @@ public class Task {
         this.author = author;
     }
 
-    public Boolean getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(Boolean status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
@@ -91,5 +104,35 @@ public class Task {
 
     public void setFields(String fields) {
         this.fields = fields == null ? null : fields.trim();
+    }
+
+    public Integer getFieldCount(){return fieldCount;}
+
+    public void setFieldCount(Integer fieldCount) {
+        this.fieldCount = fieldCount;
+    }
+
+    public JSONArray getFieldList() {
+        return fieldList;
+    }
+
+    public void setFieldList(JSONArray fieldList) {
+        this.fieldList = fieldList;
+    }
+
+    public void setFormCount(Integer formCount) {
+        this.formCount = formCount;
+    }
+
+    public Integer getFormCount() {
+        return formCount;
+    }
+
+    public void setUserCount(Integer userCount) {
+        this.userCount = userCount;
+    }
+
+    public Integer getUserCount() {
+        return userCount;
     }
 }
