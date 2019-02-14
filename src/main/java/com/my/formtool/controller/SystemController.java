@@ -5,9 +5,11 @@ import com.my.formtool.aop.Permission;
 import com.my.formtool.exception.JsonException;
 import com.my.formtool.model.Admin;
 import com.my.formtool.model.Admingroup;
+import com.my.formtool.model.Adminlog;
 import com.my.formtool.model.result.AuthCode;
 import com.my.formtool.service.AdminService;
 import com.my.formtool.service.AdmingroupService;
+import com.my.formtool.service.AdminlogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -26,7 +28,8 @@ public class SystemController {
     private AdminService adminService;
     @Autowired
     private AdmingroupService admingroupService;
-
+    @Autowired
+    private AdminlogService adminlogService;
 
     @RequestMapping("/admin/list")
     public String adminList(@RequestParam(value = "page", required = false, defaultValue = "0")String page,
@@ -237,4 +240,23 @@ public class SystemController {
         }
     }
 
+    //log list
+    @RequestMapping(value = "/adminlog/list", method = RequestMethod.GET)
+    public String adminlogList(@RequestParam(value = "content", required = false)String content, ModelMap model){
+        Map<String, Object>filter = new HashMap<>();
+        filter.put("order", "id desc");
+        if(content!=null && !content.isEmpty()){
+            filter.put("content",content);
+        }else{
+            content = "";
+        }
+        List<Adminlog> list = adminlogService.getList(filter);
+        model.addAttribute("list", list);
+        model.addAttribute("content", content);
+        model.addAttribute("pageTitle","管理员日志 - 系统设置 - 后台管理系统");
+
+        model.addAttribute("TopMenuFlag", "system");
+        model.addAttribute("LeftMenuFlag", "adminlog");
+        return "/admin/adminlog_list";
+    }
 }

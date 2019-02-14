@@ -1,11 +1,14 @@
 package com.my.formtool.aop;
 
+import com.my.formtool.common.CommonOperation;
 import com.my.formtool.model.Admin;
 import com.my.formtool.service.AdminService;
 import com.my.formtool.service.AdminlogService;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -18,6 +21,7 @@ import java.util.HashMap;
 @Aspect
 @Component
 public class AdminLog {
+
     @Pointcut("within(com.my.formtool.controller.LoginController)")
     public void loginLog(){}
 
@@ -30,16 +34,20 @@ public class AdminLog {
 
     @Around("loginLog()")
     public Object addloginlog(ProceedingJoinPoint joinPoint)throws Throwable{
+        Object result = joinPoint.proceed();
         //获取访问信息
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
         HttpSession session = ((HttpServletRequest) request).getSession();
+        if(session.getAttribute("ADMIN_ACCOUNT")==null){
+            return result;
+        }
         //获取访问目标方法
         MethodSignature signature = (MethodSignature)joinPoint.getSignature();
         String methodName = signature.getName();
         switch (methodName){
             case "login": //登录
-                adminlogService.add(request.getParameter("account"), "管理员登录");
+                adminlogService.add(session.getAttribute("ADMIN_ACCOUNT").toString(), "管理员登录");
                 break;
             case "logout": //登出
                 if(session.getAttribute("ADMIN_ACCOUNT")!=null)
@@ -48,11 +56,13 @@ public class AdminLog {
             default:
                 break;
         }
-        return joinPoint.proceed();
+        return result;
     }
 
     @Around("operationLog()")
     public Object addoplog(ProceedingJoinPoint joinPoint)throws Throwable{
+        Object result = joinPoint.proceed();
+
         //获取访问信息
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
@@ -63,6 +73,10 @@ public class AdminLog {
         String className = joinPoint.getTarget().getClass().getName().replace("ServiceImpl", "");
         className = className.replace("com.my.formtool.service.serviceimpl.","");
         String param = "";
+        String checkMethodStr = "add,edit,remove";
+        if(checkMethodStr.contains(methodName) && (result==null || !CommonOperation.checkId(Integer.parseInt(result.toString())))){
+            return result;
+        }
         switch (methodName){
             case "add":
                 if(className.equals("Admin")){
@@ -81,20 +95,6 @@ public class AdminLog {
                 adminlogService.add(session.getAttribute("ADMIN_ACCOUNT").toString(), "删除【"+className+"】记录("+param+")");
                 break;
         }
-        return joinPoint.proceed();
+        return result;
     }
-
-    private static HashMap<String, Class> map = new HashMap<String, Class>() {
-        {
-            put("java.lang.Integer", int.class);
-            put("java.lang.Double", double.class);
-            put("java.lang.Float", float.class);
-            put("java.lang.Long", long.class);
-            put("java.lang.Short", short.class);
-            put("java.lang.Boolean", boolean.class);
-            put("java.lang.Char", char.class);
-            put("com.my.formtool.model.Admin", Admin.class);
-        }
-    };
-
 }
