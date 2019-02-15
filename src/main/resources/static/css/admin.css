@@ -272,3 +272,7 @@ table td a:hover{
     border-radius: 5px;
     color: #fff;
 }
+
+.pagination{
+    margin: 0px;
+}

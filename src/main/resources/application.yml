@@ -20,21 +20,23 @@ spring:
     enabled: true
 
 mybatis:
-  mapper-locations: classpath:mapping/*.xml
+  mapper-locations: classpath:com/my/**/mapper/*.xml
   type-aliases-package: com.my.formtool.model
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 #pagehelper分页插件
-pagehelper:
-    helperDialect: mysql
-    reasonable: true
-    supportMethodsArguments: true
-    params: count=countSql
+#pagehelper:
+#    helperDialect: mysql
+#    reasonable: true
+#    supportMethodsArguments: true
+#    params: count=countSql
 
 debug: false
 
 #自定义变量
 formtool:
   weburl: http://localhost:8080/form/
+list:
+  pagesize: 15
 
