@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,31 +31,57 @@ public class TaskController {
     @Value("${formtool.weburl}")
     private String formWebUrl;
 
+    @Value("${list.pagesize}")
+    private Integer pageSize;
+
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String taskList(@RequestParam(value = "page", required = false)Integer page,
                            @RequestParam(value = "keyword" ,required = false)String keyword,
-                           @RequestParam(value = "isopen", required = false)Integer isopen, ModelMap model){
-        logger.info(keyword);
-        Map<String, Object> filter = new HashMap<String, Object>();
-        filter.put("order", "id desc");
-       if(keyword!=null && !keyword.isEmpty()){
-           filter.put("name", keyword);
-       }
-       if(isopen!=null && (isopen == 0 || isopen == 1)){
-           filter.put("isopen", isopen);
-       }
-        List<Task> taskList = taskService.getList(filter);
-        Integer taskCount = taskService.getCount(filter);
+                           @RequestParam(value = "isopen", required = false)Integer isopen,
+                           HttpServletRequest request, ModelMap model){
+        try{
+            Map<String, Object> filter = new HashMap<String, Object>();
+            filter.put("order", "id desc");
+            String currentUrl = request.getRequestURI();
+            if(keyword!=null && !keyword.isEmpty()){
+                filter.put("name", keyword);
+                currentUrl += "?keyword="+keyword;
+            }
+            if(isopen!=null && (isopen == 0 || isopen == 1)){
+                filter.put("isopen", isopen);
+                currentUrl += (currentUrl.contains("?")?"&":"?")+"isopen"+isopen;
+            }
+            if(page == null || page<1){
+                page = 1;
+            }
+            int totalCount = taskService.getCount(filter);
+            int pageCount = (int)Math.ceil(totalCount/pageSize);
+            if(pageCount <1){
+                pageCount = 1;
+            }
 
-        model.addAttribute("list", taskList);
-        model.addAttribute("taskCount", taskCount);
-        model.addAttribute("name",keyword);
-        model.addAttribute("isopen", isopen);
-        model.addAttribute("FORM_WEB", formWebUrl);
-        model.addAttribute("pageTitle","表单任务列表 - 表单提交平台 - 后台管理系统");
+            filter.put("page", (page-1)*pageSize);
+            filter.put("pagesize", pageSize);
 
-        model.addAttribute("TopMenuFlag", "formtool");
-        return "admin/task_list";
+            List<Task> taskList = taskService.getList(filter);
+
+            model.addAttribute("list", taskList);
+            model.addAttribute("name",keyword);
+            model.addAttribute("isopen", isopen);
+            model.addAttribute("FORM_WEB", formWebUrl);
+
+            model.addAttribute("currentPage", page);
+            model.addAttribute("pageCount", pageCount);
+            model.addAttribute("totalCount", totalCount);
+            model.addAttribute("currentUrl", currentUrl);
+            model.addAttribute("pageTitle","表单任务列表 - 表单提交平台 - 后台管理系统");
+
+            model.addAttribute("TopMenuFlag", "formtool");
+            return "formtool/task_list";
+        }catch (JSONException e){
+            model.addAttribute("error", e);
+            return "error/500";
+        }
     }
 
     @RequestMapping("/add")
@@ -62,7 +89,7 @@ public class TaskController {
         model.addAttribute("pageTitle","添加表单任务 - 表单提交平台 - 后台管理系统");
 
         model.addAttribute("TopMenuFlag", "formtool");
-        return "admin/task_add";
+        return "formtool/task_add";
     }
 
     @ResponseBody
@@ -88,9 +115,9 @@ public class TaskController {
             model.addAttribute("task", task);
             model.addAttribute("TopMenuFlag", "formtool");
             model.addAttribute("pageTitle","编辑表单任务 - 表单提交平台 - 后台管理系统");
-            return "/admin/task_edit";
+            return "formtool/task_edit";
         }catch (JSONException e){
-            model.addAttribute("pageTitle","404 Error");
+            model.addAttribute("error", e);
             return "error/404";
         }
     }

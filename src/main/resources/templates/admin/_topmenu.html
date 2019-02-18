@@ -1,6 +1,6 @@
 <ul th:fragment="topmenu" class="nav nav-tabs topmenu">
     <li th:if="${#strings.contains(session.ADMIN_AUTH+'','1002')}" th:class="${TopMenuFlag=='index'?'active':''}" ><a href="/admin/index">首页</a></li>
-
     <li th:if="${#strings.contains(session.ADMIN_AUTH+'','1003')}" th:class="${TopMenuFlag=='formtool'?'active':''}"><a href="/task/list">表单提交平台</a></li>
+    <li th:if="${#strings.contains(session.ADMIN_AUTH+'','1004')}" th:class="${TopMenuFlag=='sitepage'?'active':''}"><a href="/sitepage/list">网页生成平台</a></li>
     <li th:if="${#strings.contains(session.ADMIN_AUTH+'','1001')}" th:class="${TopMenuFlag=='system'?'active':''}"><a href="/system/admin/list">系统设置</a></li>
 </ul>

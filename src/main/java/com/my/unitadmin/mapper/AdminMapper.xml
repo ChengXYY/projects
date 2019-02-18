@@ -54,13 +54,13 @@
       <if test="groupid!=null">
         and groupid = #{groupid}
       </if>
-      <if test="order!=null">
-        order by #{order} asc
-      </if>
-      <if test="page !=null and pagesize !=null">
-        limit #{page}, #{pagesize}
-      </if>
     </where>
+    <if test="order!=null">
+      order by ${order}
+    </if>
+    <if test="page !=null and pagesize !=null">
+      limit #{page}, #{pagesize}
+    </if>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from admin
@@ -170,23 +170,7 @@
       <if test="logincount != null" >
         logincount = #{logincount,jdbcType=INTEGER},
       </if>
-      <if test="addtime != null" >
-        addtime = #{addtime,jdbcType=TIMESTAMP},
-      </if>
     </set>
     where id = #{id}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="map" >
-    update admin
-    set name = #{name,jdbcType=VARCHAR},
-      account = #{account,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
-      salt = #{salt,jdbcType=VARCHAR},
-      groupid = #{groupid,jdbcType=INTEGER},
-      lastloginip = #{lastloginip,jdbcType=VARCHAR},
-      lastlogintime = #{lastlogintime,jdbcType=TIMESTAMP},
-      logincount = #{logincount,jdbcType=INTEGER},
-      addtime = #{addtime,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

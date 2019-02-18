@@ -20,12 +20,10 @@
                 <option value="0" th:selected="${isopen == 0}">仅关闭的任务</option>
             </select>
             <input class="form-control" placeholder="请输入关键词" type="text" name="keyword" th:value="${name}"/>
-            <button type="submit" class="btn btn-warning btn-outline"><i class="fa fa-search"></i></button>
+            <button type="submit" class="btn btn-warning"><i class="fa fa-search"></i></button>
         </form>
     </div>
-    <h5 class="text-warning right">共 <span th:text="${taskCount}"></span> 个任务</h5>
-    <div class="form-horizontal"style="margin-bottom: 50px">
-
+    <div class="form-horizontal"style="margin-bottom: 60px">
         <div class="form-group" th:if="${list != null}" th:each="task:${list}">
             <div class="panel panel-primary">
                 <div class="panel-body">
@@ -51,7 +49,7 @@
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <div class="panel panel-success" th:if="${task.isopen}">
+                        <div class="panel panel-success" th:if="${task.isopen==false}">
                             <div class="panel-body">
                                 <h4 class="center text-success invited"  th:attr="data-id=${task.id}" th:text="${task.userCount}">UserCount</h4>
                                 <h5 class="center text-success">已邀请人数</h5>
@@ -68,6 +66,8 @@
                 </div>
             </div>
         </div>
+
+        <page th:replace="admin/_page"></page>
     </div>
 </div>
 
@@ -163,11 +163,11 @@
         });
         $(".invited").click(function(){
             var id = $(this).data("id");
-            location.href = "/task/user/"+id;
+            location.href = "#";
         });
         $(".submited").click(function(){
             var id = $(this).data("id");
-            location.href = "/task/formsubmit/"+id;
+            location.href = "/form/list/"+id;
         });
         $("#add-project").click(function () {
             location.href="/task/add"

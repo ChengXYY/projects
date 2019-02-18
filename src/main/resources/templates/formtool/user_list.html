@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="_include"></head>
+<body>
+<header th:replace="admin/_header">
+    Your Company Name.
+</header>
+<div th:replace="admin/_topmenu"></div>
+<div class="container fluid">
+    <div class="col-md-12">
+        <h3 class="text-primary center" th:text="${task.name}"></h3>
+        <div class="toolbar">
+            <div class="col-md-6">            </div>
+            <div class="col-md-6 right form-inline">
+                <button type="button" class="btn btn-warning"><i class="fa fa-download"></i> 表单导出</button>
+                <button class="btn btn-default" type="button" onclick="javascript:history.back()">返回</button>
+            </div>
+        </div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>用户账号</th>
+                <th>已提交表单</th>
+                <th>未提交表单</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="form:${list}">
+                <td th:text="${form.user==null?'游客':form.user}">admin</td>
+                <td th:text="${#dates.format(form.addtime,'yyyy-MM-dd HH:mm:ss')}">addtime</td>
+                <td th:attr="data-id='${form-id}'" class="center">
+                    <a class="btn btn-outline btn-primary"><i class="fa fa-file-text-o"></i></a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <page th:replace="admin/_page"></page>
+    </div>
+</div>
+<footer th:replace="admin/_footer">
+    Your Company Name.
+</footer>
+</body>
+</html>

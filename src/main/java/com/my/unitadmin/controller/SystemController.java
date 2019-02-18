@@ -40,20 +40,16 @@ public class SystemController {
     private Integer pageSize;
 
     @RequestMapping("/admin/list")
-    public String adminList(@RequestParam(value = "page", required = false, defaultValue = "0")String page,
-                            ModelMap model){
+    public String adminList(ModelMap model){
         Map<String, Object>filter = new HashMap<String, Object>();
 
-        int pageint = Integer.parseInt(page);
-        int pagesizeint = 15;
-        if(pageint>0){
-            pageint = (pageint-1)*pagesizeint;
-            filter.put("page",pageint);
-            filter.put("pagesize",pagesizeint);
-        }
+        filter.put("order", "id asc");
         List<Admin> list = adminService.getList(filter);
 
+        int totalCount = list.size();
         model.addAttribute("list", list);
+
+        model.addAttribute("totalCount", totalCount);
         model.addAttribute("pageTitle","管理员列表 - 系统设置 - 后台管理系统");
 
         model.addAttribute("TopMenuFlag", "system");
@@ -156,8 +152,11 @@ public class SystemController {
     public String admingroupList(ModelMap model){
         List<Admingroup> list = admingroupService.getListAll();
         model.addAttribute("list", list);
+
+        int totalCount = list.size();
         model.addAttribute("pageTitle","管理员列表 - 系统设置 - 后台管理系统");
 
+        model.addAttribute("totalCount", totalCount);
         model.addAttribute("TopMenuFlag", "system");
         model.addAttribute("LeftMenuFlag", "admingroup");
         return "admin/admingroup_list";
@@ -268,6 +267,9 @@ public class SystemController {
         }
         int totalCount = adminlogService.getCount(filter);
         int pageCount = (int)Math.ceil(totalCount/pageSize);
+        if(pageCount <1){
+            pageCount = 1;
+        }
 
         filter.put("page", (page-1)*pageSize);
         filter.put("pagesize", pageSize);
@@ -284,6 +286,6 @@ public class SystemController {
         model.addAttribute("pageTitle","管理员日志 - 系统设置 - 后台管理系统");
         model.addAttribute("TopMenuFlag", "system");
         model.addAttribute("LeftMenuFlag", "adminlog");
-        return "/admin/adminlog_list";
+        return "admin/adminlog_list";
     }
 }

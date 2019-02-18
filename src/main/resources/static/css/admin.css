@@ -272,7 +272,54 @@ table td a:hover{
     border-radius: 5px;
     color: #fff;
 }
-
 .pagination{
     margin: 0px;
+}
+
+/* Dragable */
+
+.frame{
+    border: 2px #90d3ff dashed;
+    border-radius: 3px;
+    float: left;
+    height: 3rem;
+    margin-right: 8px;
+    background-color: white;
+}
+.frame-12{
+    width: 4rem;
+}
+.frame-6{
+    width: 4rem;
+}
+.frame-6>div{
+    height: 2.8rem;
+    width: 2rem;
+    border-right: 2px #90d3ff dashed;
+}
+.frame-4{
+    width: 4.5rem;
+}
+.frame-4>div{
+    height: 2.8rem;
+    width: 1.5rem;
+    margin-left: 1.5rem;
+    border-left: 2px #90d3ff dashed;
+    border-right: 2px #90d3ff dashed;
+}
+.frame-3{
+    width: 4rem;
+}
+.frame-3>div:first-child{
+    height: 2.8rem;
+    width: 2rem;
+    border-right: 2px #90d3ff dashed;
+}
+.frame-3>div:last-child{
+    height: 2.8rem;
+    width: 2rem;
+    margin-left: 0.9rem;
+    margin-top: -2.8rem;
+    border-left: 2px #90d3ff dashed;
+    border-right: 2px #90d3ff dashed;
 }

@@ -53,11 +53,13 @@ public class FormServiceImpl implements FormService {
 
     @Override
     public List<Form> getList(Map<String, Object> filter) {
+        if(filter.get("taskid")==null || !CommonOperation.checkId(Integer.parseInt(filter.get("taskid").toString()))) throw JsonException.newInstance(ErrorCodes.ID_NOT_ILLEGAL);
         return formMapper.selectByFilter(filter);
     }
 
     @Override
     public Integer getCount(Map<String, Object> filter) {
+        if(filter.get("taskid")==null || !CommonOperation.checkId(Integer.parseInt(filter.get("taskid").toString()))) throw JsonException.newInstance(ErrorCodes.ID_NOT_ILLEGAL);
         return formMapper.countByFilter(filter);
     }
 }

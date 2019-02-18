@@ -37,6 +37,8 @@ debug: false
 #自定义变量
 formtool:
   weburl: http://localhost:8080/form/
+sitepage:
+  weburl: http://localhost:8080/sitepage/
 list:
   pagesize: 15
 

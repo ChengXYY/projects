@@ -9,8 +9,6 @@
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="addtime" jdbcType="TIMESTAMP" property="addtime" />
     <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
-  </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.my.formtool.model.Form">
     <result column="form" jdbcType="LONGVARCHAR" property="form" />
   </resultMap>
   <sql id="Base_Column_List">
@@ -19,11 +17,10 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultType="map">
     select 
     <include refid="Base_Column_List" />
-
     from form
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <select id="selectByFilter" parameterType="map" resultType="map">
+  <select id="selectByFilter" parameterType="map" resultMap="BaseResultMap">
     select <include refid="Base_Column_List" />
     from form
     <where>
@@ -141,37 +138,10 @@
       <if test="status != null">
         status = #{status,jdbcType=INTEGER},
       </if>
-      <if test="addtime != null">
-        addtime = #{addtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updatetime != null">
-        updatetime = #{updatetime,jdbcType=TIMESTAMP},
-      </if>
       <if test="form != null">
         form = #{form,jdbcType=LONGVARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.my.formtool.model.Form">
-    update form
-    set taskid = #{taskid,jdbcType=INTEGER},
-      user = #{user,jdbcType=VARCHAR},
-      username = #{username,jdbcType=VARCHAR},
-      status = #{status,jdbcType=INTEGER},
-      addtime = #{addtime,jdbcType=TIMESTAMP},
-      updatetime = #{updatetime,jdbcType=TIMESTAMP},
-      form = #{form,jdbcType=LONGVARCHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.my.formtool.model.Form">
-    update form
-    set taskid = #{taskid,jdbcType=INTEGER},
-      user = #{user,jdbcType=VARCHAR},
-      username = #{username,jdbcType=VARCHAR},
-      status = #{status,jdbcType=INTEGER},
-      addtime = #{addtime,jdbcType=TIMESTAMP},
-      updatetime = #{updatetime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

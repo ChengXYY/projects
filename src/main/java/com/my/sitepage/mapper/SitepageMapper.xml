@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.my.sitepage.mapper.SitepageMapper">
+  <resultMap id="BaseResultMap" type="com.my.sitepage.model.Sitepage">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="author" jdbcType="VARCHAR" property="author" />
+    <result column="addtime" jdbcType="TIMESTAMP" property="addtime" />
+    <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="page" jdbcType="LONGVARCHAR" property="page" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, title, code, author, page, addtime, updatetime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sitepage
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByFilter" parameterType="map"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"></include>
+    from sitepage
+    <where>
+      <if test="title!=null">
+        and title like CONCAT('%',#{title},'%')
+      </if>
+      <if test="code!=null">
+        and code like CONCAT('%',#{code},'%')
+      </if>
+      <if test="author!=null">
+        and author = #{author}
+      </if>
+    </where>
+    <if test="order!=null">
+      order by ${order}
+    </if>
+    <if test="page !=null and pagesize !=null">
+      limit #{page}, #{pagesize}
+    </if>
+  </select>
+
+  <select id="countByFilter" parameterType="map" resultType="java.lang.Integer">
+  select
+  count(id) as ct
+  from sitepage
+    <where>
+      <if test="title!=null">
+        and title like CONCAT('%',#{title},'%')
+      </if>
+      <if test="code!=null">
+        and code like CONCAT('%',#{code},'%')
+      </if>
+      <if test="author!=null">
+        and author = #{author}
+      </if>
+    </where>
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sitepage
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertSelective" parameterType="com.my.sitepage.model.Sitepage">
+    insert into sitepage
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="author != null">
+        author,
+      </if>
+      <if test="addtime != null">
+        addtime,
+      </if>
+      <if test="updatetime != null">
+        updatetime,
+      </if>
+      <if test="page != null">
+        page,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null">
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="addtime != null">
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="page != null">
+        #{page,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="map">
+    update sitepage
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null">
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="page != null">
+        page = #{page,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+</mapper>

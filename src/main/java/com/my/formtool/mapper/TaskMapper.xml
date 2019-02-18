@@ -146,9 +146,6 @@
       <if test="isunique != null">
         isunique = #{isunique,jdbcType=BIT},
       </if>
-      <if test="addtime != null">
-        addtime = #{addtime,jdbcType=TIMESTAMP},
-      </if>
       <if test="author != null">
         author = #{author,jdbcType=INTEGER},
       </if>
