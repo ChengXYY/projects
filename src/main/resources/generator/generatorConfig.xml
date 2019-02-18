@@ -18,21 +18,21 @@
             <property name="forceBigDecimals" value="false"/>
         </javaTypeResolver>
         <!-- 生成模型的包名和位置-->
-        <javaModelGenerator targetPackage="com.my.sitepage.model" targetProject="src/main/java">
+        <javaModelGenerator targetPackage="com.my.filemanager.model" targetProject="src/main/java">
             <property name="enableSubPackages" value="true"/>
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
         <!-- 生成映射文件的包名和位置-->
-        <sqlMapGenerator targetPackage="com.my.sitepage.mapper" targetProject="src/main/java">
+        <sqlMapGenerator targetPackage="com.my.filemanager.mapper" targetProject="src/main/java">
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
         <!-- 生成DAO的包名和位置-->
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.my.sitepage.mapper" targetProject="src/main/java">
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.my.filemanager.mapper" targetProject="src/main/java">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
         <!-- 匹配数据库中的所有表（% 去掉schema="", tableName="user" 即匹配user表）, columnRenamingRule去除字段前缀 -->
-        <table tableName="sitepage"
-               domainObjectName="Sitepage"
+        <table tableName="file"
+               domainObjectName="Filemanager"
                enableCountByExample="false"
                enableUpdateByExample="false"
                enableDeleteByExample="false"

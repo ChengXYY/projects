@@ -32,6 +32,9 @@
                     <a class="btn btn-outline btn-primary"><i class="fa fa-file-text-o"></i></a>
                 </td>
             </tr>
+            <tr th:if="${#lists.isEmpty(list)}">
+                <td colspan="3" class="center">暂无数据</td>
+            </tr>
             </tbody>
         </table>
         <page th:replace="admin/_page"></page>

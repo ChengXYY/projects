@@ -46,6 +46,9 @@
                 </td>
                 <td th:if="${admin.groupid==1}"></td>
             </tr>
+            <tr th:if="${#lists.isEmpty(list)}">
+                <td colspan="4" class="center">暂无数据</td>
+            </tr>
             </tbody>
         </table>
         <page th:replace="admin/_pagecount"></page>

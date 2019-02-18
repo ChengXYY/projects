@@ -32,6 +32,9 @@
                 <td th:text="${log.content}">content</td>
                 <td th:text="${#dates.format(log.addtime,'yyyy-MM-dd HH:mm:ss')}">addtime</td>
             </tr>
+            <tr th:if="${#lists.isEmpty(list)}">
+                <td colspan="3" class="center">暂无数据</td>
+            </tr>
             </tbody>
         </table>
         <page th:replace="admin/_page"></page>

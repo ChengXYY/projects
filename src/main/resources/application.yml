@@ -18,6 +18,9 @@ spring:
     mode: HTML
     cache: false
     enabled: true
+  servlet:
+    multipart:
+      max-file-size: 52428800
 
 mybatis:
   mapper-locations: classpath:com/my/**/mapper/*.xml
@@ -32,7 +35,9 @@ mybatis:
 #    supportMethodsArguments: true
 #    params: count=countSql
 
+#file upload
 debug: false
+
 
 #自定义变量
 formtool:
@@ -41,4 +46,7 @@ sitepage:
   weburl: http://localhost:8080/sitepage/
 list:
   pagesize: 15
+file:
+  save-path: E:/upload
+
 

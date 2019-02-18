@@ -9,7 +9,7 @@ public class Adminlog {
 
     private String content;
 
-    private Timestamp addtime = new Timestamp(System.currentTimeMillis());;
+    private Timestamp addtime = new Timestamp(System.currentTimeMillis());
 
     public Integer getId() {
         return id;

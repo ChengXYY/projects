@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="_include"></head>
+<body>
+<header th:replace="admin/_header">
+    Your Company Name.
+</header>
+<div th:replace="admin/_topmenu"></div>
+<div class="container fluid">
+    <div class="col-md-12">
+        <div class="toolbar">
+            <div class="col-md-6 form-inline">
+                <input type="text" readonly class="form-control" id="file-show"/>
+                <a class="btn btn-success" href="javascript:" id="file-select"><i class="fa fa-folder"></i> 选择文件</a>
+                <a class="btn btn-primary" href="javascript:" id="file-submit"><i class="fa fa-upload"></i> 上传文件</a>
+                <form id="fileForm" enctype="multipart/form-data" style="display: none">
+                    <input type="file" name="fileupload" id="file-upload" />
+                </form>
+            </div>
+            <form class="col-md-6 right form-inline">
+                <input class="form-control" name="name" value="文件名称"/>
+                <button type="submit" class="btn btn-warning"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>文件名</th>
+                <th>文件大小(kb)</th>
+                <th>上传时间</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="file:${list}">
+                <td th:text="${file.name}">name</td>
+                <td th:text="${file.size}">size</td>
+                <td th:text="${#dates.format(file.addtime,'yyyy-MM-dd HH:mm:ss')}">addtime</td>
+                <td th:attr="data-id='${form-id}'" class="center">
+                    <a class="btn btn-outline btn-info download" th:href="@{/file/download/{id}(id=${file.id})}"><i class="fa fa-download"></i> 下载</a>
+                    <a class="btn btn-outline btn-danger delete"><i class="fa fa-trash"></i> 删除</a>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(list)}">
+                <td colspan="4" class="center">暂无数据</td>
+            </tr>
+            </tbody>
+        </table>
+        <page th:replace="admin/_page"></page>
+    </div>
+</div>
+<footer th:replace="admin/_footer">
+    Your Company Name.
+</footer>
+<script>
+    $(function () {
+        $("#file-select").click(function () {
+           $("#file-upload").click();
+        });
+
+        $("body").on("change", "#file-upload", function () {
+            $("#file-show").val($("#file-upload").val());
+        });
+
+        $("#file-submit").click(function () {
+            var index = layer.load(0, {shade: false});
+            $.ajax({
+                type : "post",
+                data : new FormData($("#fileForm")[0]),
+                processData: false,
+                contentType:false,
+                dataType:"json",
+                url:"/file/upload",
+                success:function (data) {
+                    layer.close(index);
+                    if(data.code == 1){
+                        layer.alert(data.msg, {icon: 6, shade: false}, function () {
+                            parent.location.reload();
+                        })
+                    }else{
+                        layer.msg(data.msg);
+                    }
+                }
+            });
+        });
+
+        $(".delete").click(function () {
+            var id = $(this).parent().data("id");
+            layer.confirm('确认删除该文件？', {
+                    btn: ['确认','取消']
+                }, function(){
+                    var index = layer.load(0, {shade: false});
+                    $.ajax({
+                        type        : 'POST',
+                        data        : {
+                            id:id
+                        },
+                        dataType :    'json',
+                        url :         '/file/delete',
+                        success : function(data){
+                            layer.close(index);
+                            if(data.code == 0){
+                                location.reload();
+                            }else{
+                                layer.msg(data.msg);
+                            }
+                        }
+                    });
+                }, function(){}
+            );
+        });
+    });
+</script>
+</body>
+</html>
