@@ -36,9 +36,9 @@
                 <td th:text="${file.name}">name</td>
                 <td th:text="${file.size}">size</td>
                 <td th:text="${#dates.format(file.addtime,'yyyy-MM-dd HH:mm:ss')}">addtime</td>
-                <td th:attr="data-id='${form-id}'" class="center">
-                    <a class="btn btn-outline btn-info download" th:href="@{/file/download/{id}(id=${file.id})}"><i class="fa fa-download"></i> 下载</a>
-                    <a class="btn btn-outline btn-danger delete"><i class="fa fa-trash"></i> 删除</a>
+                <td th:attr="data-id=${file.id}" class="center">
+                    <a class="btn btn-outline btn-info btn-xs download" th:href="@{/file/download/{id}(id=${file.id})}"><i class="fa fa-download"></i> 下载</a>
+                    <a class="btn btn-outline btn-danger btn-xs delete"><i class="fa fa-trash"></i> 删除</a>
                 </td>
             </tr>
             <tr th:if="${#lists.isEmpty(list)}">
@@ -99,7 +99,7 @@
                         url :         '/file/delete',
                         success : function(data){
                             layer.close(index);
-                            if(data.code == 0){
+                            if(data.code == 1){
                                 location.reload();
                             }else{
                                 layer.msg(data.msg);

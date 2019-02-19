@@ -31,7 +31,6 @@
         <div class="form-group">
             <div class="box">
 
-                <div id="item-list"></div>
             </div>
         </div>
 
@@ -53,7 +52,11 @@
     $(function () {
         $(".frame").draggable({
             revert:true
-        })
+        });
+
+        $(".box").sortable({
+
+        });
     })
 </script>
 </body>

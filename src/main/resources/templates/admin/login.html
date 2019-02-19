@@ -57,7 +57,11 @@
                 url:"/login/adminlogin",
                 success:function (data) {
                     if(data.code == 1){
-                        location.reload();
+                        if(location.href.indexOf("login")>-1){
+                            location.href = "/admin/index";
+                        }else{
+                            location.reload();
+                        }
                     }else {
                         layer.msg(data.msg);
                     }

@@ -1,6 +1,7 @@
 package com.my.filemanager.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.my.common.aop.Permission;
 import com.my.common.exception.JsonException;
 import com.my.filemanager.model.Filemanager;
 import com.my.filemanager.service.FilemanagerService;
@@ -17,12 +18,14 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Controller
 @RequestMapping("/file")
+@Permission("1005")
 public class FilemanagerController {
     @Autowired
     private FilemanagerService filemanagerService;
@@ -67,7 +70,7 @@ public class FilemanagerController {
             model.addAttribute("totalCount", totalCount);
             model.addAttribute("currentUrl", currentUrl);
 
-            model.addAttribute("pageTitle","表单任务列表 - 表单提交平台 - 后台管理系统");
+            model.addAttribute("pageTitle","文件列表 - 文件管理平台 - 后台管理系统");
             model.addAttribute("TopMenuFlag", "filemanager");
             return "filemanager/file_list";
         }catch (JsonException e){
@@ -118,7 +121,8 @@ public class FilemanagerController {
             // 设置输出的格式
             response.reset();
             response.setContentType("bin");
-            response.addHeader("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"");
+            response.addHeader("Content-Disposition",
+                            "attachment; filename=" + file.getName() + ";filename*=utf-8''"+URLEncoder.encode(file.getName(),"UTF-8"));
             // 循环取出流中的数据
             byte[] b = new byte[100];
             int len;

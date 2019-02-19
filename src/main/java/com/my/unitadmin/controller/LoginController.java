@@ -86,6 +86,6 @@ public class LoginController {
         session.removeAttribute("ADMIN_SESSION");
         session.removeAttribute("ADMIN_ACCOUNT");
         session.removeAttribute("ADMIN_AUTH");
-        return "/admin/login";
+        return "redirect:admin";
     }
 }

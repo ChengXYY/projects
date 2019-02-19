@@ -41,7 +41,11 @@ public class FilemanagerServiceImpl implements FilemanagerService {
 
     @Override
     public int remove(Integer id) {
-        if(id == null || !CommonOperation.checkId(id))throw JsonException.newInstance(ErrorCodes.ID_NOT_ILLEGAL);
+        Filemanager filemanager = get(id);
+        File file = new File(filemanager.getPath());
+        if(file.exists()){
+            file.delete();
+        }
         return filemanagerMapper.deleteByPrimaryKey(id);
     }
 
