@@ -1,6 +1,6 @@
 package com.my.unitadmin.mapper;
 
-import com.my.formtool.model.Admingroup;
+import com.my.unitadmin.model.Admingroup;
 
 import java.util.List;
 import java.util.Map;

@@ -2,7 +2,7 @@ package com.my.unitadmin.service.serviceimpl;
 
 import com.my.common.exception.JsonException;
 import com.my.unitadmin.mapper.AdminlogMapper;
-import com.my.formtool.model.Adminlog;
+import com.my.unitadmin.model.Adminlog;
 import com.my.common.result.ErrorCodes;
 import com.my.unitadmin.service.AdminlogService;
 import org.springframework.beans.factory.annotation.Autowired;

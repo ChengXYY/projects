@@ -24,7 +24,7 @@ spring:
 
 mybatis:
   mapper-locations: classpath:com/my/**/mapper/*.xml
-  type-aliases-package: com.my.formtool.model
+  type-aliases-package: com.my.*.model
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 

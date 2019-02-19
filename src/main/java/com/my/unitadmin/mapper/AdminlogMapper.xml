@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.my.unitadmin.mapper.AdminlogMapper" >
-  <resultMap id="BaseResultMap" type="com.my.formtool.model.Adminlog" >
+  <resultMap id="BaseResultMap" type="com.my.unitadmin.model.Adminlog" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="admin" property="admin" jdbcType="VARCHAR" />
     <result column="content" property="content" jdbcType="VARCHAR" />
@@ -50,13 +50,13 @@
     delete from adminlog
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.my.formtool.model.Adminlog" >
+  <insert id="insert" parameterType="com.my.unitadmin.model.Adminlog" >
     insert into adminlog (id, admin, content, 
       addtime)
     values (#{id,jdbcType=INTEGER}, #{admin,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
       #{addtime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.my.formtool.model.Adminlog" >
+  <insert id="insertSelective" parameterType="com.my.unitadmin.model.Adminlog" >
     insert into adminlog
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -87,7 +87,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.my.formtool.model.Adminlog" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.my.unitadmin.model.Adminlog" >
     update adminlog
     <set >
       <if test="admin != null" >
@@ -102,7 +102,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.my.formtool.model.Adminlog" >
+  <update id="updateByPrimaryKey" parameterType="com.my.unitadmin.model.Adminlog" >
     update adminlog
     set admin = #{admin,jdbcType=VARCHAR},
       content = #{content,jdbcType=VARCHAR},

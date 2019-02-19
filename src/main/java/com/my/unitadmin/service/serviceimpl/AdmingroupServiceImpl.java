@@ -4,7 +4,7 @@ import com.my.common.CommonOperation;
 import com.my.common.result.ErrorCodes;
 import com.my.common.exception.JsonException;
 import com.my.unitadmin.mapper.AdmingroupMapper;
-import com.my.formtool.model.Admingroup;
+import com.my.unitadmin.model.Admingroup;
 import com.my.unitadmin.service.AdmingroupService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

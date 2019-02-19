@@ -1,4 +1,4 @@
-package com.my.formtool.model;
+package com.my.unitadmin.model;
 
 public class Admingroup {
     private Integer id;

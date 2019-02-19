@@ -1,7 +1,6 @@
-package com.my.formtool.model;
+package com.my.unitadmin.model;
 
 import java.sql.Timestamp;
-import java.util.Map;
 
 public class Admin {
     private Integer id;

@@ -1,7 +1,7 @@
 package com.my.common.aop;
 
 import com.my.common.exception.JsonException;
-import com.my.formtool.model.Admin;
+import com.my.unitadmin.model.Admin;
 import com.my.unitadmin.service.AdminService;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;

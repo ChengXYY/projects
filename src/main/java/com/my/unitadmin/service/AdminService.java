@@ -1,6 +1,6 @@
 package com.my.unitadmin.service;
 
-import com.my.formtool.model.Admin;
+import com.my.unitadmin.model.Admin;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;

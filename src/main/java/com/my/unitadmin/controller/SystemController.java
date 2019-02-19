@@ -1,20 +1,17 @@
 package com.my.unitadmin.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.my.common.aop.Permission;
 import com.my.common.exception.JsonException;
-import com.my.formtool.model.Admin;
-import com.my.formtool.model.Admingroup;
-import com.my.formtool.model.Adminlog;
+import com.my.unitadmin.model.Admin;
+import com.my.unitadmin.model.Admingroup;
+import com.my.unitadmin.model.Adminlog;
 import com.my.common.result.AuthCode;
 import com.my.unitadmin.service.AdminService;
 import com.my.unitadmin.service.AdmingroupService;
 import com.my.unitadmin.service.AdminlogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;

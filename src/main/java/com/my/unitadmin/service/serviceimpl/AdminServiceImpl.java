@@ -4,7 +4,7 @@ import com.my.common.CommonOperation;
 import com.my.common.result.ErrorCodes;
 import com.my.common.exception.JsonException;
 import com.my.unitadmin.mapper.AdminMapper;
-import com.my.formtool.model.Admin;
+import com.my.unitadmin.model.Admin;
 import com.my.unitadmin.service.AdminService;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

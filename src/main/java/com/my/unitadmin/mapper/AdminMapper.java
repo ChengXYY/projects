@@ -1,8 +1,7 @@
 package com.my.unitadmin.mapper;
 
 
-import com.my.formtool.model.Admin;
-import org.apache.ibatis.annotations.Mapper;
+import com.my.unitadmin.model.Admin;
 
 import java.util.List;
 import java.util.Map;
