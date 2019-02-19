@@ -5,9 +5,9 @@ public class Admingroup {
 
     private String name;
 
-    private String auth;
+    private String auth = "";
 
-    private Integer sort;
+    private Integer sort = 99;
 
     public Integer getId() {
         return id;

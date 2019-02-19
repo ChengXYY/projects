@@ -1,19 +1,21 @@
 <div class="col-md-12" th:fragment="page">
-    <div class="col-md-5">
+    <div class="col-md-4">
         共 <b class="text-primary" th:text="${totalCount}"></b> 条数据，
         共 <b class="text-primary" th:text="${pageCount}"></b> 页
     </div>
-    <div class="col-md-7 right">
+    <div class="col-md-8 right">
         <ul class="pagination">
             <li th:class="${currentPage==1?'disabled':''}" ><a th:href="@{${currentUrl}(page=${currentPage-1})}" th:style="${currentPage==1?'pointer-events:none':''}"><i class="fa fa-chevron-left"></i></a></li>
-            <li th:if="${currentPage-3 >=1}" ><a th:href="@{${currentUrl}(page=${currentPage})}" th:text="${currentPage -3}" >1</a></li>
+            <li th:if="${currentPage-2 > 1}"><a th:href="@{${currentUrl}(page=1)}">1</a></li>
+            <li th:if="${currentPage-2 > 1}"><a class="pointer-events:none">...</a></li>
             <li th:if="${currentPage-2 >=1}" ><a th:href="@{${currentUrl}(page=${currentPage-2})}" th:text="${currentPage -2}" >1</a></li>
             <li th:if="${currentPage-1 >=1}" ><a th:href="@{${currentUrl}(page=${currentPage-1})}" th:text="${currentPage -1}" >1</a></li>
             <li class="active"><a href="#" th:text="${currentPage}" >1</a></li>
             <li th:if="${currentPage+1 <=pageCount}" ><a th:href="@{${currentUrl}(page=${currentPage+1})}" th:text="${currentPage +1}" >1</a></li>
             <li th:if="${currentPage+2 <=pageCount}" ><a th:href="@{${currentUrl}(page=${currentPage+2})}" th:text="${currentPage +2}" >1</a></li>
-            <li th:if="${currentPage+3 <=pageCount}" ><a th:href="@{${currentUrl}(page=${currentPage+3})}" th:text="${currentPage +3}" >1</a></li>
 
+            <li th:if="${currentPage+2 < pageCount}"><a class="pointer-events:none">...</a></li>
+            <li th:if="${currentPage+2 < pageCount}"><a th:href="@{${currentUrl}(page=${pageCount})}" th:text="${pageCount}">1</a></li>
             <li th:class="${currentPage==pageCount?'disabled':''}"><a th:href="@{${currentUrl}(page=${currentPage+1})}" th:style="${currentPage==pageCount?'pointer-events:none':''}"><i class="fa fa-chevron-right"></i></a></li>
         </ul>
     </div>

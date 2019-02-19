@@ -10,7 +10,7 @@
         </div>
         <div class="form-group">
             <label>所属管理员组：<span class="text-danger">*</span></label>
-            <select class="form-control">
+            <select class="form-control" name="groupid">
                 <option value="0">--请选择--</option>
                 <option th:each="group:${list}"
                         th:value="${group.id}"

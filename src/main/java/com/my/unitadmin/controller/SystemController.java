@@ -218,6 +218,7 @@ public class SystemController {
             List<Map<String, Object>> list = AuthCode.listAuthCode();
             model.addAttribute("list", list);
             model.addAttribute("groupid", id);
+            model.addAttribute("groupName", admingroup.getName());
             model.addAttribute("pageTitle","管理员组权限配置 - 系统设置 - 后台管理系统");
 
             model.addAttribute("TopMenuFlag", "system");

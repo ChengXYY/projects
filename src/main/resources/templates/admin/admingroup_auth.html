@@ -13,7 +13,10 @@
     <div class="col-md-9">
         <div class="toolbar">
             <div class="col-md-6">
-                <a class="btn btn-primary btn-outline" id="auth-save">
+                <h5 th:text="${groupName}"></h5>
+            </div>
+            <div class="col-md-6 right">
+                <a class="btn btn-primary" id="auth-save">
                     <i class="fa fa-save"></i> 保存权限
                 </a>
             </div>
@@ -34,7 +37,7 @@
                     <input type="checkbox"
                            name="authcodes[]"
                            th:value="${auth.code}"
-                           th:checked="${#strings.contains(authlist, auth.code)}"
+                           th:checked="${auth.code!=null && #strings.contains(authlist, auth.code)}"
                            class="select-item"/>
                 </td>
                 <td th:text="${auth.code}">code</td>

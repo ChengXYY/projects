@@ -24,7 +24,7 @@
         and admin=#{admin, jdbcType=VARCHAR}
       </if>
       <if test="content!=null">
-        and content like CONCAT('%',#{content},'%')
+        and (content like CONCAT('%',#{content},'%') or admin like CONCAT('%',#{content},'%'))
       </if>
     </where>
     <if test="order!=null">
@@ -42,7 +42,7 @@
         and admin=#{admin, jdbcType=VARCHAR}
       </if>
       <if test="content!=null">
-        and content like CONCAT('%',#{content},'%')
+        and (content like CONCAT('%',#{content},'%') or admin like CONCAT('%',#{content},'%'))
       </if>
     </where>
   </select>
