@@ -46,7 +46,7 @@ formtool:
 sitepage:
   weburl: http://localhost:8080/sitepage/
 list:
-  pagesize: 5
+  pagesize: 15
 file:
   save-path: E:/upload
 
