@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50722
 File Encoding         : 65001
 
-Date: 2019-02-12 08:17:17
+Date: 2019-02-22 15:23:22
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -31,14 +31,14 @@ CREATE TABLE `admin` (
   `logincount` int(10) DEFAULT '0',
   `addtime` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of admin
 -- ----------------------------
-INSERT INTO `admin` VALUES ('1', '', 'chengya', '1bcca62dfa4af1d08b44d86df39e9f25', '5dc362f0-8d3d-4459-8cad-bdfa783cadcb', '1', '::1', '2019-01-29 13:39:11', '1', '2019-01-01 13:39:18');
-INSERT INTO `admin` VALUES ('2', null, 'cy', '0490be501f2ddd519a1c53c55a8e9a9f', 'a3e9792d-53ad-4a82-9c25-c7ed66d78590', '1', null, null, '0', '2019-01-31 13:58:30');
-INSERT INTO `admin` VALUES ('4', null, 'cookies', '2c5a41933d1e4d053d497de3b84b09a1', '30e84fbd-f65d-49a3-809b-cae9edd007b8', '2', null, null, '0', '2019-02-11 17:18:13');
+INSERT INTO `admin` VALUES ('1', '', 'chengya', 'ae08c5416cb9850f49a6b6504c77f3c1', '4901e93e-1bd7-404c-93bc-c4d799dda7c2', '1', '::1', '2019-01-29 13:39:11', '1', '2019-01-01 13:39:18');
+INSERT INTO `admin` VALUES ('22', null, 'eleven', '92d892e3d20773f6746aeb0c61475c6b', '7c8a0cfe-03ce-4431-9263-5a0402212e5b', '3', null, null, '0', '2019-02-14 16:38:49');
+INSERT INTO `admin` VALUES ('23', null, 'chengya123', '0d05cda48381c71f5b43a3d89ac275ac', '2a3dd65d-b383-4ddc-9cb1-73b90967375d', '2', null, null, '0', '2019-02-14 16:41:01');
 
 -- ----------------------------
 -- Table structure for admingroup
@@ -50,13 +50,47 @@ CREATE TABLE `admingroup` (
   `auth` varchar(600) DEFAULT NULL,
   `sort` int(4) NOT NULL DEFAULT '99',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of admingroup
 -- ----------------------------
-INSERT INTO `admingroup` VALUES ('1', '超级管理员', '1001|1002|1003|1004|', '1');
-INSERT INTO `admingroup` VALUES ('2', '表单提交系统', '1002|1003|1004|', '3');
+INSERT INTO `admingroup` VALUES ('1', '超级管理员', '1001|1002|1003|1004|1005|', '1');
+INSERT INTO `admingroup` VALUES ('2', '表单提交平台', '1002|1003|1004|', '3');
+INSERT INTO `admingroup` VALUES ('3', '文件管理平台', '1002|1005|', '2');
+
+-- ----------------------------
+-- Table structure for adminlog
+-- ----------------------------
+DROP TABLE IF EXISTS `adminlog`;
+CREATE TABLE `adminlog` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `admin` varchar(100) DEFAULT NULL,
+  `content` varchar(500) DEFAULT NULL,
+  `addtime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=125 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of adminlog
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for file
+-- ----------------------------
+DROP TABLE IF EXISTS `file`;
+CREATE TABLE `file` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(500) DEFAULT NULL,
+  `path` text,
+  `size` int(20) DEFAULT NULL,
+  `addtime` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of file
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for form
@@ -72,10 +106,29 @@ CREATE TABLE `form` (
   `addtime` timestamp NULL DEFAULT NULL,
   `updatetime` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8 COMMENT='用户提交的表单';
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COMMENT='用户提交的表单';
 
 -- ----------------------------
 -- Records of form
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for sitepage
+-- ----------------------------
+DROP TABLE IF EXISTS `sitepage`;
+CREATE TABLE `sitepage` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(500) DEFAULT NULL,
+  `code` varchar(200) DEFAULT NULL COMMENT '页面唯一标识',
+  `page` text,
+  `author` varchar(200) DEFAULT NULL,
+  `addtime` timestamp NULL DEFAULT NULL,
+  `updatetime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of sitepage
 -- ----------------------------
 
 -- ----------------------------
@@ -93,27 +146,10 @@ CREATE TABLE `task` (
   `status` tinyint(1) DEFAULT '1' COMMENT '1-开启状态  0-关闭状态',
   `theme` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of task
--- ----------------------------
-
--- ----------------------------
--- Table structure for user
--- ----------------------------
-DROP TABLE IF EXISTS `user`;
-CREATE TABLE `user` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) DEFAULT NULL,
-  `age` int(4) DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `addtime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of user
 -- ----------------------------
 
 -- ----------------------------
@@ -125,7 +161,7 @@ CREATE TABLE `user_task` (
   `user` varchar(50) DEFAULT NULL,
   `taskid` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='任务邀请人员清单';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务邀请人员清单';
 
 -- ----------------------------
 -- Records of user_task

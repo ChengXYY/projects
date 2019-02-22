@@ -20,7 +20,7 @@ public class AdminLog {
     @Pointcut("within(com.my.unitadmin.controller.LoginController)")
     public void loginLog(){}
 
-    @Pointcut("execution(public * com.my.formtool.service.*.*(..))"+
+    @Pointcut("execution(public * com.my.*.service.*.*(..))"+
             "&& !execution(public * com.my.unitadmin.service.AdminlogService.*(..))")
     public void operationLog(){}
 
@@ -66,7 +66,7 @@ public class AdminLog {
         MethodSignature signature = (MethodSignature)joinPoint.getSignature();
         String methodName = signature.getName();
         String className = joinPoint.getTarget().getClass().getName().replace("ServiceImpl", "");
-        className = className.replace("com.my.formtool.service.serviceimpl.","");
+        className = className.substring(className.indexOf("serviceimpl")+12, className.length());
         String param = "";
         String checkMethodStr = "add,edit,remove";
         if(checkMethodStr.contains(methodName) && (result==null || !CommonOperation.checkId(Integer.parseInt(result.toString())))){
