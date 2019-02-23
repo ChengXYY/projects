@@ -65,9 +65,9 @@ public class SystemController {
             result.put("msg", "添加成功");
             return result;
         }catch (JsonException e){
-            result.put("code", e.getCode());
-            result.put("msg", e.getMsg());
-            return result;
+            //result.put("code", e.getCode());
+            //result.put("msg", e.getMsg());
+            return e.toJson();
         }
     }
 
@@ -90,9 +90,9 @@ public class SystemController {
             result.put("msg", "添加成功");
             return result;
         }catch (JsonException e){
-            result.put("code", e.getCode());
-            result.put("msg", e.getMsg());
-            return result;
+            //result.put("code", e.getCode());
+            //result.put("msg", e.getMsg());
+            return e.toJson();
         }
     }
     @RequestMapping("/admin/edit/{id}")
@@ -120,9 +120,9 @@ public class SystemController {
             result.put("msg", "保存成功");
             return result;
         }catch (JsonException e){
-            result.put("code", e.getCode());
-            result.put("msg", e.getMsg());
-            return result;
+            //result.put("code", e.getCode());
+            //result.put("msg", e.getMsg());
+            return e.toJson();
         }
     }
 
@@ -138,9 +138,9 @@ public class SystemController {
             result.put("msg", "删除成功");
             return result;
         }catch (JsonException e){
-            result.put("code", e.getCode());
-            result.put("msg", e.getMsg());
-            return result;
+            //result.put("code", e.getCode());
+            //result.put("msg", e.getMsg());
+            return e.toJson();
         }
     }
 
@@ -174,9 +174,9 @@ public class SystemController {
             result.put("msg", "添加成功");
             return result;
         }catch (JsonException e){
-            result.put("code", e.getCode());
-            result.put("msg", e.getMsg());
-            return result;
+            //result.put("code", e.getCode());
+            //result.put("msg", e.getMsg());
+            return e.toJson();
         }
     }
 
@@ -202,9 +202,9 @@ public class SystemController {
             result.put("msg", "修改成功");
             return result;
         }catch (JsonException e){
-            result.put("code", e.getCode());
-            result.put("msg", e.getMsg());
-            return result;
+            //result.put("code", e.getCode());
+            //result.put("msg", e.getMsg());
+            return e.toJson();
         }
     }
 
@@ -239,9 +239,9 @@ public class SystemController {
             result.put("msg", "保存成功");
             return result;
         }catch (JsonException e){
-            result.put("code", e.getCode());
-            result.put("msg", e.getMsg());
-            return result;
+            //result.put("code", e.getCode());
+            //result.put("msg", e.getMsg());
+            return e.toJson();
         }
     }
 

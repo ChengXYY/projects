@@ -88,9 +88,9 @@ public class FilemanagerController {
             result.put("msg", "上传成功");
             return result;
         }catch (JsonException e){
-            result.put("code", e.getCode());
-            result.put("msg", e.getMsg());
-            return result;
+            //result.put("code", e.getCode());
+            //result.put("msg", e.getMsg());
+            return e.toJson();
         }
     }
 
@@ -104,9 +104,9 @@ public class FilemanagerController {
             result.put("msg", "删除成功");
             return result;
         }catch (JsonException e){
-            result.put("code", e.getCode());
-            result.put("msg", e.getMsg());
-            return result;
+            //result.put("code", e.getCode());
+            //result.put("msg", e.getMsg());
+            return e.toJson();
         }
     }
 

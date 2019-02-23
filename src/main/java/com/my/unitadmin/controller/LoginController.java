@@ -44,9 +44,9 @@ public class LoginController {
             result.put("msg", "登录成功");
             return result;
         }catch (JsonException e){
-            result.put("code", e.getCode());
-            result.put("msg", e.getMsg());
-            return result;
+            //result.put("code", e.getCode());
+            //result.put("msg", e.getMsg());
+            return e.toJson();
         }
     }
 

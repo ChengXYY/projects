@@ -102,9 +102,9 @@ public class TaskController {
             result.put("msg", "添加成功");
             return result;
         }catch (JsonException e){
-            result.put("code", e.getCode());
-            result.put("msg", e.getMsg());
-            return result;
+            //result.put("code", e.getCode());
+            //result.put("msg", e.getMsg());
+            return e.toJson();
         }
     }
 
@@ -132,9 +132,9 @@ public class TaskController {
             result.put("msg", "修改成功");
             return result;
         }catch (JsonException e){
-            result.put("code", e.getCode());
-            result.put("msg", e.getMsg());
-            return result;
+            //result.put("code", e.getCode());
+            //result.put("msg", e.getMsg());
+            return e.toJson();
         }
     }
 
@@ -148,9 +148,9 @@ public class TaskController {
             result.put("msg", "关闭成功");
             return result;
         }catch (JsonException e){
-            result.put("code", e.getCode());
-            result.put("msg", e.getMsg());
-            return result;
+            //result.put("code", e.getCode());
+            //result.put("msg", e.getMsg());
+            return e.toJson();
         }
     }
 
@@ -164,9 +164,9 @@ public class TaskController {
             result.put("msg", "重启成功");
             return result;
         }catch (JsonException e){
-            result.put("code", e.getCode());
-            result.put("msg", e.getMsg());
-            return result;
+            //result.put("code", e.getCode());
+            //result.put("msg", e.getMsg());
+            return e.toJson();
         }
     }
 
@@ -180,9 +180,9 @@ public class TaskController {
             result.put("msg", "删除成功");
             return result;
         }catch (JsonException e){
-            result.put("code", e.getCode());
-            result.put("msg", e.getMsg());
-            return result;
+            //result.put("code", e.getCode());
+            //result.put("msg", e.getMsg());
+            return e.toJson();
         }
     }
 }
