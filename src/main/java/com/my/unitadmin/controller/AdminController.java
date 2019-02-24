@@ -18,7 +18,7 @@ public class AdminController {
     @Autowired
     private AdminService adminService;
 
-    @RequestMapping("/index")
+    @RequestMapping(value = {"/index", "/", ""})
     public String index(ModelMap model){
         model.addAttribute("TopMenuFlag", "index");
         model.addAttribute("pageTitle","首页 - 后台管理系统");
