@@ -24,5 +24,5 @@ public interface FilemanagerService {
 
     //非数据库操作
     //upload
-    void upload(MultipartFile file, String savePath);
+    Filemanager upload(MultipartFile file, String savePath);
 }

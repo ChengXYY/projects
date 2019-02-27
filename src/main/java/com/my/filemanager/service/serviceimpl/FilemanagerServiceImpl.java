@@ -68,7 +68,7 @@ public class FilemanagerServiceImpl implements FilemanagerService {
     }
 
     @Override
-    public void upload(MultipartFile file, String savePath) {
+    public Filemanager upload(MultipartFile file, String savePath) {
         if(file == null || savePath.isEmpty())throw JsonException.newInstance(ErrorCodes.IS_NOT_EMPTY);
         String fileName = file.getOriginalFilename();
         String newFileName = System.currentTimeMillis() + "_" +fileName;
@@ -80,13 +80,14 @@ public class FilemanagerServiceImpl implements FilemanagerService {
         if(!dest.getParentFile().exists()){ //判断文件父目录是否存在
             dest.getParentFile().mkdir();
         }
+
+        Filemanager filemanager = new Filemanager();
         try {
             file.transferTo(dest);
-            Filemanager filemanager = new Filemanager();
             filemanager.setName(fileName);
             filemanager.setPath(destDir);
             filemanager.setSize(size);
-            add(filemanager);
+            return filemanager;
 
         } catch (IllegalStateException e) {
             // TODO Auto-generated catch block
@@ -95,5 +96,6 @@ public class FilemanagerServiceImpl implements FilemanagerService {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        return filemanager;
     }
 }

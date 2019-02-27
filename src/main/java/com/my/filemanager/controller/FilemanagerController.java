@@ -83,7 +83,8 @@ public class FilemanagerController {
     public JSONObject fileUpload(@RequestParam(value = "fileupload")MultipartFile file){
         JSONObject result = new JSONObject();
         try {
-            filemanagerService.upload(file, savePath);
+            Filemanager filemanager = filemanagerService.upload(file, savePath);
+            filemanagerService.add(filemanager);
             result.put("code", 1);
             result.put("msg", "上传成功");
             return result;

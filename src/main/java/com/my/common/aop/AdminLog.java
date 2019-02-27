@@ -2,6 +2,7 @@ package com.my.common.aop;
 
 import com.my.common.CommonOperation;
 import com.my.unitadmin.service.AdminlogService;
+import org.apache.commons.lang3.ArrayUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -12,6 +13,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.lang.reflect.Field;
 
 @Aspect
 @Component
@@ -66,7 +68,13 @@ public class AdminLog {
         MethodSignature signature = (MethodSignature)joinPoint.getSignature();
         String methodName = signature.getName();
         String className = joinPoint.getTarget().getClass().getName().replace("ServiceImpl", "");
+        String modelName = className.replace("service.serviceimpl", "model");
         className = className.substring(className.indexOf("serviceimpl")+12, className.length());
+
+        //获取参数
+        Object[] args = joinPoint.getArgs();
+        String[] parameterNames = signature.getParameterNames();
+
         String param = "";
         String checkMethodStr = "add,edit,remove";
         if(checkMethodStr.contains(methodName) && (result==null || !CommonOperation.checkId(Integer.parseInt(result.toString())))){
@@ -74,22 +82,33 @@ public class AdminLog {
         }
         switch (methodName){
             case "add":
-                if(className.equals("Admin")){
-                    param = request.getParameter("account");
-                }else{
-                    param = request.getParameter("name");
+                Field[] fields = Class.forName(modelName).getDeclaredFields();
+                for(Field f :fields){
+                    f.setAccessible(true);System.out.println(f.getName());
+                    if(f.getName()=="name"){
+                        param = f.get(args[0]).toString();
+                    }
                 }
                 adminlogService.add(session.getAttribute("ADMIN_ACCOUNT").toString(), "添加【"+className+"】记录("+param+")");
                 break;
             case "edit":
-                param = request.getParameter("id");
+                param = getParamValue("id", args, parameterNames);
                 adminlogService.add(session.getAttribute("ADMIN_ACCOUNT").toString(), "修改【"+className+"】记录("+param+")");
                 break;
             case "remove":
-                param = request.getParameter("id");
+                param = getParamValue("id", args, parameterNames);
                 adminlogService.add(session.getAttribute("ADMIN_ACCOUNT").toString(), "删除【"+className+"】记录("+param+")");
                 break;
         }
         return result;
+    }
+
+    private String getParamValue(String paramName, Object[] args, String[] paramNames){
+
+        int index = ArrayUtils.indexOf(paramNames, paramName);
+        if(index >-1){
+           return args[index].toString();
+        }
+        return null;
     }
 }

@@ -32,6 +32,9 @@ public class AdminServiceImpl implements AdminService {
         if(admin.getAccount().isEmpty() ||
                 admin.getGroupid().toString().equals("0") ||
                 admin.getPassword().isEmpty()) throw JsonException.newInstance(ErrorCodes.IS_NOT_EMPTY);
+        if(admin.getName()== null || admin.getName().isEmpty()){
+            admin.setName(admin.getAccount());
+        }
         String pwd = admin.getPassword();
         Map<String,Object>pwdArr = CommonOperation.encodeStr(pwd);
         admin.setSalt(pwdArr.get("salt").toString());

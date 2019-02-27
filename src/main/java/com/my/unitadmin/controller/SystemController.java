@@ -81,7 +81,9 @@ public class SystemController {
     @ResponseBody
     @RequestMapping(value = "/admin/add/submit", produces = {"application/json;charset=UTF-8"})
     public JSONObject adminAdd(Admin admin){
-
+        if(admin.getName()==null || admin.getName().isEmpty()){
+            admin.setName(admin.getAccount());
+        }
         JSONObject result = new JSONObject();
 
         try {
