@@ -23,6 +23,8 @@ public class Admin {
 
     private Timestamp addtime = new Timestamp(System.currentTimeMillis());
 
+    private Integer parentid = 0;
+
     private Admingroup admingroup;
 
     public Integer getId() {
@@ -104,6 +106,10 @@ public class Admin {
     public void setAddtime(Timestamp addtime) {
         this.addtime = addtime;
     }
+
+    public Integer getParentid(){return parentid;}
+
+    public void setParentid(Integer parentid){this.parentid = parentid;}
 
     public Admingroup getAdmingroup(){
         return admingroup;

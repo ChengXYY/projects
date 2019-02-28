@@ -5,6 +5,7 @@ import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.my.common.exception.JsonException;
 import com.my.unitadmin.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +28,24 @@ public class LoginController {
 
     @Autowired
     private DefaultKaptcha captchaProducer;
+
+    @Value("${admin.session}")
+    private String adminSession;
+
+    @Value("${admin.account}")
+    private String adminAccount;
+
+    @Value("${admin.group}")
+    private String adminGroup;
+
+    @Value("${admin.id}")
+    private String adminId;
+
+    @Value("${admin.auth}")
+    private String adminAuth;
+
+    @Value("${login.vercode}")
+    private String verCode;
 
     @RequestMapping("/admin")
     public String index(ModelMap model){
@@ -59,7 +78,7 @@ public class LoginController {
         try {
             //生产验证码字符串并保存到session中
             String createText = captchaProducer.createText();
-            session.setAttribute("VERCODE", createText);
+            session.setAttribute(verCode, createText);
             //使用生产的验证码字符串返回一个BufferedImage对象并转为byte写入到byte数组中
             BufferedImage challenge = captchaProducer.createImage(createText);
             ImageIO.write(challenge, "jpg", jpegOutputStream);
@@ -83,9 +102,10 @@ public class LoginController {
 
     @RequestMapping("/logout")
     public String logout(HttpSession session){
-        session.removeAttribute("ADMIN_SESSION");
-        session.removeAttribute("ADMIN_ACCOUNT");
-        session.removeAttribute("ADMIN_AUTH");
+        session.removeAttribute(adminSession);
+        session.removeAttribute(adminAccount);
+        session.removeAttribute(adminAuth);
+        session.removeAttribute(adminGroup);
         return "redirect:admin";
     }
 }

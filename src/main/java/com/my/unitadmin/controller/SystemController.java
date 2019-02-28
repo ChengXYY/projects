@@ -17,6 +17,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,13 +34,24 @@ public class SystemController {
     @Autowired
     private AdminlogService adminlogService;
 
+    @Value("${admin.account}")
+    private String adminAccount;
+
+    @Value("${admin.group}")
+    private String adminGroup;
+
+    @Value("${admin.id}")
+    private String adminId;
+
     @Value("${list.pagesize}")
     private Integer pageSize;
 
+    @Permission("2001")
     @RequestMapping("/admin/list")
-    public String adminList(ModelMap model){
+    public String adminList(HttpSession session, ModelMap model){
         Map<String, Object>filter = new HashMap<String, Object>();
-
+        //只获取当前用户下及用户
+        filter.put("parentid", session.getAttribute(adminId));
         filter.put("order", "id asc");
         List<Admin> list = adminService.getList(filter);
 
@@ -54,6 +66,7 @@ public class SystemController {
         return "admin/admin_list";
     }
 
+    @Permission("2001")
     @ResponseBody
     @RequestMapping(value = "/admin/resetpwd/submit", produces = {"application/json;charset=UTF-8"})
     public JSONObject passwordReset(Integer id){
@@ -70,20 +83,21 @@ public class SystemController {
             return e.toJson();
         }
     }
-
+    @Permission("2001")
     @RequestMapping("/admin/add")
-    public String adminAdd(ModelMap model){
-        List<Admingroup> list = admingroupService.getListAll();
+    public String adminAdd(HttpSession session, ModelMap model){
+        List<Admingroup> list = admingroupService.getListAll(Integer.parseInt(session.getAttribute(adminId).toString()));
         model.addAttribute("list", list);
         return "admin/admin_add";
     }
-
+    @Permission("2001")
     @ResponseBody
     @RequestMapping(value = "/admin/add/submit", produces = {"application/json;charset=UTF-8"})
-    public JSONObject adminAdd(Admin admin){
+    public JSONObject adminAdd(Admin admin, HttpSession session){
         if(admin.getName()==null || admin.getName().isEmpty()){
             admin.setName(admin.getAccount());
         }
+        admin.setParentid(Integer.parseInt(session.getAttribute(adminId).toString()));
         JSONObject result = new JSONObject();
 
         try {
@@ -97,20 +111,21 @@ public class SystemController {
             return e.toJson();
         }
     }
+    @Permission("2001")
     @RequestMapping("/admin/edit/{id}")
-    public String adminEdit(@PathVariable("id") Integer id, ModelMap model){
+    public String adminEdit(@PathVariable("id") Integer id, HttpSession session, ModelMap model){
         Admin admin = adminService.get(id);
         if(admin == null){
             model.addAttribute("pageTitle","404 Error");
             return "error/404";
         }
-        List<Admingroup> list = admingroupService.getListAll();
+        List<Admingroup> list = admingroupService.getListAll(Integer.parseInt(session.getAttribute(adminId).toString()));
         model.addAttribute("list", list);
         model.addAttribute("admin", admin);
         model.addAttribute("pageTitle","编辑管理员信息");
         return "admin/admin_edit";
     }
-
+    @Permission("2001")
     @ResponseBody
     @RequestMapping(value = "/admin/edit/submit", method = RequestMethod.POST)
     public JSONObject editAdmin(@RequestParam Map<String, Object> admin ){
@@ -127,7 +142,7 @@ public class SystemController {
             return e.toJson();
         }
     }
-
+    @Permission("2001")
     @ResponseBody
     @RequestMapping(value = "/admin/remove", method = RequestMethod.POST)
     public JSONObject removeAdmin(@RequestParam(value = "id", required = true)Integer id){
@@ -147,9 +162,10 @@ public class SystemController {
     }
 
     // AdminGroup 处理
+    @Permission("2002")
     @RequestMapping("/admingroup/list")
-    public String admingroupList(ModelMap model){
-        List<Admingroup> list = admingroupService.getListAll();
+    public String admingroupList(HttpSession session, ModelMap model){
+        List<Admingroup> list = admingroupService.getListAll(Integer.parseInt(session.getAttribute(adminId).toString()));
         model.addAttribute("list", list);
 
         int totalCount = list.size();
@@ -160,15 +176,17 @@ public class SystemController {
         model.addAttribute("LeftMenuFlag", "admingroup");
         return "admin/admingroup_list";
     }
-
+    @Permission("2002")
     @RequestMapping("/admingroup/add")
     public String admingroupAdd(ModelMap model){
         return "admin/admingroup_add";
     }
 
+    @Permission("2002")
     @ResponseBody
     @RequestMapping("/admingroup/add/submit")
-    public JSONObject admingroupAdd(Admingroup admingroup){
+    public JSONObject admingroupAdd(Admingroup admingroup, HttpSession session){
+        admingroup.setParentid(Integer.parseInt(session.getAttribute(adminId).toString()));
         JSONObject result = new JSONObject();
         try {
             admingroupService.add(admingroup);
@@ -182,6 +200,7 @@ public class SystemController {
         }
     }
 
+    @Permission("2002")
     @RequestMapping("/admingroup/edit/{id}")
     public String admingroupEdit(@PathVariable("id") Integer id, ModelMap model){
 
@@ -190,6 +209,7 @@ public class SystemController {
         return "admin/admingroup_edit";
     }
 
+    @Permission("2002")
     @ResponseBody
     @RequestMapping("/admingroup/edit/submit")
     public JSONObject admingroupEdit(Admingroup admingroup){
@@ -211,6 +231,7 @@ public class SystemController {
     }
 
     //权限
+    @Permission("2003")
     @RequestMapping("/admingroup/auth/{id}")
     public String admingrouAuth(@PathVariable("id")Integer id, ModelMap model){
         try {
@@ -230,7 +251,7 @@ public class SystemController {
             return "error/404";
         }
     }
-
+    @Permission("2003")
     @ResponseBody
     @RequestMapping(value = "/admingroup/auth/save", method = RequestMethod.POST)
     public JSONObject authSave(Integer id, @RequestParam(value = "authcodes[]") String[] authcodes){

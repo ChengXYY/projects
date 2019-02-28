@@ -9,6 +9,8 @@ public class Admingroup {
 
     private Integer sort = 99;
 
+    private Integer parentid = 0;
+
     public Integer getId() {
         return id;
     }
@@ -39,5 +41,11 @@ public class Admingroup {
 
     public void setSort(Integer sort) {
         this.sort = sort;
+    }
+
+    public Integer getParentid(){return parentid;}
+
+    public void setParentid(Integer parentid) {
+        this.parentid = parentid;
     }
 }

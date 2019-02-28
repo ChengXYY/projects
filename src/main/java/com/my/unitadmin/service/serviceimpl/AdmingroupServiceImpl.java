@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,8 +25,8 @@ public class AdmingroupServiceImpl implements AdmingroupService {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
-    public List<Admingroup> getListAll() {
-        return admingroupMapper.selectAll();
+    public List<Admingroup> getListAll(Integer parentid) {
+        return admingroupMapper.selectAll(parentid);
     }
 
     @Override

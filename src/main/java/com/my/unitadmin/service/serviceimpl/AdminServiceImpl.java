@@ -8,6 +8,7 @@ import com.my.unitadmin.model.Admin;
 import com.my.unitadmin.service.AdminService;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,6 +27,24 @@ public class AdminServiceImpl implements AdminService {
     private AdminMapper adminMapper;
 
     private Logger logger = LoggerFactory.getLogger(getClass());
+
+    @Value("${admin.session}")
+    private String adminSession;
+
+    @Value("${admin.account}")
+    private String adminAccount;
+
+    @Value("${admin.group}")
+    private String adminGroup;
+
+    @Value("${admin.id}")
+    private String adminId;
+
+    @Value("${admin.auth}")
+    private String adminAuth;
+
+    @Value("${login.vercode}")
+    private String verCode;
 
     @Override
     public int add(Admin admin){
@@ -98,25 +117,27 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void login(String account, String password, String vercode, HttpSession session) {
-        if(session.getAttribute("ADMIN_SESSION") != null) return;
+        if(session.getAttribute(adminSession) != null) return;
         if(account.isEmpty() || password.isEmpty() || vercode.isEmpty()) throw  JsonException.newInstance(ErrorCodes.IS_NOT_EMPTY);
         //验证码
-        if(session.getAttribute("VERCODE").toString().isEmpty()) throw JsonException.newInstance(ErrorCodes.SERVICE_ERROR);
-        if(!session.getAttribute("VERCODE").toString().equals(vercode)) throw JsonException.newInstance(ErrorCodes.VERCODE_ERROR);
+        if(session.getAttribute(verCode).toString().isEmpty()) throw JsonException.newInstance(ErrorCodes.SERVICE_ERROR);
+        if(!session.getAttribute(verCode).toString().equals(vercode)) throw JsonException.newInstance(ErrorCodes.VERCODE_ERROR);
         Admin admin = get(account);
         String varifyPwd = CommonOperation.encodeStr(password, admin.getSalt());
         if(!varifyPwd.equals(admin.getPassword())) throw JsonException.newInstance(ErrorCodes.PASSWORD_ERROR);
         String sessionStr = CommonOperation.encodeStr(admin.getId().toString(), admin.getAccount());
-        session.setAttribute("ADMIN_SESSION", sessionStr);
-        session.setAttribute("ADMIN_ACCOUNT", admin.getAccount());
-        session.setAttribute("ADMIN_AUTH", admin.getAdmingroup().getAuth());
+        session.setAttribute(adminSession, sessionStr);
+        session.setAttribute(adminAccount, admin.getAccount());
+        session.setAttribute(adminAuth, admin.getAdmingroup().getAuth());
+        session.setAttribute(adminGroup, admin.getAdmingroup().getId());
+        session.setAttribute(adminId, admin.getId());
     }
 
     @Override
     public void editPassword(String oldpwd, String newpwd, String repwd, HttpSession session) {
         if(oldpwd.isEmpty() || newpwd.isEmpty() || repwd.isEmpty())throw  JsonException.newInstance(ErrorCodes.IS_NOT_EMPTY);
         if(!newpwd.equals(repwd))throw JsonException.newInstance(ErrorCodes.PASSWORD_NOT_IDENTICAL);
-        Admin admin = get(session.getAttribute("ADMIN_ACCOUNT").toString());
+        Admin admin = get(session.getAttribute(adminAccount).toString());
         if(admin == null)throw  JsonException.newInstance(ErrorCodes.ITEM_NOT_EXIST);
         String varifyPwd = CommonOperation.encodeStr(oldpwd, admin.getSalt());
         if(!varifyPwd.equals(admin.getPassword())) throw JsonException.newInstance(ErrorCodes.PASSWORD_ERROR);
@@ -135,7 +156,7 @@ public class AdminServiceImpl implements AdminService {
         ServletRequestAttributes attributes =   (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
         HttpSession session= request.getSession();
-        if(session.getAttribute("ADMIN_ACCOUNT") == null) throw JsonException.newInstance(ErrorCodes.UN_LOGIN_ERROR);
-        return get(session.getAttribute("ADMIN_ACCOUNT").toString());
+        if(session.getAttribute(adminAccount) == null) throw JsonException.newInstance(ErrorCodes.UN_LOGIN_ERROR);
+        return get(session.getAttribute(adminAccount).toString());
     }
 }

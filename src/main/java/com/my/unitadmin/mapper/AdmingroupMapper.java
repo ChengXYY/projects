@@ -1,6 +1,7 @@
 package com.my.unitadmin.mapper;
 
 import com.my.unitadmin.model.Admingroup;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -18,5 +19,5 @@ public interface AdmingroupMapper {
 
     int updateByPrimaryKey(Admingroup record);
 
-    List<Admingroup> selectAll();
+    List<Admingroup> selectAll(@Param("parentid") Integer parentid);
 }

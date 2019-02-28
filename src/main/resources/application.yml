@@ -28,7 +28,6 @@ mybatis:
   type-aliases-package: com.my.*.model
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-
 #pagehelper分页插件
 #pagehelper:
 #    helperDialect: mysql
@@ -50,4 +49,16 @@ list:
 file:
   save-path: E:/upload
 
+#session
+admin:
+  session: ADMIN_SESSION
+  account: ADMIN_ACCOUNT
+  group: ADMIN_GROUP
+  auth: ADMIN_AUTH
+  id: ADMIN_ID
+login:
+  vercode: VERCODE
 
+#日志配置
+logging:
+  file: E:/log/projects.log

@@ -44,6 +44,7 @@ public class AccessCheck {
         try {
             currentUser = adminService.getCurrentUser();
         } catch (JsonException e) {
+            System.out.println(e.getMsg());
             return "/admin/login";
         }
 

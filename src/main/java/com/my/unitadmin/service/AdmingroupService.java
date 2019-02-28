@@ -7,7 +7,7 @@ import java.util.Map;
 
 public interface AdmingroupService {
     //list all
-    List<Admingroup> getListAll();
+    List<Admingroup> getListAll(Integer parentid);
 
     //add
     int add(Admingroup admingroup);

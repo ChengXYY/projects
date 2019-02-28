@@ -6,9 +6,10 @@
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="auth" property="auth" jdbcType="VARCHAR" />
     <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="parentid" property="parentid" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, auth, sort
+    id, name, auth, sort, parentid
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -16,10 +17,18 @@
     from admingroup
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <select id="selectAll" resultMap="BaseResultMap">
+  <select id="selectAll" resultMap="BaseResultMap" parameterType="java.lang.Integer">
     select <include refid="Base_Column_List" />
     from admingroup
-    where 1=1 order by sort asc
+    <where>
+      <if test="parentid!=null">
+        parentid = #{parentid,jdbcType=INTEGER}
+      </if>
+      <if test="parentid==null">
+        parentid=0
+      </if>
+    </where>
+    order by sort asc
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from admingroup
@@ -46,6 +55,9 @@
       <if test="sort != null" >
         sort,
       </if>
+      <if test="parentid!=null">
+        parentid,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -59,6 +71,9 @@
       </if>
       <if test="sort != null" >
         #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="parentid!=null">
+        #{parentid,jdbcType=INTEGER},
       </if>
     </trim>
       <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER">
@@ -79,12 +94,5 @@
       </if>
     </set>
     where id = #{id}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.my.unitadmin.model.Admingroup" >
-    update admingroup
-    set name = #{name,jdbcType=VARCHAR},
-      auth = #{auth,jdbcType=VARCHAR},
-      sort = #{sort,jdbcType=INTEGER}
-    where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

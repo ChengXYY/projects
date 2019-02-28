@@ -5,12 +5,14 @@
             管理设置
         </a>
     </li>
-    <li th:class="${LeftMenuFlag=='admin'?'list-group-item active':'list-group-item'}">
+    <li th:class="${LeftMenuFlag=='admin'?'list-group-item active':'list-group-item'}"
+        th:if="${#strings.contains(session.ADMIN_AUTH+'','2001')}">
         <a class="list-group-item-heading" href="/system/admin/list">
             管理员
         </a>
     </li>
-    <li th:class="${LeftMenuFlag=='admingroup'?'list-group-item active':'list-group-item'}">
+    <li th:class="${LeftMenuFlag=='admingroup'?'list-group-item active':'list-group-item'}"
+        th:if="${#strings.contains(session.ADMIN_AUTH+'','2002')}">
         <a class="list-group-item-heading" href="/system/admingroup/list">
             管理员组
         </a>

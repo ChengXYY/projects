@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.my.unitadmin.mapper.AdminMapper" >
-  <sql id="groupTable">name ,auth, sort</sql>
+
+  <sql id="groupTable">name ,auth, sort, parentid</sql>
   <resultMap id="groupMap" type="com.my.unitadmin.model.Admingroup">
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="auth" property="auth" jdbcType="VARCHAR" />
     <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="parentid" property="parentid" jdbcType="INTEGER" />
   </resultMap>
 
   <resultMap id="BaseResultMap" type="com.my.unitadmin.model.Admin" >
@@ -20,11 +22,12 @@
     <result column="lastlogintime" property="lastlogintime" jdbcType="TIMESTAMP" />
     <result column="logincount" property="logincount" jdbcType="INTEGER" />
     <result column="addtime" property="addtime" jdbcType="TIMESTAMP" />
+    <result column="parentid" property="parentid" jdbcType="INTEGER" />
     <association property="admingroup" column="groupid" select="getGroup"></association>
   </resultMap>
   <sql id="Base_Column_List" >
     id, name, account, password, salt, groupid, lastloginip, lastlogintime, logincount, 
-    addtime
+    addtime, parentid
   </sql>
   <select id="getGroup" resultMap="groupMap" parameterType="java.lang.Integer">
     select <include refid="groupTable" /> from admingroup g where g.id=#{groupid,jdbcType=INTEGER}
@@ -53,6 +56,9 @@
       </if>
       <if test="groupid!=null">
         and groupid = #{groupid}
+      </if>
+      <if test="parentid!=null and groupid!=1">
+        and parentid=#{parentid}
       </if>
     </where>
     <if test="order!=null">
@@ -109,6 +115,9 @@
       <if test="addtime != null" >
         addtime,
       </if>
+      <if test="parentid!=null">
+        parentid,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -140,6 +149,9 @@
       </if>
       <if test="addtime != null" >
         #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="parentid!=null">
+        #{parentid,jdbcType=INTEGER}
       </if>
     </trim>
   </insert>
