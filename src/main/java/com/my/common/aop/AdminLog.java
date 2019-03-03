@@ -7,6 +7,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -18,6 +19,9 @@ import java.lang.reflect.Field;
 @Aspect
 @Component
 public class AdminLog {
+    
+    @Value("${admin.account}")
+    private String adminAccount;
 
     @Pointcut("within(com.my.unitadmin.controller.LoginController)")
     public void loginLog(){}
@@ -35,8 +39,12 @@ public class AdminLog {
         //获取访问信息
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
+        String ipAddr = request.getRemoteAddr();
+        if(ipAddr.startsWith("0.")){
+            ipAddr = "::1";
+        }
         HttpSession session = ((HttpServletRequest) request).getSession();
-        if(session.getAttribute("ADMIN_ACCOUNT")==null){
+        if(session.getAttribute(adminAccount)==null){
             return result;
         }
         //获取访问目标方法
@@ -44,11 +52,11 @@ public class AdminLog {
         String methodName = signature.getName();
         switch (methodName){
             case "login": //登录
-                adminlogService.add(session.getAttribute("ADMIN_ACCOUNT").toString(), "管理员登录");
+                adminlogService.add(session.getAttribute(adminAccount).toString(), "管理员登录");
                 break;
             case "logout": //登出
-                if(session.getAttribute("ADMIN_ACCOUNT")!=null)
-                    adminlogService.add(session.getAttribute("ADMIN_ACCOUNT").toString(), "管理员退出登录");
+                if(session.getAttribute(adminAccount)!=null)
+                    adminlogService.add(session.getAttribute(adminAccount).toString(), "管理员退出登录");
                 break;
             default:
                 break;
@@ -84,20 +92,20 @@ public class AdminLog {
             case "add":
                 Field[] fields = Class.forName(modelName).getDeclaredFields();
                 for(Field f :fields){
-                    f.setAccessible(true);System.out.println(f.getName());
+                    f.setAccessible(true);
                     if(f.getName()=="name"){
                         param = f.get(args[0]).toString();
                     }
                 }
-                adminlogService.add(session.getAttribute("ADMIN_ACCOUNT").toString(), "添加【"+className+"】记录("+param+")");
+                adminlogService.add(session.getAttribute(adminAccount).toString(), "添加【"+className+"】记录("+param+")");
                 break;
             case "edit":
                 param = getParamValue("id", args, parameterNames);
-                adminlogService.add(session.getAttribute("ADMIN_ACCOUNT").toString(), "修改【"+className+"】记录("+param+")");
+                adminlogService.add(session.getAttribute(adminAccount).toString(), "修改【"+className+"】记录("+param+")");
                 break;
             case "remove":
                 param = getParamValue("id", args, parameterNames);
-                adminlogService.add(session.getAttribute("ADMIN_ACCOUNT").toString(), "删除【"+className+"】记录("+param+")");
+                adminlogService.add(session.getAttribute(adminAccount).toString(), "删除【"+className+"】记录("+param+")");
                 break;
         }
         return result;
