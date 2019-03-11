@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="_include"></head>
+<body>
+<header th:replace="admin/_header">
+    Your Company Name.
+</header>
+<div th:replace="admin/_topmenu"></div>
+<div class="container fluid">
+    <div class="col-md-12">
+        <div class="toolbar">
+            <div class="col-md-6">
+                <a class="btn btn-success" href="/email/send"><i class="fa fa-send"></i> 发送邮件</a>
+            </div>
+            <form class="col-md-6 right form-inline">
+                <input class="form-control" name="name" value="邮件标题"/>
+                <button type="submit" class="btn btn-warning"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>邮件标题</th>
+                <th>收件人</th>
+                <th>发送时间</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="email:${list}">
+                <td th:text="${email.title}">title</td>
+                <td th:text="${email.receiver}">receiver</td>
+                <td th:text="${#dates.format(email.addtime,'yyyy-MM-dd HH:mm:ss')}">addtime</td>
+                <td th:attr="data-id=${email.id}" class="center">
+                    <a class="btn btn-outline btn-danger btn-xs delete"><i class="fa fa-trash"></i> 删除</a>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(list)}">
+                <td colspan="4" class="center">暂无数据</td>
+            </tr>
+            </tbody>
+        </table>
+        <page th:replace="admin/_page"></page>
+    </div>
+</div>
+<footer th:replace="admin/_footer">
+    Your Company Name.
+</footer>
+<script>
+    $(function () {
+
+        $(".delete").click(function () {
+            var id = $(this).parent().data("id");
+            layer.confirm('确认删除该邮件记录？', {
+                    btn: ['确认','取消']
+                }, function(){
+                    var index = layer.load(0, {shade: false});
+                    $.ajax({
+                        type        : 'POST',
+                        data        : {
+                            id:id
+                        },
+                        dataType :    'json',
+                        url :         '/email/delete',
+                        success : function(data){
+                            layer.close(index);
+                            if(data.code == 1){
+                                location.reload();
+                            }else{
+                                layer.msg(data.msg);
+                            }
+                        }
+                    });
+                }, function(){}
+            );
+        });
+    });
+</script>
+</body>
+</html>

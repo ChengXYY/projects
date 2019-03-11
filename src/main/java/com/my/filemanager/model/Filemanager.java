@@ -1,7 +1,6 @@
 package com.my.filemanager.model;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 public class Filemanager {
     private Integer id;
@@ -38,7 +37,7 @@ public class Filemanager {
         this.size = size;
     }
 
-    public Date getAddtime() {
+    public Timestamp getAddtime() {
         return addtime;
     }
 

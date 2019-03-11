@@ -9,6 +9,8 @@ public enum AuthCode {
     Menu_Formtool(1003,"菜单查看权限-表单提交平台"),
     Menu_Sitepage(1004,"菜单查看权限-网页生成平台"),
     Menu_FileManager(1005,"菜单查看权限-文件管理平台"),
+    Menu_Email(1006,"菜单查看权限-邮件管理平台"),
+
     Sys_Admin(2001, "系统权限-管理员管理"),
     Sys_AdminGroup(2002, "系统权限-管理员组管理"),
     Sys_AdminAuth(2003, "系统权限-管理员权限配置");

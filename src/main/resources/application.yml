@@ -22,6 +22,23 @@ spring:
     multipart:
       max-file-size: 52428800
       max-request-size: 52428800
+  redis:
+          #redis数据库地址
+          host: localhost
+          port: 6379
+          password: root
+          timeout: 1000
+          #redis数据库索引，默认0
+          database: 1
+  #smtp settings
+  mail:
+    port: 25
+    host:
+    username:
+    password:
+    default-encoding: UTF-8
+    protocol: smtp
+    test-connection: true
 
 mybatis:
   mapper-locations: classpath:com/my/**/mapper/*.xml
@@ -35,19 +52,25 @@ mybatis:
 #    supportMethodsArguments: true
 #    params: count=countSql
 
+
 #file upload
 debug: false
-
 
 #自定义变量
 formtool:
   weburl: http://localhost:8080/form/
 sitepage:
   weburl: http://localhost:8080/sitepage/
+emailread:
+  backurl: http://localhost:8080/emailread
 list:
   pagesize: 15
 file:
   save-path: E:/upload
+
+#smtp配置
+smtp:
+  sender:
 
 #session
 admin:

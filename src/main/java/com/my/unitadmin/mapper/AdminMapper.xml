@@ -58,7 +58,7 @@
         and groupid = #{groupid}
       </if>
       <if test="parentid!=null and groupid!=1">
-        and parentid=#{parentid}
+        and (parentid=#{parentid} or id=#{parentid})
       </if>
     </where>
     <if test="order!=null">

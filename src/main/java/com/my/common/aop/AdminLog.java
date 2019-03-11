@@ -35,6 +35,7 @@ public class AdminLog {
         //获取访问信息
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
+        String ipAddr = request.getRemoteAddr();
         HttpSession session = ((HttpServletRequest) request).getSession();
         if(session.getAttribute("ADMIN_ACCOUNT")==null){
             return result;
@@ -44,7 +45,7 @@ public class AdminLog {
         String methodName = signature.getName();
         switch (methodName){
             case "login": //登录
-                adminlogService.add(session.getAttribute("ADMIN_ACCOUNT").toString(), "管理员登录");
+                adminlogService.add(session.getAttribute("ADMIN_ACCOUNT").toString(), "管理员登录("+ipAddr+")");
                 break;
             case "logout": //登出
                 if(session.getAttribute("ADMIN_ACCOUNT")!=null)

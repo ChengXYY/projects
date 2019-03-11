@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="_include"></head>
+<body>
+<header th:replace="admin/_header">
+    Your Company Name.
+</header>
+<div th:replace="admin/_topmenu"></div>
+<div class="container">
+    <form class="form-horizontal" style="margin-bottom: 50px" id="EmailForm">
+        <div class="form-group">
+            <h3 class="text text-primary">邮件主题</h3>
+            <hr/>
+            <input class="form-control" placeholder="请输入" type="text" name="title"/>
+        </div>
+        <div class="form-group">
+            <h3 class="text text-primary">收件人列表</h3>
+            <hr/>
+            <textarea class="form-control" name="receiver" rows="3"></textarea>
+            <p class="text text-danger">* 多个收件人，请以英文分号（;）隔开</p>
+        </div>
+        <div class="form-group">
+            <h3 class="text text-primary">邮件内容</h3>
+            <hr/>
+            <textarea rows="10" class="form-control" name="content"></textarea>
+        </div>
+        <div class="form-group center">
+            <br/>
+            <a class="btn btn-warning" href="javascript:" id="submit-form">发 送</a>
+            <a href="list" class="btn btn-default">返 回</a>
+        </div>
+    </form>
+</div>
+
+<footer th:replace="admin/_footer">
+    Your Company Name.
+</footer>
+<script>
+    $(function () {
+        $("#submit-form").click(function () {
+            $.ajax({
+                type :"post",
+                data : $("#EmailForm").serialize(),
+                dataType :"json",
+                url :"/email/send/submit",
+                success : function (data) {
+                    if(data.code == 1){
+                        layer.alert(data.msg, {icon:1}, function () {
+                            parent.location.href="/email/list";
+                        })
+                    }else{
+                        layer.msg(data.msg);
+                    }
+                }
+            })
+        })
+
+    });
+</script>
+<script type="text/javascript" th:src="@{~/js/task.js}"></script>
+<script type="text/javascript" th:src="@{~/js/jquery-ui.min.js}"></script>
+<template th:replace="admin/_template">
+    Your Own Templates
+</template>
+</body>
+</html>
