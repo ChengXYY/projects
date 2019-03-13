@@ -1,5 +1,6 @@
 package com.my.filemanager.service.serviceimpl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.my.common.CommonOperation;
 import com.my.common.exception.JsonException;
 import com.my.common.result.ErrorCodes;
@@ -69,33 +70,15 @@ public class FilemanagerServiceImpl implements FilemanagerService {
 
     @Override
     public Filemanager upload(MultipartFile file, String savePath) {
-        if(file == null || savePath.isEmpty())throw JsonException.newInstance(ErrorCodes.IS_NOT_EMPTY);
-        String fileName = file.getOriginalFilename();
-        String newFileName = System.currentTimeMillis() + "_" +fileName;
-        int size = (int)file.getSize();
-        size = (int)Math.ceil(size/1024);
-        if(size <= 0)throw JsonException.newInstance(ErrorCodes.FILE_UPLOAD_ERROR);
-        String destDir = savePath + "/" + newFileName;
-        File dest  = new File(destDir);
-        if(!dest.getParentFile().exists()){ //判断文件父目录是否存在
-            dest.getParentFile().mkdir();
-        }
 
         Filemanager filemanager = new Filemanager();
-        try {
-            file.transferTo(dest);
-            filemanager.setName(fileName);
-            filemanager.setPath(destDir);
-            filemanager.setSize(size);
-            return filemanager;
+        JSONObject rs = new JSONObject();
 
-        } catch (IllegalStateException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        rs = CommonOperation.uploadFile(file, savePath);
+        filemanager.setName(rs.getString("filename"));
+        filemanager.setPath(savePath + "/"+ rs.getString("realname"));
+        filemanager.setSize(rs.getInteger("size"));
+
         return filemanager;
     }
 }

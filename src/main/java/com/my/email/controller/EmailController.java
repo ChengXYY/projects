@@ -1,7 +1,9 @@
 package com.my.email.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.my.common.CommonOperation;
 import com.my.common.exception.JsonException;
+import com.my.common.result.ErrorCodes;
 import com.my.email.model.Email;
 import com.my.email.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +13,11 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +30,8 @@ public class EmailController {
     private EmailService emailService;
     @Value("${list.pagesize}")
     private Integer pageSize;
+    @Value("${file.email-image-path}")
+    private String imageSavePath;
 
     @RequestMapping("/list")
     public String emailList(@RequestParam(value = "title", required = false, defaultValue = "")String title,
@@ -90,4 +97,16 @@ public class EmailController {
         return result;
     }
 
+    @ResponseBody
+    @RequestMapping("/upload")
+    public JSONObject uploadIamge(@RequestParam(value = "fileupload")MultipartFile file){
+        JSONObject result = new JSONObject();
+        try {
+            result = CommonOperation.uploadFile(file, imageSavePath);
+            result.put("path", "/emailread/getimg?filename="+result.get("realname"));
+        }catch (JsonException e){
+            result = e.toJson();
+        }
+        return  result;
+    }
 }

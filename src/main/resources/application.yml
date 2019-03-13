@@ -38,7 +38,7 @@ spring:
     password:
     default-encoding: UTF-8
     protocol: smtp
-    test-connection: true
+    test-connection: false
 
 mybatis:
   mapper-locations: classpath:com/my/**/mapper/*.xml
@@ -67,6 +67,7 @@ list:
   pagesize: 15
 file:
   save-path: E:/upload
+  email-image-path: E:/upload/email
 
 #smtp配置
 smtp:
