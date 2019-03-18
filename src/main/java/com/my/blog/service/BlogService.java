@@ -16,4 +16,6 @@ public interface BlogService {
     Blog get(Integer id);
     //get list
     List<Blog>getList(Map<String,Object>filter);
+    //get count
+    int getCount(Map<String, Object>filter);
 }

@@ -10,38 +10,58 @@
     <result column="visit" property="visit" jdbcType="INTEGER" />
     <result column="ilike" property="ilike" jdbcType="INTEGER" />
     <result column="title" property="title" jdbcType="VARCHAR" />
-  </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.my.blog.model.Blog" extends="BaseResultMap" >
     <result column="content" property="content" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, author, intro, addtime, updatetime, visit, ilike, title
+    id, author, intro, addtime, updatetime, visit, ilike, title, content
   </sql>
-  <sql id="Blob_Column_List" >
-    content
+  <sql id="tableName">
+    blog
   </sql>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from blog
+    from
+    <include refid="tableName" />
     where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByFilter" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from
+    <include refid="tableName" />
+    <where>
+      <if test="title!=null">
+        and title like CONCAT('%',#{title},'%')
+      </if>
+      <if test="author!=null">
+        and author=#{author, jdbcType=VARCHAR}
+      </if>
+    </where>
+    <if test="order!=null">
+      order by ${order}
+    </if>
+    <if test="page !=null and pagesize !=null">
+      limit #{page}, #{pagesize}
+    </if>
+  </select>
+  <select id="countByFilter" parameterType="map" resultType="java.lang.Integer">
+    select count(*) as ct
+    from
+    <include refid="tableName" />
+    <where>
+      <if test="title!=null">
+        and title like CONCAT('%',#{title},'%')
+      </if>
+      <if test="author!=null">
+        and author=#{author, jdbcType=VARCHAR}
+      </if>
+    </where>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from blog
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.my.blog.model.Blog" >
-    insert into blog (id, author, intro, 
-      addtime, updatetime, visit, 
-      ilike, title, content
-      )
-    values (#{id,jdbcType=INTEGER}, #{author,jdbcType=VARCHAR}, #{intro,jdbcType=VARCHAR}, 
-      #{addtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}, #{visit,jdbcType=INTEGER}, 
-      #{ilike,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}
-      )
-  </insert>
   <insert id="insertSelective" parameterType="com.my.blog.model.Blog" >
     insert into blog
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -103,7 +123,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.my.blog.model.Blog" >
+  <update id="updateByPrimaryKeySelective" parameterType="map" >
     update blog
     <set >
       <if test="author != null" >
@@ -131,18 +151,6 @@
         content = #{content,jdbcType=LONGVARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.my.blog.model.Blog" >
-    update blog
-    set author = #{author,jdbcType=VARCHAR},
-      intro = #{intro,jdbcType=VARCHAR},
-      addtime = #{addtime,jdbcType=TIMESTAMP},
-      updatetime = #{updatetime,jdbcType=TIMESTAMP},
-      visit = #{visit,jdbcType=INTEGER},
-      ilike = #{ilike,jdbcType=INTEGER},
-      title = #{title,jdbcType=VARCHAR},
-      content = #{content,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.my.blog.model.Blog" >

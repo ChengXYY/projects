@@ -2,6 +2,9 @@ package com.my.blog.mapper;
 
 import com.my.blog.model.Blog;
 
+import java.util.List;
+import java.util.Map;
+
 public interface BlogMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -11,9 +14,10 @@ public interface BlogMapper {
 
     Blog selectByPrimaryKey(Integer id);
 
-    int updateByPrimaryKeySelective(Blog record);
+    int updateByPrimaryKeySelective(Map<String, Object> record);
 
-    int updateByPrimaryKeyWithBLOBs(Blog record);
+    List<Blog> selectByFilter(Map<String, Object> filter);
 
-    int updateByPrimaryKey(Blog record);
+    int countByFilter(Map<String, Object> filter);
+
 }

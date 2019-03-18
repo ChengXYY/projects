@@ -1,37 +1,58 @@
 package com.my.blog.service.serviceimpl;
 
+import com.my.blog.mapper.BlogMapper;
 import com.my.blog.model.Blog;
 import com.my.blog.service.BlogService;
+import com.my.common.CommonOperation;
 import com.my.common.exception.JsonException;
 import com.my.common.result.ErrorCodes;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
 
+@Service
 public class BlogServiceImpl implements BlogService {
+    @Autowired
+    private BlogMapper blogMapper;
+
     @Override
     public int add(Blog blog) {
         if(blog.getTitle().isEmpty())throw JsonException.newInstance(ErrorCodes.IS_NOT_EMPTY);
-        return 0;
+        return blogMapper.insertSelective(blog);
     }
 
     @Override
     public int edit(Map<String, Object> blog) {
-        return 0;
+        if(blog.get("id")==null || CommonOperation.checkId(Integer.parseInt(blog.get("id").toString())))throw JsonException.newInstance(ErrorCodes.ID_NOT_ILLEGAL);
+        return blogMapper.updateByPrimaryKeySelective(blog);
     }
 
     @Override
     public int remove(Integer id) {
-        return 0;
+        if(!CommonOperation.checkId(id)) throw JsonException.newInstance(ErrorCodes.ID_NOT_ILLEGAL);
+        return blogMapper.deleteByPrimaryKey(id);
     }
 
     @Override
     public Blog get(Integer id) {
-        return null;
+        if(!CommonOperation.checkId(id)) throw JsonException.newInstance(ErrorCodes.ID_NOT_ILLEGAL);
+        Blog blog = blogMapper.selectByPrimaryKey(id);
+        if(blog == null){
+            throw JsonException.newInstance(ErrorCodes.ITEM_NOT_EXIST);
+        }
+        return blog;
     }
 
     @Override
     public List<Blog> getList(Map<String, Object> filter) {
-        return null;
+        return blogMapper.selectByFilter(filter);
     }
+
+    @Override
+    public int getCount(Map<String, Object> filter) {
+        return blogMapper.countByFilter(filter);
+    }
+
 }

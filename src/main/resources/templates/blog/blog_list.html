@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="_include"></head>
+<body>
+<header th:replace="admin/_header">
+    Your Company Name.
+</header>
+<div th:replace="admin/_topmenu"></div>
+<div class="container">
+    <div class="toolbar">
+        <div class="col-md-6"></div>
+        <form class="col-md-6 right form-inline">
+            <input class="form-control" placeholder="贴子标题" type="text" name="title" th:value="${title}"/>
+            <input class="form-control" placeholder="作者" type="text" name="author" th:value="${author}"/>
+            <button type="submit" class="btn btn-warning"><i class="fa fa-search"></i></button>
+        </form>
+    </div>
+    <div class="form-horizontal"style="margin-bottom: 60px">
+        <div class="form-group" th:if="${list != null}" th:each="blog:${list}">
+            <div class="panel panel-primary">
+                <div class="panel-body">
+                    <a class="task-close"><i class="fa fa-times-circle"></i></a>
+                    <h3 class="text text-primary project" th:attr="data-id=${blog.id}">
+                        <span th:text="${blog.title}"></span>
+                    </h3>
+                    <div class="text text-muted text-inline" style="font-size: smaller">
+                        <i class="fa fa-tag"></i>
+                        <span th:text="${blog.author}"></span>
+                        <i class="fa fa-clock-o"></i>
+                        <span th:text="${#dates.format(blog.addtime,'yyyy-MM-dd HH:mm:ss')}"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group" th:if="${list != null}">
+            <h2 class="text text-muted center">
+                暂无数据
+            </h2>
+        </div>
+        <page th:replace="admin/_page"></page>
+    </div>
+</div>
+
+<footer th:replace="admin/_footer">
+    Your Company Name.
+</footer>
+<script>
+    $(function(){
+        $(".task-close").click(function(){
+            var obj = $(this);
+            var id = obj.next("h3").data("id");
+            layer.alert("确认删除该贴子么？",
+                {icon:2},
+                function(){
+                    var index = layer.load(0, { shade: false });
+                    $.ajax({
+                        type:"post",
+                        data:{
+                            id:id
+                        },
+                        dataType:"json",
+                        url:"/blog/remove",
+                        success:function (data) {
+                            if(data.code>0){
+                                location.reload();
+                            }else{
+                                layer.closeAll();
+                                layer.msg(data.msg);
+                            }
+                        }
+                    });
+                });
+        });
+
+    })
+</script>
+</body>
+</html>

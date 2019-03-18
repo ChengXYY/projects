@@ -63,6 +63,8 @@ sitepage:
   weburl: http://localhost:8080/sitepage/
 emailread:
   backurl: http://localhost:8080/emailread
+blog:
+  weburl: http://localhost:8080/blog/
 list:
   pagesize: 15
 file:
