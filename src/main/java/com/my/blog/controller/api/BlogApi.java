@@ -6,6 +6,7 @@ import com.my.common.exception.JsonException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -51,5 +52,14 @@ public class BlogApi {
             filter.put("pagesize", pageSize);
 
             return blogService.getList(filter);
+    }
+
+    @RequestMapping(value = "/detail", method = RequestMethod.GET)
+    public Blog blogDetail(@RequestParam(value = "id", required = true)Integer id){
+        try {
+            return blogService.get(id);
+        }catch (JsonException e){
+            return null;
+        }
     }
 }

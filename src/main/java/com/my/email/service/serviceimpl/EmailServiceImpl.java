@@ -55,7 +55,13 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public int remove(Integer id) {
-        return 0;
+        if(!CommonOperation.checkId(id))throw JsonException.newInstance(ErrorCodes.ID_NOT_ILLEGAL);
+        int rs = emailMapper.deleteByPrimaryKey(id);
+        if(rs > 0)
+            return 1;
+        else
+            throw JsonException.newInstance(ErrorCodes.DATA_OP_FAILED);
+
     }
 
     @Override

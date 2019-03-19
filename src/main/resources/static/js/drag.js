@@ -97,8 +97,46 @@ $(function () {
     });
 
     $("#btnRm").click(function () {
-        rmAll();
-    })
+       layer.alert("确定清空所有布局？",{icon: 0, shade: false},function () {
+           $('#init').html('');
+           $("#frameList").html("");
+           layer.closeAll();
+       })
+    });
+
+    $("#submit-form").click(function () {
+       save();
+       $.ajax({
+           type : "post",
+           data : $("#myForm").serialize(),
+           dataType : "json",
+           url : "/sitepage/add/submit",
+           success :function (data) {
+               if(data.code == 1){
+                   location.href="/sitepage/list";
+               }else {
+                   layer.msg(data.msg);
+               }
+           }
+       })
+    });
+
+    $("#submit-edit").click(function () {
+        save();
+        $.ajax({
+            type : "post",
+            data : $("#myForm").serialize(),
+            dataType : "json",
+            url : "/sitepage/edit/submit",
+            success :function (data) {
+                if(data.code == 1){
+                    location.href="/sitepage/list";
+                }else {
+                    layer.msg(data.msg);
+                }
+            }
+        })
+    });
 });
 
 //初始化
@@ -243,8 +281,7 @@ function save() {
     var html = $('#init').html();
     strC = new RegExp(createBtn("C"), "g");
     strT = new RegExp(createBtn("T"), "g");
-    re =
-        html = html.replace(strC, "");
+     html = html.replace(strC, "");
     html = html.replace(strT, "");
     $('#Template').val(html);
 }

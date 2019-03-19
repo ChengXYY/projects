@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -108,5 +109,19 @@ public class EmailController {
             result = e.toJson();
         }
         return  result;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/remove", method = RequestMethod.POST)
+    public JSONObject emailDelete(@RequestParam(value = "id", required = true)Integer id){
+        JSONObject result = new JSONObject();
+        try {
+            emailService.remove(id);
+            result.put("code", 1);
+            result.put("msg", "删除成功！");
+        }catch (JsonException e){
+            result = e.toJson();
+        }
+        return result;
     }
 }

@@ -32,7 +32,11 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public int remove(Integer id) {
         if(!CommonOperation.checkId(id)) throw JsonException.newInstance(ErrorCodes.ID_NOT_ILLEGAL);
-        return blogMapper.deleteByPrimaryKey(id);
+        int rs = blogMapper.deleteByPrimaryKey(id);
+        if(rs == 1)
+            return 1;
+        else
+            throw JsonException.newInstance(ErrorCodes.DATA_OP_FAILED);
     }
 
     @Override

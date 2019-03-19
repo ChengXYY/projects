@@ -1,0 +1,67 @@
+*[region-id] {
+    min-height: 100px;
+    border: 1px dashed #aaa;
+    padding: 5px;
+    background: #fff;
+    margin: 15px 0;
+}
+
+*[frame-id]{
+    border: 1px solid #888;
+    background:#ddd;
+    min-height: 100px;
+    margin: 15px 0;
+    min-width:100px;
+}
+
+.frame-delete{
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    border-radius: 10px;
+    margin-top: -10px;
+    margin-left: 50px;
+    position: absolute;
+    background: #add4f1;
+    z-index: 999;
+}
+
+.frame-edit{
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    border-radius: 10px;
+    margin-top: -10px;
+    margin-left: 26px;
+    position: absolute;
+    background: #add4f1;
+    z-index: 999;
+}
+.frame-title{
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    border-radius: 10px;
+    margin-top: -10px;
+    margin-left: 2px;
+    position: absolute;
+    background:#0094ff;
+    z-index: 999;
+    color:#fff;
+}
+.frame-buttons{
+    background:#fff;
+    padding:10px 10px 10px 5px;
+}
+.affix-top
+{
+    top:395px;
+}
+.affix
+{
+    top:0px;
+    z-index:1000;
+}
+#init{
+    min-height: 200px;
+}
