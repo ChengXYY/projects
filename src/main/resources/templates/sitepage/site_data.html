@@ -9,6 +9,10 @@
 </header>
 <div th:replace="admin/_topmenu"></div>
 <div class="container">
+    <div class="toolbar">
+        <div class="btn btn-primary btn-outline" style="font-size: 2em"><i class="fa fa-image"></i></div>
+        <div class="btn btn-warning btn-outline" style="font-size: 2em"><i class="fa fa-tasks"></i></div>
+    </div>
     <form class="form-horizontal" id="myForm" style="margin-bottom: 50px">
 
         <div class="form-group">
@@ -31,32 +35,6 @@
 <div th:replace="sitepage/_template"></div>
 <script type="text/javascript" th:src="@{~/js/task.js}"></script>
 <script type="text/javascript" th:src="@{~/js/jquery-ui.min.js}"></script>
-<script type="text/javascript" th:src="@{~/js/drag.js}"></script>
-<script>
-    $(function () {
-        var obj = $("#init");
-        obj.find(".part").each(function () {
-            var type = $(this).data("type");
-            var html = "";
-            switch (type){
-                case "column":
-                    html = '<span class="frame-title">C</span>';
-                    break;
-                case  "tab":
-                    html = '<span class="frame-title">T</span>';
-                    break;
-            }
-            html += '<a class="frame-edit"><i class="fa fa-edit "></i></a>';
-            html += '<a class="frame-delete"><i class="fa fa-remove "></i></a>';
-            $(this).prepend(html);
-        });
 
-        $("#Template").val($("#init").html());
-
-        $("#btnRs").click(function () {
-            $("#init").html($("#Template").val());
-        })
-    });
-</script>
 </body>
 </html>

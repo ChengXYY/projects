@@ -123,7 +123,7 @@ public class SitepageController {
     @ResponseBody
     @Permission("1004")
     @RequestMapping(value = "/edit/submit", method = RequestMethod.POST)
-    public JSONObject pageEdit(Map<String, Object> page){
+    public JSONObject pageEdit(@RequestParam Map<String, Object> page){
         JSONObject rs = new JSONObject();
         try {
             sitepageService.edit(page);
@@ -154,8 +154,11 @@ public class SitepageController {
     @RequestMapping(value = "/data", method = RequestMethod.GET)
     public String pageData(@RequestParam(value = "id", required = true)Integer id,
                            ModelMap model){
+        Sitepage page = sitepageService.get(id);
+        model.addAttribute("sitePage", page);
         model.addAttribute("pageTitle","页面数据关联 - 网页生产平台 - 后台管理系统");
         model.addAttribute("TopMenuFlag", "sitepage");
         return "sitepage/site_data";
     }
+
 }
