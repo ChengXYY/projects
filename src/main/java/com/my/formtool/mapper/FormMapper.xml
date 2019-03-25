@@ -20,6 +20,12 @@
     from form
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="getForms" parameterType="java.lang.Integer" resultType="java.lang.String">
+    select
+      form
+      from form
+      where taskid=#{taskid, jdbcType=INTEGER}
+  </select>
   <select id="selectByFilter" parameterType="map" resultMap="BaseResultMap">
     select <include refid="Base_Column_List" />
     from form

@@ -44,11 +44,17 @@
             height: 500,
             plugins: [
                 "advlist anchor autolink autosave bbcode charmap code",
-                "emoticons fullpage fullscreen help hr image imagetools link lists media paste print ",
+                "emoticons fullpage fullscreen help hr image imagetools link lists media powerpaste print ",
                 "save searchreplace spellchecker tabfocus table template textpattern wordcount "
             ],
             toolbar: "undo redo | styleselect | fontselect | fontsizeselect | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media | forecolor backcolor emoticons | fullscreen preview ",
             convert_urls: false,
+            //从ms复制粘贴
+            powerpaste_word_import: 'propmt',// 参数可以是propmt, merge, clear，效果自行切换对比
+            powerpaste_html_import: 'propmt',// propmt, merge, clear
+            powerpaste_allow_local_images: true,
+            paste_data_images: true,
+
             imageupload_url: '/file/upload',
             images_upload_credentials: true,
             images_upload_handler: function(blobInfo, success, failure) {

@@ -1,6 +1,7 @@
 package com.my.formtool.mapper;
 
 import com.my.formtool.model.Form;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -17,4 +18,6 @@ public interface FormMapper {
     List<Form> selectByFilter(Map<String, Object> filter);
 
     Integer countByFilter(Map<String, Object> filter);
+
+    List<String> getForms(@Param("taskid") Integer taskid);
 }

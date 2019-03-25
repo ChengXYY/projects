@@ -15,4 +15,11 @@ public interface FormService {
 
     //get count
     Integer getCount(Map<String, Object> filter);
+
+    //获取图表数据
+    JSONObject chartData(Integer taskid);
+
+    //获取表个数
+    Integer getChartCount(Integer taskid);
+
 }

@@ -37,7 +37,7 @@
                             <input class="custom-control-input" type="checkbox" th:name="${field.id+'_0'}"  th:value="${item}"><span
                                 class="custom-control-label" th:text="${item}"></span>
                         </label>
-                        <input class="form-control" th:if="${field.type=='text'}"  th:name="${field.id}" />
+                        <input class="form-control" th:if="${field.type=='text'}"  th:name="${field.id}" TextMode="MultiLine"/>
                     </div>
 
             </div>

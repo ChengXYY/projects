@@ -1,5 +1,6 @@
 package com.my.formtool.controller;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.my.common.aop.Permission;
 import com.my.common.exception.JsonException;
@@ -15,7 +16,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
@@ -99,7 +99,7 @@ public class FormController {
             model.addAttribute("list", formList);
 
             model.addAttribute("pageTitle","表单列表 - 表单提交平台 - 后台管理系统");
-            model.addAttribute("TopMenuFlag", "system");
+            model.addAttribute("TopMenuFlag", "formtool");
 
             return "formtool/form_list";
         }catch (JsonException e){
@@ -114,6 +114,34 @@ public class FormController {
             }
             model.addAttribute("error", e);
             return returnUrl;
+        }
+    }
+
+    //图表
+    @Permission("1003")
+    @RequestMapping("/chart/{id}")
+    public String charts(@PathVariable(value = "id")Integer id, ModelMap model){
+        try {
+            Task task = taskService.get(id);
+            Integer chartCount = formService.getChartCount(id);
+            model.addAttribute("task", task);
+            model.addAttribute("chartCount", chartCount);
+            model.addAttribute("pageTitle","表单数据分析 - 表单提交平台 - 后台管理系统");
+            model.addAttribute("TopMenuFlag", "formtool");
+            return "formtool/form_chart";
+        }catch (JsonException e){
+            return "error/404";
+        }
+    }
+
+    @Permission("1003")
+    @ResponseBody
+    @RequestMapping(value = "/chart/data", method = RequestMethod.POST)
+    public JSONObject getData(@RequestParam(value = "id", required = true)Integer taskid){
+        try{
+            return formService.chartData(taskid);
+        }catch (JsonException e){
+            return e.toJson();
         }
     }
 }

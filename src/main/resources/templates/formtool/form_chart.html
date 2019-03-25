@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="_include"></head>
+<body>
+<header th:replace="admin/_header">
+    Your Company Name.
+</header>
+<style>
+    .charts{
+        height: 400px;
+    }
+</style>
+<div th:replace="admin/_topmenu"></div>
+<div class="container fluid">
+    <div class="col-md-12">
+        <h3 class="text-primary center" th:text="${task.name}"></h3>
+        <input th:value="${task.id}" id="taskId" type="hidden"/>
+        <div class="toolbar">
+            <div class="col-md-6">            </div>
+            <div class="col-md-6 right form-inline">
+                <button class="btn btn-default" type="button" onclick="javascript:history.back()">返回</button>
+            </div>
+        </div>
+        <div class="form-horizontal">
+            <div class="form-group charts" th:each="i:${#numbers.sequence(1,chartCount)}" th:text="${chartCount}">Bar Chart</div>
+        </div>
+    </div>
+</div>
+<footer th:replace="admin/_footer">
+    Your Company Name.
+</footer>
+
+<script type="text/javascript" th:src="@{~/js/echarts.js}"></script>
+<script>
+    $(function () {
+        $.ajax({
+            type:"post",
+            data:{
+                id: $("#taskId").val()
+            },
+            dataType:"json",
+            url:"/form/chart/data",
+            success:function (data) {
+                if(data.code == 1){
+                    //循环生成bar chart
+                    var chartCount = 0;
+                    data = data.data;console.log(data);
+                    for(var i in data){
+                        var title = data[i].name;
+                        var categories = [];
+                        var itemData = [];
+                        var item = data[i].itemlist;
+                        for(var o in item){
+                            categories.push(item[o].name);
+                            itemData.push(item[o].count);
+                        }
+                        createChart(title, categories, itemData, chartCount);
+                        chartCount++;
+                    }
+                }else{
+                    $(".form-horizontal").html('<h3 class="center">'+data.msg+'</h3>>');
+                }
+            }
+        });
+
+        function createChart(title, cat, data, index){
+            var dom = document.getElementsByClassName("charts");
+            var myChart = echarts.init(dom[index]);
+            myChart.setOption({
+                title: {
+                    text: title
+                },
+                color: ['#3398DB'],
+                tooltip : {
+                    trigger: 'axis',
+                    axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                        type : 'line'        // 默认为直线，可选为：'line' | 'shadow'
+                    }
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis : [
+                    {
+                        type : 'category',
+                        data : cat,
+                        axisTick: {
+                            alignWithLabel: true
+                        }
+                    }
+                ],
+                yAxis : [
+                    {
+                        type : 'value'
+                    }
+                ],
+                series : [
+                    {
+                        name:'人数',
+                        type:'bar',
+                        barWidth: '50px',
+                        data:data
+                    }
+                ]
+            });
+        }
+    });
+</script>
+</body>
+</html>
