@@ -6,8 +6,31 @@
     Your Company Name.
 </header>
 <style>
-    .charts{
-        height: 400px;
+    .barcharts {
+        height: 45rem;
+        padding-bottom: 2rem;
+        padding-top: 2rem;
+        border-bottom: 1px #bbb dashed;
+    }
+    .linecharts {
+        height: 45rem;
+        padding-bottom: 2rem;
+        padding-top: 2rem;
+        border-bottom: 1px #bbb dashed;
+    }
+    .nav-tabs{
+        border-bottom: 1px solid #337ab7;
+    }
+    .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+        color: #337ab7;
+        cursor: default;
+        background-color: #f2f9ff;
+        border: 1px solid #337ab7;
+        border-bottom-color: transparent;
+    }
+    a {
+        color: #bbb;
+        text-decoration: none;
     }
 </style>
 <div th:replace="admin/_topmenu"></div>
@@ -15,66 +38,108 @@
     <div class="col-md-12">
         <h3 class="text-primary center" th:text="${task.name}"></h3>
         <input th:value="${task.id}" id="taskId" type="hidden"/>
-        <div class="toolbar">
-            <div class="col-md-6">            </div>
-            <div class="col-md-6 right form-inline">
-                <button class="btn btn-default" type="button" onclick="javascript:history.back()">返回</button>
+        <div class="right">
+            <button class="btn btn-default" type="button" onclick="javascript:history.back()">返回</button>
+        </div>
+        <ul id="myTab" class="nav nav-tabs">
+            <li class="active" id="barChartClick">
+                <a href="#barChar" data-toggle="tab">
+                    柱状图
+                </a>
+            </li>
+            <li id="lineChartClick"><a href="#lineChart" data-toggle="tab">折线图</a></li>
+
+        </ul>
+        <div id="myTabContent" class="tab-content">
+            <div class="form-horizontal tab-pane fade in active" id="barChart">
+                <div class="form-group barcharts" th:each="i:${#numbers.sequence(1,chartCount)}" th:text="${chartCount}">Bar Chart</div>
+            </div>
+            <div class="form-horizontal tab-pane fade" id="lineChart">
+                <div class="form-group linecharts" th:each="i:${#numbers.sequence(1,chartCount)}" th:text="${chartCount}">Line Chart</div>
             </div>
         </div>
-        <div class="form-horizontal">
-            <div class="form-group charts" th:each="i:${#numbers.sequence(1,chartCount)}" th:text="${chartCount}">Bar Chart</div>
-        </div>
+
     </div>
 </div>
 <footer th:replace="admin/_footer">
     Your Company Name.
 </footer>
-
+<script type="text/javascript" th:src="@{~/js/bootstrap.js}"></script>
 <script type="text/javascript" th:src="@{~/js/echarts.js}"></script>
 <script>
     $(function () {
+        var allData = [];
+        var lineNotClick = true;
         $.ajax({
-            type:"post",
-            data:{
+            type: "post",
+            data: {
                 id: $("#taskId").val()
             },
-            dataType:"json",
-            url:"/form/chart/data",
-            success:function (data) {
-                if(data.code == 1){
+            dataType: "json",
+            url: "/form/chart/data",
+            success: function (data) {
+                if (data.code == 1) {
                     //循环生成bar chart
-                    var chartCount = 0;
-                    data = data.data;console.log(data);
-                    for(var i in data){
-                        var title = data[i].name;
-                        var categories = [];
-                        var itemData = [];
-                        var item = data[i].itemlist;
-                        for(var o in item){
-                            categories.push(item[o].name);
-                            itemData.push(item[o].count);
-                        }
-                        createChart(title, categories, itemData, chartCount);
-                        chartCount++;
-                    }
-                }else{
-                    $(".form-horizontal").html('<h3 class="center">'+data.msg+'</h3>>');
+                    allData = data.data;
+                    setData(allData, "bar");
+                } else {
+                    $(".form-horizontal").html('<h3 class="center">' + data.msg + '</h3>>');
                 }
             }
         });
+        $("#barChartClick").click(function () {
+            $("#barChart").addClass("active").addClass("in");
+            $("#lineChart").removeClass("active").removeClass("in");
+        });
+        $("#lineChartClick").click(function () {
+            if(lineNotClick){
+                lineNotClick = false;
+            }else {
+                $("#lineChart").addClass("active").addClass("in");
+                $("#barChart").removeClass("active").removeClass("in");;
+                return;
+            }
+            if($("#lineChart").css("display")== "none"){
+                $("#lineChart").css("display", "block");
+            }
+            setData(allData,"line")
+            $("#lineChart").css("display", "");
+        });
+        function setData(data, type){
+            var chartCount = 0;
+            for (var i in data) {
+                var title = data[i].name;
+                var categories = [];
+                var itemData = [];
+                var item = data[i].itemlist;
+                for (var o in item) {
+                    categories.push(item[o].name);
+                    itemData.push(item[o].count);
+                }
+                createChart(title, categories, itemData, chartCount, type);
+                chartCount++;
+            }
+        }
 
-        function createChart(title, cat, data, index){
-            var dom = document.getElementsByClassName("charts");
+        function getColor() {
+            var color = Math.random() + '';
+            color = "#" + color.substring(2, 8);
+            return color;
+        }
+        function createChart(title, cat, data, index, type) {
+            //颜色生成
+            var color = getColor();
+            var dom = document.getElementsByClassName(type+"charts");
             var myChart = echarts.init(dom[index]);
-            myChart.setOption({
+            var options = {
                 title: {
                     text: title
                 },
-                color: ['#3398DB'],
-                tooltip : {
+                color: [color],
+                tooltip: {
                     trigger: 'axis',
-                    axisPointer : {            // 坐标轴指示器，坐标轴触发有效
-                        type : 'line'        // 默认为直线，可选为：'line' | 'shadow'
+                    axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                        type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
                     }
                 },
                 grid: {
@@ -83,29 +148,35 @@
                     bottom: '3%',
                     containLabel: true
                 },
-                xAxis : [
+                xAxis: [
                     {
-                        type : 'category',
-                        data : cat,
+                        type: 'category',
+                        data: cat,
                         axisTick: {
                             alignWithLabel: true
                         }
                     }
                 ],
-                yAxis : [
+                yAxis: [
                     {
-                        type : 'value'
+                        type: 'value'
                     }
                 ],
-                series : [
+                series: [
                     {
-                        name:'人数',
-                        type:'bar',
-                        barWidth: '50px',
-                        data:data
+                        name: '人数',
+                        type: type,
+                        barWidth: '20%',
+                        data: data
                     }
                 ]
-            });
+            };
+            myChart.setOption(options);
+        }
+
+        function createCharts(title, cat, data, index) {
+            createChart(title, cat, data, index, "bar");
+            createChart(title, cat, data, index, "line");
         }
     });
 </script>

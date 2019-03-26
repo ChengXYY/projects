@@ -75,7 +75,7 @@ public class FormServiceImpl implements FormService {
         List<Map>fieldList = task.getFieldList().toJavaList(Map.class); //问题列表
 
         //获取表单
-       List<String> formItemList = formMapper.getForms(taskid);
+       List<String> formItemList = formMapper.getForms(taskid); //用户提交的表单内容
         try {
             JSONArray dataList = new JSONArray();
             //处理字段数据
@@ -96,8 +96,13 @@ public class FormServiceImpl implements FormService {
                     //在所有表单中计数
                     for(int k=0; k<formItemList.size(); k++){
                         JSONObject formItem = JSONObject.parseObject(formItemList.get(k));
-                        if(formItem.get(id).toString().equals(itemList.get(j))){
-                            chartData.addOne();
+                        //判断是否有多个值
+                        String[] ans = formItem.get(id).toString().split(",");
+                        for(int t=0; t<ans.length; t++){
+                            if(ans[t].equals(itemList.get(j))){
+                                chartData.addOne();
+                                break;
+                            }
                         }
                     }
                     itemListNew.add(chartData);
