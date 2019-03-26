@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50722
 File Encoding         : 65001
 
-Date: 2019-02-22 15:23:22
+Date: 2019-03-26 16:29:13
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -30,15 +30,9 @@ CREATE TABLE `admin` (
   `lastlogintime` datetime DEFAULT NULL,
   `logincount` int(10) DEFAULT '0',
   `addtime` timestamp NULL DEFAULT NULL,
+  `parentid` int(11) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of admin
--- ----------------------------
-INSERT INTO `admin` VALUES ('1', '', 'chengya', 'ae08c5416cb9850f49a6b6504c77f3c1', '4901e93e-1bd7-404c-93bc-c4d799dda7c2', '1', '::1', '2019-01-29 13:39:11', '1', '2019-01-01 13:39:18');
-INSERT INTO `admin` VALUES ('22', null, 'eleven', '92d892e3d20773f6746aeb0c61475c6b', '7c8a0cfe-03ce-4431-9263-5a0402212e5b', '3', null, null, '0', '2019-02-14 16:38:49');
-INSERT INTO `admin` VALUES ('23', null, 'chengya123', '0d05cda48381c71f5b43a3d89ac275ac', '2a3dd65d-b383-4ddc-9cb1-73b90967375d', '2', null, null, '0', '2019-02-14 16:41:01');
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for admingroup
@@ -49,15 +43,9 @@ CREATE TABLE `admingroup` (
   `name` varchar(50) NOT NULL,
   `auth` varchar(600) DEFAULT NULL,
   `sort` int(4) NOT NULL DEFAULT '99',
+  `parentid` int(4) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of admingroup
--- ----------------------------
-INSERT INTO `admingroup` VALUES ('1', '超级管理员', '1001|1002|1003|1004|1005|', '1');
-INSERT INTO `admingroup` VALUES ('2', '表单提交平台', '1002|1003|1004|', '3');
-INSERT INTO `admingroup` VALUES ('3', '文件管理平台', '1002|1005|', '2');
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for adminlog
@@ -69,11 +57,54 @@ CREATE TABLE `adminlog` (
   `content` varchar(500) DEFAULT NULL,
   `addtime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=125 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=107 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of adminlog
+-- Table structure for blog
 -- ----------------------------
+DROP TABLE IF EXISTS `blog`;
+CREATE TABLE `blog` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `author` varchar(100) DEFAULT NULL,
+  `intro` varchar(500) DEFAULT NULL,
+  `content` text,
+  `addtime` timestamp NULL DEFAULT NULL,
+  `updatetime` timestamp NULL DEFAULT NULL,
+  `visit` int(10) DEFAULT NULL,
+  `ilike` int(10) DEFAULT NULL,
+  `title` varchar(500) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for email
+-- ----------------------------
+DROP TABLE IF EXISTS `email`;
+CREATE TABLE `email` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `code` varchar(300) DEFAULT NULL,
+  `title` varchar(500) DEFAULT NULL,
+  `content` text,
+  `receiver` varchar(500) DEFAULT NULL,
+  `addtime` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for emailread
+-- ----------------------------
+DROP TABLE IF EXISTS `emailread`;
+CREATE TABLE `emailread` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `code` varchar(200) DEFAULT NULL,
+  `receiver` varchar(200) DEFAULT NULL,
+  `ip` varchar(50) DEFAULT NULL,
+  `os` varchar(50) DEFAULT NULL,
+  `osversion` varchar(50) DEFAULT NULL,
+  `browser` varchar(50) DEFAULT NULL,
+  `opentime` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for file
@@ -86,11 +117,7 @@ CREATE TABLE `file` (
   `size` int(20) DEFAULT NULL,
   `addtime` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of file
--- ----------------------------
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for form
@@ -106,11 +133,7 @@ CREATE TABLE `form` (
   `addtime` timestamp NULL DEFAULT NULL,
   `updatetime` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COMMENT='用户提交的表单';
-
--- ----------------------------
--- Records of form
--- ----------------------------
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COMMENT='用户提交的表单';
 
 -- ----------------------------
 -- Table structure for sitepage
@@ -125,11 +148,7 @@ CREATE TABLE `sitepage` (
   `addtime` timestamp NULL DEFAULT NULL,
   `updatetime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of sitepage
--- ----------------------------
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for task
@@ -146,11 +165,22 @@ CREATE TABLE `task` (
   `status` tinyint(1) DEFAULT '1' COMMENT '1-开启状态  0-关闭状态',
   `theme` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of task
+-- Table structure for user
 -- ----------------------------
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE `user` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) DEFAULT NULL,
+  `account` varchar(200) DEFAULT NULL,
+  `password` varchar(200) DEFAULT NULL,
+  `salt` varchar(200) DEFAULT NULL,
+  `email` varchar(200) DEFAULT NULL,
+  `addtime` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for user_task
@@ -162,7 +192,3 @@ CREATE TABLE `user_task` (
   `taskid` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务邀请人员清单';
-
--- ----------------------------
--- Records of user_task
--- ----------------------------
