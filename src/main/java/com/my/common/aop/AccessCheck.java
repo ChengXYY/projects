@@ -12,8 +12,14 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @Aspect
 @Component
@@ -23,7 +29,11 @@ public class AccessCheck {
 
     @Autowired
     private AdminService adminService;
+    @Value("${admin.account}")
+    private String adminAccount;
 
+    @Value("${admin.auth}")
+    private String adminAuth;
     /**
      * 定义切点
      */
@@ -40,21 +50,19 @@ public class AccessCheck {
     @ResponseBody
     @Around("privilege()")
     public Object isAccess(ProceedingJoinPoint joinPoint) throws Throwable {
+        ServletRequestAttributes attributes =   (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request = attributes.getRequest();
+        HttpSession session= request.getSession();
 
-        Admin currentUser = new Admin();
-        try {
-            currentUser = adminService.getCurrentUser();
-        } catch (JsonException e) {
-            System.out.println(e.getMsg());
+        if(session.getAttribute(adminAccount) == null)
             return "/admin/login";
-        }
 
         //获取访问目标方法
         MethodSignature signature = (MethodSignature)joinPoint.getSignature();
 
         try {
             final String methodAccess = signature.getMethod().getAnnotation(Permission.class).value();
-            if (!StringUtils.isBlank(methodAccess) && !currentUser.getAdmingroup().getAuth().contains(methodAccess)){
+            if (!StringUtils.isBlank(methodAccess) && !session.getAttribute(adminAuth).toString().contains(methodAccess)){
                 return "/error/403";
             }
         }catch (NullPointerException e){
@@ -64,7 +72,7 @@ public class AccessCheck {
         //获取访问类
         try {
             final String classAccess = joinPoint.getTarget().getClass().getAnnotation(Permission.class).value();
-            if (!StringUtils.isBlank(classAccess) && !currentUser.getAdmingroup().getAuth().contains(classAccess)){
+            if (!StringUtils.isBlank(classAccess) && !session.getAttribute(adminAuth).toString().contains(classAccess)){
                 return "/error/403";
             }
         }catch (NullPointerException e){

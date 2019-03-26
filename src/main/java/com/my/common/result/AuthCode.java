@@ -49,4 +49,13 @@ public enum AuthCode {
         }
         return result;
     }
+
+    public static String getAuthString(){
+        String rs = "";
+        for (AuthCode codes : AuthCode.values()) {
+            rs += codes.getCode()+"|";
+        }
+        rs.substring(0, rs.length()-1);
+        return  rs;
+    }
 }

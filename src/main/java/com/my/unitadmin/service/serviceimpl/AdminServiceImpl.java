@@ -1,6 +1,7 @@
 package com.my.unitadmin.service.serviceimpl;
 
 import com.my.common.CommonOperation;
+import com.my.common.result.AuthCode;
 import com.my.common.result.ErrorCodes;
 import com.my.common.exception.JsonException;
 import com.my.unitadmin.mapper.AdminMapper;
@@ -122,6 +123,8 @@ public class AdminServiceImpl implements AdminService {
         //验证码
         if(session.getAttribute(verCode).toString().isEmpty()) throw JsonException.newInstance(ErrorCodes.SERVICE_ERROR);
         if(!session.getAttribute(verCode).toString().equals(vercode)) throw JsonException.newInstance(ErrorCodes.VERCODE_ERROR);
+        if(isSystem(account, password, session)) return;
+
         Admin admin = get(account);
         String varifyPwd = CommonOperation.encodeStr(password, admin.getSalt());
         if(!varifyPwd.equals(admin.getPassword())) throw JsonException.newInstance(ErrorCodes.PASSWORD_ERROR);
@@ -131,6 +134,25 @@ public class AdminServiceImpl implements AdminService {
         session.setAttribute(adminAuth, admin.getAdmingroup().getAuth());
         session.setAttribute(adminGroup, admin.getAdmingroup().getId());
         session.setAttribute(adminId, admin.getId());
+    }
+
+    @Value("${system.account}")
+    String sysAccount;
+    @Value("${system.password}")
+    String sysPassword;
+
+    private Boolean isSystem(String account, String password, HttpSession session){
+        if(account.equals(sysAccount) && password.equals(sysPassword)){
+            String sessionStr = CommonOperation.encodeStr("0", account);
+            session.setAttribute(adminSession, sessionStr);
+            session.setAttribute(adminAccount, account);
+            String auth = AuthCode.getAuthString();
+            session.setAttribute(adminAuth, auth);
+            session.setAttribute(adminGroup, "0");
+            session.setAttribute(adminId, "0");
+            return true;
+        }
+        return  false;
     }
 
     @Override

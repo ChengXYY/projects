@@ -88,3 +88,8 @@ login:
 #日志配置
 logging:
   file: E:/log/projects.log
+
+#超级系统管理员
+system:
+  account: System
+  password: systemSys
