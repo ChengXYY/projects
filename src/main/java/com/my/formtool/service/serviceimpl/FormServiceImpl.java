@@ -135,5 +135,25 @@ public class FormServiceImpl implements FormService {
         return count;
     }
 
+    @Override
+    public Form get(Integer id) {
+        if(!CommonOperation.checkId(id))throw JsonException.newInstance(ErrorCodes.ID_NOT_ILLEGAL);
+        Form form = formMapper.selectByPrimaryKey(id);
+        if(form == null) throw JsonException.newInstance(ErrorCodes.ITEM_NOT_EXIST);
+        return form;
+    }
+
+    @Override
+    public int remove(Integer id) {
+        if(!CommonOperation.checkId(id))throw JsonException.newInstance(ErrorCodes.ID_NOT_ILLEGAL);
+        return formMapper.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public int removeBatch(Integer taskid) {
+        if(!CommonOperation.checkId(taskid))throw JsonException.newInstance(ErrorCodes.ID_NOT_ILLEGAL);
+        return formMapper.deleteByTaskid(taskid);
+    }
+
 
 }

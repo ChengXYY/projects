@@ -12,7 +12,7 @@
         <div class="toolbar">
             <div class="col-md-6">            </div>
             <div class="col-md-6 right form-inline">
-                <button type="button" class="btn btn-warning"><i class="fa fa-download"></i> 表单导出</button>
+                <button type="button" class="btn btn-warning" id="export" th:attr="data-id=${task.id}"><i class="fa fa-download"></i> 表单导出</button>
                 <a th:href="@{/form/chart/{id}(id=${task.id})}" class="btn btn-success"><i class="fa fa-bar-chart"></i> 图表分析</a>
                 <button class="btn btn-default" type="button" onclick="javascript:history.back()">返回</button>
             </div>
@@ -29,8 +29,8 @@
             <tr th:each="form:${list}">
                 <td th:text="${form.user==null?'游客':form.user}">admin</td>
                 <td th:text="${#dates.format(form.addtime,'yyyy-MM-dd HH:mm:ss')}">addtime</td>
-                <td th:attr="data-id='${form-id}'" class="center">
-                    <a class="btn btn-outline btn-primary"><i class="fa fa-file-text-o"></i></a>
+                <td th:attr="data-id=${form.id}" class="center">
+                    <a class="btn btn-outline btn-primary detail"><i class="fa fa-file-text-o"></i></a>
                 </td>
             </tr>
             <tr th:if="${#lists.isEmpty(list)}">
@@ -44,5 +44,29 @@
 <footer th:replace="admin/_footer">
     Your Company Name.
 </footer>
+<script>
+    $(function () {
+        $(".detail").click(function () {
+            var id = $(this).parent().data("id");
+            layer.open({
+                type:2,
+                title:"用户表单",
+                shade:0.3,
+                shadeClose:true,
+                area:["500px","400px"],
+                content:"/form/userform/"+id
+            });
+        });
+
+        $("#export").click(function () {
+            var id = $(this).data("id");
+            var obj = $("<form method='post' action='/form/export'></form>");
+            obj.append("<input name='id' value='"+id+"'/>");
+            $(document.body).append(obj);
+            obj.submit();
+            obj.remove();
+        })
+    });
+</script>
 </body>
 </html>

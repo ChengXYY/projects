@@ -14,7 +14,7 @@
   <sql id="Base_Column_List">
     id, taskid, form, user, username, status, addtime, updatetime
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultType="map">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from form
@@ -65,6 +65,10 @@
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from form
     where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByTaskid" parameterType="java.lang.Integer">
+    delete from form
+    where taskid=#{taskid,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.my.formtool.model.Form">
     insert into form (id, taskid, user, 

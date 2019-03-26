@@ -11,7 +11,7 @@ public interface FormMapper {
 
     int insertSelective(Form record);
 
-    Map<String, Object> selectByPrimaryKey(Integer id);
+    Form selectByPrimaryKey(Integer id);
 
     int updateByPrimaryKeySelective(Map<String, Object> record);
 
@@ -20,4 +20,6 @@ public interface FormMapper {
     Integer countByFilter(Map<String, Object> filter);
 
     List<String> getForms(@Param("taskid") Integer taskid);
+
+    int deleteByTaskid(@Param("taskid") Integer taskid);
 }

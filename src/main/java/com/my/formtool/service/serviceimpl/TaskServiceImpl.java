@@ -39,7 +39,10 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public int remove(Integer id) {
-        if(!CommonOperation.checkId(id))throw JsonException.newInstance(ErrorCodes.ID_NOT_ILLEGAL);
+        //删除所有相关的用户表单
+        formService.removeBatch(id);
+        //删除相关的邀请人员
+        //----
         return taskMapper.deleteByPrimaryKey(id);
     }
 

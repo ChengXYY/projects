@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="_include"></head>
+<body>
+<style>
+    .form-group{
+        border-bottom: 1px #ddd dashed;
+        margin-bottom: 2em;
+    }
+    body{
+        margin: 20px 15px;
+        padding: 0px 20px;
+    }
+</style>
+<div class="form-horizontal">
+    <div class="form-group" th:each="ts:${taskField}">
+        <label th:text="${ts['name']}"></label>
+        <p class="right" th:text="${userForm[ts['id']]}"></p>
+    </div>
+</div>
+</body>
+</html>
