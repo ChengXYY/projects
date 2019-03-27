@@ -1,4 +1,4 @@
-package com.my.email.controller;
+package com.my.email.controller.api;
 
 import com.my.common.CommonOperation;
 import com.my.email.model.EmailRead;
@@ -38,26 +38,4 @@ public class ReadCountController {
         emailService.addRead(read);
     }
 
-    @RequestMapping(value = "/getimg", method = RequestMethod.GET)
-    public void getImage(@RequestParam(value = "filename") String filename,
-                         HttpServletRequest request, HttpServletResponse response)throws IOException {
-
-        if (filename != null) {
-            FileInputStream is = null;
-            File file = new File(imageSavePath+"/"+filename);
-            try {
-                is = new FileInputStream(file);
-                int i = is.available();
-                byte data[] = new byte[i];
-                is.read(data);
-                is.close();
-                response.setContentType("image/jpeg");
-                OutputStream toClient = response.getOutputStream();
-                toClient.write(data);
-                toClient.close();
-            }catch (FileNotFoundException e){
-                e.printStackTrace();
-            }
-        }
-    }
 }

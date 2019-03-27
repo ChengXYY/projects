@@ -8,7 +8,9 @@
 <div th:replace="admin/_topmenu"></div>
 <div class="container">
     <div class="toolbar">
-        <div class="col-md-6"></div>
+        <div class="col-md-6">
+            <a class="btn btn-primary btn-outline" th:href="@{/blog/admin/add}"><i class="fa fa-plus"></i> 创建贴子</a>
+        </div>
         <form class="col-md-6 right form-inline">
             <input class="form-control" placeholder="贴子标题" type="text" name="title" th:value="${title}"/>
             <input class="form-control" placeholder="作者" type="text" name="author" th:value="${author}"/>

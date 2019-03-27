@@ -4,21 +4,23 @@ import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import com.my.blog.model.Blog;
 import com.my.blog.service.BlogService;
+import com.my.common.CommonOperation;
+import com.my.common.aop.Permission;
 import com.my.common.exception.JsonException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Permission("1007")
 @Controller
 @RequestMapping("/blog")
 public class BlogController {
@@ -27,6 +29,12 @@ public class BlogController {
 
     @Value("${blog.weburl}")
     private String blogWebUrl;
+
+    @Value("${file.blog-image-path}")
+    private String imageSavePath;
+
+    @Value("${admin.account}")
+    private String adminAccount;
 
     @Value("${list.pagesize}")
     private Integer pageSize;
@@ -93,5 +101,57 @@ public class BlogController {
             result = e.toJson();
         }
         return result;
+    }
+
+    @RequestMapping("/admin/add")
+    public String add(ModelMap model){
+        model.addAttribute("pageTitle","创建贴子 - 论坛 - 后台管理系统");
+        model.addAttribute("TopMenuFlag", "blog");
+        return "blog/blog_add";
+    }
+
+    @ResponseBody
+    @RequestMapping("/upload")
+    public JSONObject uploadIamge(@RequestParam(value = "fileupload")MultipartFile file){
+        JSONObject result = new JSONObject();
+        try {
+            result = CommonOperation.uploadFile(file, imageSavePath);
+            result.put("path", "/blog/getimg?filename="+result.get("realname"));
+        }catch (JsonException e){
+            result = e.toJson();
+        }
+        return  result;
+    }
+
+    @ResponseBody
+    @RequestMapping("/admin/add/submit")
+    public JSONObject add(Blog blog, HttpSession session){
+        JSONObject rs = new JSONObject();
+        try {
+            blog.setAuthor(session.getAttribute(adminAccount).toString());
+            String content = blog.getContent();
+            content = content.replaceAll("<[.[^>]]*>","");
+            content = content.replaceAll(" ", "");
+            blog.setIntro(content.substring(0,500));
+            blogService.add(blog);
+            rs.put("code", 1);
+            rs.put("msg", "添加成功");
+        }catch (JsonException e){
+            rs = e.toJson();
+        }
+        return rs;
+    }
+
+    @RequestMapping("/admin/edit/{id}")
+    public String edit(@PathVariable("id")Integer id, ModelMap model){
+        try {
+            Blog blog = blogService.get(id);
+            model.addAttribute("blog", blog);
+            model.addAttribute("pageTitle","创建贴子 - 论坛 - 后台管理系统");
+            model.addAttribute("TopMenuFlag", "blog");
+        }catch (JsonException e){
+            return "error/404";
+        }
+        return "blog/blog_edit";
     }
 }

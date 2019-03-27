@@ -39,8 +39,9 @@ public class AccessCheck {
      */
     @Pointcut("within(com.my.*.controller..*)"+
                 "&& !within(com.my.unitadmin.controller.LoginController)"+
-                "&& !within(com.my.email.controller.ReadCountController)"+
-                "&& !within(com.my.formtool.controller.FormWebController)")
+                "&& !within(com.my.email.controller.api.ReadCountController)"+
+                "&& !within(com.my.formtool.controller.FormWebController)"+
+                "&& !within(com.my.*.controller.api..*)")
     public void privilege(){}
     /**
      * 权限环绕通知

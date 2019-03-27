@@ -6,8 +6,9 @@ import com.my.common.result.ErrorCodes;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -79,5 +80,28 @@ public class CommonOperation {
             throw JsonException.newInstance(ErrorCodes.FILE_UPLOAD_ERROR);
         }
         return rs;
+    }
+
+    //查看图片
+    public static void getImage(String filename, String imageSavePath,
+                         HttpServletRequest request, HttpServletResponse response)throws IOException {
+
+        if (filename != null) {
+            FileInputStream is = null;
+            File file = new File(imageSavePath+"/"+filename);
+            try {
+                is = new FileInputStream(file);
+                int i = is.available();
+                byte data[] = new byte[i];
+                is.read(data);
+                is.close();
+                response.setContentType("image/jpeg");
+                OutputStream toClient = response.getOutputStream();
+                toClient.write(data);
+                toClient.close();
+            }catch (FileNotFoundException e){
+                e.printStackTrace();
+            }
+        }
     }
 }

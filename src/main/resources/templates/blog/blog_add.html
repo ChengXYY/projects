@@ -7,26 +7,21 @@
 </header>
 <div th:replace="admin/_topmenu"></div>
 <div class="container">
-    <form class="form-horizontal" style="margin-bottom: 50px" id="EmailForm">
+    <form class="form-horizontal" style="margin-bottom: 50px" id="BlogForm">
         <div class="form-group">
-            <h3 class="text text-primary">邮件主题</h3>
+            <h3 class="text text-primary">贴子主题</h3>
             <hr/>
             <input class="form-control" placeholder="请输入" type="text" name="title"/>
         </div>
+
         <div class="form-group">
-            <h3 class="text text-primary">收件人列表</h3>
-            <hr/>
-            <textarea class="form-control" name="receiver" rows="3"></textarea>
-            <p class="text text-danger">* 多个收件人，请以英文分号（;）隔开</p>
-        </div>
-        <div class="form-group">
-            <h3 class="text text-primary">邮件内容</h3>
+            <h3 class="text text-primary">贴子内容</h3>
             <hr/>
             <textarea rows="10" class="form-control" name="content" id="editor"></textarea>
         </div>
         <div class="form-group center">
             <br/>
-            <a class="btn btn-warning" href="javascript:" id="submit-form">发 送</a>
+            <a class="btn btn-warning" href="javascript:" id="submit-form">发 布</a>
             <a href="list" class="btn btn-default">返 回</a>
         </div>
     </form>
@@ -57,7 +52,7 @@
                 var form = new FormData();
                 form.append('fileupload', blobInfo.blob(), blobInfo.filename());
                 $.ajax({
-                    url: "/email/upload",
+                    url: "/blog/upload",
                     type: "post",
                     data: form,
                     processData: false,
@@ -78,9 +73,9 @@
         $("#submit-form").click(function () {
             $.ajax({
                 type :"post",
-                data : $("#EmailForm").serialize(),
+                data : $("#BlogForm").serialize(),
                 dataType :"json",
-                url :"/email/send/submit",
+                url :"/blog/add/submit",
                 success : function (data) {
                     if(data.code == 1){
                         layer.alert(data.msg, {icon:1}, function () {

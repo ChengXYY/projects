@@ -43,6 +43,9 @@ public class SystemController {
     @Value("${admin.id}")
     private String adminId;
 
+    @Value("${admin.auth}")
+    private String adminAuth;
+
     @Value("${list.pagesize}")
     private Integer pageSize;
 
@@ -233,12 +236,25 @@ public class SystemController {
     //权限
     @Permission("2003")
     @RequestMapping("/admingroup/auth/{id}")
-    public String admingrouAuth(@PathVariable("id")Integer id, ModelMap model){
+    public String admingrouAuth(@PathVariable("id")Integer id,
+                                    HttpSession session,
+                                    ModelMap model){
         try {
+            //权限只能是当前用户权限的子集
+            List<Map<String, Object>> list = AuthCode.listAuthCode();
+            List<Map<String, Object>> list1 = list;
+            String currentAuth = session.getAttribute(adminAuth).toString();
+            for(int i=0; i<list.size(); i++){
+                if(!currentAuth.contains(list.get(i).get("code").toString())){
+                    //System.out.println(list.get(i).get("code").toString());
+                    list.remove(i);
+                    i--;
+                }
+            }
             Admingroup admingroup = admingroupService.get(id);
             String authStr = admingroup.getAuth();
             model.addAttribute("authlist", authStr);
-            List<Map<String, Object>> list = AuthCode.listAuthCode();
+
             model.addAttribute("list", list);
             model.addAttribute("groupid", id);
             model.addAttribute("groupName", admingroup.getName());

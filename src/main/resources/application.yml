@@ -70,6 +70,7 @@ list:
 file:
   save-path: E:/upload
   email-image-path: E:/upload/email
+  blog-image-path: E:/upload/blog
 
 #smtp配置
 smtp:

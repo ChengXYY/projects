@@ -26,6 +26,7 @@ public class BlogApi {
     @Value("${list.pagesize}")
     private Integer pageSize;
 
+
     @RequestMapping("/list")
     public List<Blog> blogList(@RequestParam(value = "title", required = false, defaultValue = "")String title,
                                @RequestParam(value = "author", required = false, defaultValue = "")String author,
@@ -62,4 +63,5 @@ public class BlogApi {
             return null;
         }
     }
+
 }
