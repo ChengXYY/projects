@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8082
 
 spring:
   mvc:
@@ -11,13 +11,21 @@ spring:
     username: root
     password: root
   thymeleaf:
-    prefix: classpath:/templates/
-    check-template-location: true
+    prefix: classpath:/templates
+    check-template-location: false
     suffix: .html
     encoding: UTF-8
     mode: HTML
     cache: false
     enabled: true
+    servlet:
+      content-type: text/html
+  resources:
+    chain:
+      strategy:
+        content:
+          enabled: true
+          paths: /**
   servlet:
     multipart:
       max-file-size: 52428800

@@ -70,9 +70,9 @@ public class EmailController {
 
             model.addAttribute("pageTitle","邮件列表 - 邮件管理平台 - 后台管理系统");
             model.addAttribute("TopMenuFlag", "email");
-            return "email/email_list";
+            return "/email/email_list";
         }catch (JsonException e){
-            return "error/500";
+            return "/error/500";
         }
     }
 
@@ -81,7 +81,7 @@ public class EmailController {
         model.addAttribute("pageTitle","发送邮件 - 邮件管理平台 - 后台管理系统");
 
         model.addAttribute("TopMenuFlag", "email");
-        return "email/email_send";
+        return "/email/email_send";
     }
 
     @ResponseBody

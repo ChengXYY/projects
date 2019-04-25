@@ -77,10 +77,10 @@ public class TaskController {
             model.addAttribute("pageTitle","表单任务列表 - 表单提交平台 - 后台管理系统");
 
             model.addAttribute("TopMenuFlag", "formtool");
-            return "formtool/task_list";
+            return "/formtool/task_list";
         }catch (JSONException e){
             model.addAttribute("error", e);
-            return "error/500";
+            return "/error/500";
         }
     }
 
@@ -89,7 +89,7 @@ public class TaskController {
         model.addAttribute("pageTitle","添加表单任务 - 表单提交平台 - 后台管理系统");
 
         model.addAttribute("TopMenuFlag", "formtool");
-        return "formtool/task_add";
+        return "/formtool/task_add";
     }
 
     @ResponseBody
@@ -115,10 +115,10 @@ public class TaskController {
             model.addAttribute("task", task);
             model.addAttribute("TopMenuFlag", "formtool");
             model.addAttribute("pageTitle","编辑表单任务 - 表单提交平台 - 后台管理系统");
-            return "formtool/task_edit";
+            return "/formtool/task_edit";
         }catch (JSONException e){
             model.addAttribute("error", e);
-            return "error/404";
+            return "/error/404";
         }
     }
 

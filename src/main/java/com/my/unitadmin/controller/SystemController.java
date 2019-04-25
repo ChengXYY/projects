@@ -66,7 +66,7 @@ public class SystemController {
 
         model.addAttribute("TopMenuFlag", "system");
         model.addAttribute("LeftMenuFlag", "admin");
-        return "admin/admin_list";
+        return "/admin/admin_list";
     }
 
     @Permission("2001")
@@ -91,7 +91,7 @@ public class SystemController {
     public String adminAdd(HttpSession session, ModelMap model){
         List<Admingroup> list = admingroupService.getListAll(Integer.parseInt(session.getAttribute(adminId).toString()));
         model.addAttribute("list", list);
-        return "admin/admin_add";
+        return "/admin/admin_add";
     }
     @Permission("2001")
     @ResponseBody
@@ -126,7 +126,7 @@ public class SystemController {
         model.addAttribute("list", list);
         model.addAttribute("admin", admin);
         model.addAttribute("pageTitle","编辑管理员信息");
-        return "admin/admin_edit";
+        return "/admin/admin_edit";
     }
     @Permission("2001")
     @ResponseBody
@@ -177,12 +177,12 @@ public class SystemController {
         model.addAttribute("totalCount", totalCount);
         model.addAttribute("TopMenuFlag", "system");
         model.addAttribute("LeftMenuFlag", "admingroup");
-        return "admin/admingroup_list";
+        return "/admin/admingroup_list";
     }
     @Permission("2002")
     @RequestMapping("/admingroup/add")
     public String admingroupAdd(ModelMap model){
-        return "admin/admingroup_add";
+        return "/admin/admingroup_add";
     }
 
     @Permission("2002")
@@ -209,7 +209,7 @@ public class SystemController {
 
         Admingroup admingroup = admingroupService.get(id);
         model.addAttribute("item", admingroup);
-        return "admin/admingroup_edit";
+        return "/admin/admingroup_edit";
     }
 
     @Permission("2002")
@@ -262,9 +262,9 @@ public class SystemController {
 
             model.addAttribute("TopMenuFlag", "system");
             model.addAttribute("LeftMenuFlag", "admingroup");
-            return "admin/admingroup_auth";
+            return "/admin/admingroup_auth";
         }catch (JsonException e){
-            return "error/404";
+            return "/error/404";
         }
     }
     @Permission("2003")
@@ -323,6 +323,6 @@ public class SystemController {
         model.addAttribute("pageTitle","管理员日志 - 系统设置 - 后台管理系统");
         model.addAttribute("TopMenuFlag", "system");
         model.addAttribute("LeftMenuFlag", "adminlog");
-        return "admin/adminlog_list";
+        return "/admin/adminlog_list";
     }
 }

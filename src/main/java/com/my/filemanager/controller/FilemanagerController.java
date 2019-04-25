@@ -72,9 +72,9 @@ public class FilemanagerController {
 
             model.addAttribute("pageTitle","文件列表 - 文件管理平台 - 后台管理系统");
             model.addAttribute("TopMenuFlag", "filemanager");
-            return "filemanager/file_list";
+            return "/filemanager/file_list";
         }catch (JsonException e){
-            return "error/500";
+            return "/error/500";
         }
     }
 

@@ -82,10 +82,10 @@ public class BlogController {
             model.addAttribute("pageTitle","贴子列表 - 论坛 - 后台管理系统");
 
             model.addAttribute("TopMenuFlag", "blog");
-            return "blog/blog_list";
+            return "/blog/blog_list";
         }catch (JSONException e){
             model.addAttribute("error", e);
-            return "error/500";
+            return "/error/500";
         }
     }
 
@@ -107,7 +107,7 @@ public class BlogController {
     public String add(ModelMap model){
         model.addAttribute("pageTitle","创建贴子 - 论坛 - 后台管理系统");
         model.addAttribute("TopMenuFlag", "blog");
-        return "blog/blog_add";
+        return "/blog/blog_add";
     }
 
     @ResponseBody
@@ -150,8 +150,8 @@ public class BlogController {
             model.addAttribute("pageTitle","创建贴子 - 论坛 - 后台管理系统");
             model.addAttribute("TopMenuFlag", "blog");
         }catch (JsonException e){
-            return "error/404";
+            return "/error/404";
         }
-        return "blog/blog_edit";
+        return "/blog/blog_edit";
     }
 }

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="_/common/include::include"></head>
+<head th:replace="/common/_include::include"></head>
 <body>
 <script type="text/javascript" th:src="@{~/js/bootstrap.js}"></script>
 <link rel="stylesheet" type="text/css" th:href="@{~/css/drag.css}">
@@ -53,7 +53,7 @@
 <footer th:replace="/admin/_footer::footer">
     Your Company Name.
 </footer>
-<div th:replace="sitepage/_template"></div>
+<div th:replace="/sitepage/_template::template"></div>
 <script type="text/javascript" th:src="@{~/js/task.js}"></script>
 <script type="text/javascript" th:src="@{~/js/jquery-ui.min.js}"></script>
 <script type="text/javascript" th:src="@{~/js/drag.js}"></script>

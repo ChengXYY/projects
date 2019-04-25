@@ -78,7 +78,7 @@ public class SitepageController {
             model.addAttribute("pageTitle","页面列表 - 网页生产平台 - 后台管理系统");
 
             model.addAttribute("TopMenuFlag", "sitepage");
-            return "sitepage/site_list";
+            return "/sitepage/site_list";
         }catch (JsonException e){
             return "error/500";
         }
@@ -91,7 +91,7 @@ public class SitepageController {
         model.addAttribute("pageTitle","创建页面 - 网页生产平台 - 后台管理系统");
         model.addAttribute("TopMenuFlag", "sitepage");
 
-        return "sitepage/site_add";
+        return "/sitepage/site_add";
     }
 
     @Permission("1004")
@@ -117,7 +117,7 @@ public class SitepageController {
         model.addAttribute("sitePage", page);
         model.addAttribute("pageTitle","编辑页面 - 网页生产平台 - 后台管理系统");
         model.addAttribute("TopMenuFlag", "sitepage");
-        return "sitepage/site_edit";
+        return "/sitepage/site_edit";
     }
 
     @ResponseBody
@@ -158,7 +158,7 @@ public class SitepageController {
         model.addAttribute("sitePage", page);
         model.addAttribute("pageTitle","页面数据关联 - 网页生产平台 - 后台管理系统");
         model.addAttribute("TopMenuFlag", "sitepage");
-        return "sitepage/site_data";
+        return "/sitepage/site_data";
     }
 
 }
