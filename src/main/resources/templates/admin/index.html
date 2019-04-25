@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="_include"></head>
+<head th:replace="/common/_include::include"></head>
 <body>
-<header th:replace="admin/_header">
+<header th:include="/admin/_header::header">
     Your Company Name.
 </header>
-<div th:replace="admin/_topmenu"></div>
+<div th:replace="/admin/_topmenu::topmenu"></div>
 <div class="container">
     <h1 class="center text-primary welcome" th:text="${session.ADMIN_ACCOUNT}">欢迎来到</h1>
     <div class="center">
                 <img th:src="@{~/images/logo.png}" width="500px">
     </div>
 </div>
-<footer th:replace="admin/_footer">
+<footer th:replace="/admin/_footer::footer">
     Your Company Name.
 </footer>
 </body>

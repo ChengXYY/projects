@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="_include"></head>
+<head th:replace="/common/_include::include"></head>
 <body>
-<header th:replace="admin/_header">
+<header th:include="/admin/_header::header">
     Your Company Name.
 </header>
-<div th:replace="admin/_topmenu"></div>
+<div th:replace="/admin/_topmenu::topmenu"></div>
 <div class="container">
     <form class="form-horizontal" style="margin-bottom: 50px" id="EmailForm">
         <div class="form-group">
@@ -32,7 +32,7 @@
     </form>
 </div>
 
-<footer th:replace="admin/_footer">
+<footer th:replace="/admin/_footer::footer">
     Your Company Name.
 </footer>
 <script type="text/javascript" th:src="@{~/js/tinymce/tinymce.js}"></script>
