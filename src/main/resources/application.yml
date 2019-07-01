@@ -1,5 +1,7 @@
 server:
-  port: 8082
+  port: 8080
+#  tomcat:
+#    basedir: logistics/tomcat
 
 spring:
   mvc:
@@ -79,6 +81,7 @@ file:
   save-path: E:/upload
   email-image-path: E:/upload/email
   blog-image-path: E:/upload/blog
+  sitepage-image-path: E:/upload/sitepage
 
 #smtp配置
 smtp:
@@ -96,7 +99,7 @@ login:
 
 #日志配置
 logging:
-  file: E:/log/projects.log
+  file: C:/www/projects.log
 
 #超级系统管理员
 system:

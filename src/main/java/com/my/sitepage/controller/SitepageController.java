@@ -1,6 +1,7 @@
 package com.my.sitepage.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.my.common.CommonOperation;
 import com.my.common.aop.Permission;
 import com.my.common.exception.JsonException;
 import com.my.sitepage.model.Sitepage;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.jws.WebParam;
 import javax.servlet.http.HttpServletRequest;
@@ -32,6 +34,10 @@ public class SitepageController {
 
     @Value("${list.pagesize}")
     private Integer pageSize;
+
+
+    @Value("${file.sitepage-image-path}")
+    private String imageSavePath;
 
     @Permission("1004")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -92,6 +98,16 @@ public class SitepageController {
         model.addAttribute("TopMenuFlag", "sitepage");
 
         return "/sitepage/site_add";
+    }
+
+    @Permission("1004")
+    @RequestMapping("/add2")
+    public String pageAdd2(ModelMap model){
+
+        model.addAttribute("pageTitle","新页面 - 网页生产平台 - 后台管理系统");
+        model.addAttribute("TopMenuFlag", "sitepage");
+
+        return "/sitepage/site_add2";
     }
 
     @Permission("1004")
@@ -161,4 +177,17 @@ public class SitepageController {
         return "/sitepage/site_data";
     }
 
+    @Permission("1004")
+    @ResponseBody
+    @RequestMapping("/upload")
+    public JSONObject uploadIamge(@RequestParam(value = "fileupload")MultipartFile file){
+        JSONObject result = new JSONObject();
+        try {
+            result = CommonOperation.uploadFile(file, imageSavePath);
+            result.put("path", "/emailread/getimg?filename="+result.get("realname"));
+        }catch (JsonException e){
+            result = e.toJson();
+        }
+        return  result;
+    }
 }
